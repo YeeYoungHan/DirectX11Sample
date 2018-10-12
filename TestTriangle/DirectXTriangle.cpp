@@ -27,6 +27,11 @@ CDirectXTriangle::~CDirectXTriangle()
 {
 }
 
+/**
+ * @ingroup TestTriangle
+ * @brief 삼각형을 그리기 위한 준비 작업을 수행한다.
+ * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
+ */
 bool CDirectXTriangle::CreateChild()
 {
 	// 삼각형 정점 정보
@@ -37,6 +42,7 @@ bool CDirectXTriangle::CreateChild()
 		{ XMFLOAT3( -0.25f, -0.25f, 0.0f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) }
 	};
 
+	// 정점 버퍼를 생성한다.
 	D3D11_BUFFER_DESC sttBD;
   
 	sttBD.Usage = D3D11_USAGE_IMMUTABLE;
@@ -51,6 +57,7 @@ bool CDirectXTriangle::CreateChild()
   
 	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsVB ) );
 
+	// 
 	if( CreateEffect( "FX/color.fxo", &m_pclsEffect ) == false ) return false;
 
 	m_pclsEffectTech = m_pclsEffect->GetTechniqueByName("ColorTech");
@@ -75,6 +82,11 @@ bool CDirectXTriangle::CreateChild()
 	return true;
 }
 
+/**
+ * @ingroup TestTriangle
+ * @brief 삼각형을 화면에 그려준다.
+ * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
+ */
 bool CDirectXTriangle::DrawChild()
 {
 	m_pclsContext->IASetInputLayout( m_pclsInputLayout );

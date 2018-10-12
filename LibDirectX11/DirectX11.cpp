@@ -29,6 +29,12 @@ CDirectX11::~CDirectX11()
 {
 }
 
+/**
+ * @ingroup LibDirectX11
+ * @brief DirectX 사용을 위한 변수들을 생성한다.
+ * @param hWnd 윈도우 핸들
+ * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
+ */
 bool CDirectX11::Create( HWND hWnd )
 {
 	D3D_FEATURE_LEVEL eFeatureLevel;
@@ -85,11 +91,13 @@ bool CDirectX11::Create( HWND hWnd )
 	CHECK_FAILED( pclsDxAdapter->GetParent( __uuidof(IDXGIFactory), (void**)&pclsDxFactory ) );
 	CHECK_FAILED( pclsDxFactory->CreateSwapChain( m_pclsDevice, &sttSCD, &m_pclsSwapChain ) );
 
+	// RenderTargetView 를 생성한다.
 	CComPtr<ID3D11Texture2D> pclsBackBuffer;
 
 	CHECK_FAILED( m_pclsSwapChain->GetBuffer( 0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pclsBackBuffer) ) );
 	CHECK_FAILED( m_pclsDevice->CreateRenderTargetView( pclsBackBuffer, 0, &m_pclsRenderTargetView ) );
 
+	/*
 	D3D11_TEXTURE2D_DESC sttT2D;
 	
 	sttT2D.Width     = iWidth;
@@ -108,11 +116,13 @@ bool CDirectX11::Create( HWND hWnd )
 	CHECK_FAILED( m_pclsDevice->CreateDepthStencilView( m_pclsDepthStencilBuffer, 0, &m_pclsDepthStencilView ) );
 
 	m_pclsContext->OMSetRenderTargets( 1, &(m_pclsRenderTargetView.p), m_pclsDepthStencilView );
+	*/
+	m_pclsContext->OMSetRenderTargets( 1, &(m_pclsRenderTargetView.p), NULL );
 
 	m_sttScreenViewport.TopLeftX = 0;
 	m_sttScreenViewport.TopLeftY = 0;
-	m_sttScreenViewport.Width    = static_cast<float>(iWidth);
-	m_sttScreenViewport.Height   = static_cast<float>(iHeight);
+	m_sttScreenViewport.Width    = (float)iWidth;
+	m_sttScreenViewport.Height   = (float)iHeight;
 	m_sttScreenViewport.MinDepth = 0.0f;
 	m_sttScreenViewport.MaxDepth = 1.0f;
 
@@ -123,12 +133,17 @@ bool CDirectX11::Create( HWND hWnd )
 	return true;
 }
 
+/**
+ * @ingroup LibDirectX11
+ * @brief DirectX 로 화면에 그려준다.
+ * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
+ */
 bool CDirectX11::Draw()
 {
 	XMVECTORF32 sttWhite = {1.0f, 1.0f, 1.0f, 1.0f};
 
-	m_pclsContext->ClearRenderTargetView( m_pclsRenderTargetView, reinterpret_cast<const float*>(&sttWhite) );
-	m_pclsContext->ClearDepthStencilView( m_pclsDepthStencilView, D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0 );
+	m_pclsContext->ClearRenderTargetView( m_pclsRenderTargetView, (float*)&sttWhite );
+	//m_pclsContext->ClearDepthStencilView( m_pclsDepthStencilView, D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0 );
 	m_pclsContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	if( DrawChild() == false ) return false;
@@ -138,6 +153,13 @@ bool CDirectX11::Draw()
 	return true;
 }
 
+/**
+ * @ingroup LibDirectX11
+ * @brief .fxo 파일에서 ID3DX11Effect 객체의 포인터를 생성한다.
+ * @param pszFxoFile	.fx 파일을 컴파일한 .fxo 파일 full path
+ * @param ppclsEffect [out] .fxo 파일로 생성된 ID3DX11Effect 객체의 포인터
+ * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
+ */
 bool CDirectX11::CreateEffect( const char * pszFxoFile, ID3DX11Effect ** ppclsEffect )
 {
 	std::ifstream clsIn( pszFxoFile, std::ios::binary );
