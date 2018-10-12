@@ -26,6 +26,7 @@
 #include <atlbase.h>
 #include <d3dx11.h>
 #include <xnamath.h>
+#include "d3dx11effect.h"
 
 class CDirectX11
 {
@@ -35,6 +36,8 @@ public:
 
 	bool Create( HWND hWnd );
 	bool Draw();
+
+	bool CreateEffect( const char * pszFxoFile, ID3DX11Effect ** ppclsEffect );
 
 	virtual bool CreateChild() = 0;
 	virtual bool DrawChild() = 0;

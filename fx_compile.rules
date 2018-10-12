@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="fx 컴파일"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="컴파일"
+			CommandLine="&quot;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Utilities\bin\x86\fxc.exe&quot; /Fc /Od /Zi /T fx_5_0 /Fo &quot;$(InputDir)\$(InputName).fxo&quot; &quot;$(InputDir)\$(InputFileName)&quot;"
+			Outputs="$(InputDir)\$(InputName).fxo"
+			FileExtensions="*.fx"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

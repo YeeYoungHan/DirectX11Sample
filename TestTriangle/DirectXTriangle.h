@@ -21,7 +21,6 @@
 
 #include "DirectX11.h"
 
-// Á¤Á¡
 struct Vertex
 {
 	XMFLOAT3 Pos;
@@ -39,6 +38,8 @@ public:
 
 protected:
 	CComPtr<ID3D11Buffer> m_pclsVB;
+
+	ID3DX11EffectTechnique * m_pclsEffectTech;
 };
 
 #endif

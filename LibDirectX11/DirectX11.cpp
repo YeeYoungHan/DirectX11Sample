@@ -18,6 +18,8 @@
 
 #include "DirectX11.h"
 #include <comdef.h>
+#include <fstream>
+#include <vector>
 
 CDirectX11::CDirectX11() : m_iQualityLevel(0)
 {
@@ -34,6 +36,7 @@ bool CDirectX11::Create( HWND hWnd )
 	CHECK_FAILED( D3D11CreateDevice( 0,	D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0,	D3D11_SDK_VERSION, &m_pclsDevice, &eFeatureLevel, &m_pclsContext ) );
 	if( eFeatureLevel != D3D_FEATURE_LEVEL_11_0 )
 	{
+		// DirectX 11 을 사용할 수 없다면 실패 처리한다.
 		return false;
 	}
 
@@ -43,6 +46,7 @@ bool CDirectX11::Create( HWND hWnd )
 		return false;
 	}
 
+	// 윈도우 크기를 가져온다.
 	RECT clsRect;
 	int iWidth, iHeight;
 
@@ -52,6 +56,7 @@ bool CDirectX11::Create( HWND hWnd )
 		iHeight = clsRect.bottom - clsRect.top;
 	}
 
+	// Swap Chain 을 생성한다.
 	DXGI_SWAP_CHAIN_DESC sttSCD;
 	
 	sttSCD.BufferDesc.Width  = iWidth;
@@ -80,11 +85,37 @@ bool CDirectX11::Create( HWND hWnd )
 	CHECK_FAILED( pclsDxAdapter->GetParent( __uuidof(IDXGIFactory), (void**)&pclsDxFactory ) );
 	CHECK_FAILED( pclsDxFactory->CreateSwapChain( m_pclsDevice, &sttSCD, &m_pclsSwapChain ) );
 
+	CreateChild();
+
 	return true;
 }
 
 bool CDirectX11::Draw()
 {
+	m_pclsContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
+	if( DrawChild() == false ) return false;
+
+	CHECK_FAILED( m_pclsSwapChain->Present( 0, 0 ) );
+
+	return true;
+}
+
+bool CDirectX11::CreateEffect( const char * pszFxoFile, ID3DX11Effect ** ppclsEffect )
+{
+	std::ifstream clsIn( pszFxoFile, std::ios::binary );
+	
+	clsIn.seekg( 0, std::ios_base::end );
+	int iSize = (int)clsIn.tellg();
+	if( iSize == -1 ) CHECK_FAILED( NTE_NOT_FOUND );
+	
+	clsIn.seekg( 0, std::ios_base::beg );
+	std::vector<char> arrData(iSize);
+
+	clsIn.read( &arrData[0], iSize );
+	clsIn.close();
+
+	CHECK_FAILED( D3DX11CreateEffectFromMemory( &arrData[0], iSize, 0, m_pclsDevice, ppclsEffect ) );
 
 	return true;
 }

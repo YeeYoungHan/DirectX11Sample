@@ -14,6 +14,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\fx_compile.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -30,6 +33,9 @@
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="컴파일"
+			/>
+			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
@@ -41,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../LibDirectX11;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include"
+				AdditionalIncludeDirectories="../LibEffect11/Inc;../LibDirectX11;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,6 +111,9 @@
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="컴파일"
+			/>
+			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
@@ -117,7 +126,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../LibDirectX11;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include"
+				AdditionalIncludeDirectories="../LibEffect11/Inc;../LibDirectX11;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -174,6 +183,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\FX\color.fx"
+				>
+			</File>
 			<File
 				RelativePath=".\DirectXTriangle.cpp"
 				>
