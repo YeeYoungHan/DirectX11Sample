@@ -17,10 +17,10 @@
 */
 
 #include "stdafx.h"
-#include "TestTriangle.h"
-#include "DirectXTriangle.h"
+#include "TestCube.h"
+#include "DirectXCube.h"
 
-CDirectXTriangle gclsDirectX;
+CDirectXCube gclsDirectX;
 
 #define MAX_LOADSTRING 100
 
@@ -49,7 +49,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	// 전역 문자열을 초기화합니다.
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_TESTTRIANGLE, szWindowClass, MAX_LOADSTRING);
+	LoadString(hInstance, IDC_TESTCUBE, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
 	// 응용 프로그램 초기화를 수행합니다.
@@ -58,7 +58,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TESTTRIANGLE));
+	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TESTCUBE));
 
 	// 기본 메시지 루프입니다.
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -99,10 +99,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra		= 0;
 	wcex.cbWndExtra		= 0;
 	wcex.hInstance		= hInstance;
-	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TESTTRIANGLE));
+	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TESTCUBE));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_TESTTRIANGLE);
+	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_TESTCUBE);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -133,6 +133,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    }
 
 	 if( gclsDirectX.Create( hWnd ) == false )
+	 {
+		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+	 }
+	 
+	 if( gclsDirectX.Update() == false )
 	 {
 		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
 	 }
@@ -181,7 +186,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		hdc = BeginPaint(hWnd, &ps);
 		EndPaint(hWnd, &ps);
 
-		gclsDirectX.Draw();
+		if( gclsDirectX.Draw() == false )
+		{
+			MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+		}
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
