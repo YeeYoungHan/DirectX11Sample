@@ -145,7 +145,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="d3d11.lib d3dx11.lib D3DCompiler.lib dxerr.lib dxgi.lib dxguid.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
