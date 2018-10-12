@@ -19,7 +19,7 @@
 #include "stdafx.h"
 #include "DirectXCube.h"
 
-CDirectXCube::CDirectXCube() : m_fTheta(2.25f * XM_PI), m_fPhi(XM_PIDIV4), m_fRadius(3.0f)
+CDirectXCube::CDirectXCube() : m_fTheta(1.5f * XM_PI), m_fPhi(1.25f * XM_PI), m_fRadius(5.0f)
 {
 }
 
@@ -121,7 +121,9 @@ bool CDirectXCube::CreateChild()
 	XMMATRIX sttI = XMMatrixIdentity();
 	XMStoreFloat4x4( &m_sttWorld, sttI );
 	XMStoreFloat4x4( &m_sttView, sttI );
-	XMStoreFloat4x4( &m_sttProj, sttI );
+
+	XMMATRIX sttP = XMMatrixPerspectiveFovLH( 0.25f * XM_PI, 1.0f, 1.0f, 1000.0f );
+	XMStoreFloat4x4( &m_sttProj, sttP );
 
 	return true;
 }
@@ -166,7 +168,8 @@ bool CDirectXCube::Update()
 	float y = m_fRadius * cosf( m_fPhi );
 
 	// 카메라 위치
-	XMVECTOR pos = XMVectorSet( x, y, z, 1.0f );
+	//XMVECTOR pos = XMVectorSet( x, y, z, 1.0f );
+	XMVECTOR pos = XMVectorSet( 5.0f, 5.0f, 5.0f, 1.0f );
 
 	// 큐브 위치
 	XMVECTOR target = XMVectorZero();
