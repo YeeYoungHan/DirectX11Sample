@@ -51,11 +51,54 @@ bool CDirectXTriangle::CreateChild()
   
 	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsVB ) );
 
+	if( CreateEffect( "FX/color.fxo", &m_pclsEffect ) == false ) return false;
+
+	m_pclsEffectTech = m_pclsEffect->GetTechniqueByName("ColorTech");
+	m_pclsWorldViewProj = m_pclsEffect->GetVariableByName("gWorldViewProj")->AsMatrix();
+
+	D3D11_INPUT_ELEMENT_DESC arrVertexDesc[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+	};
+
+	D3DX11_PASS_DESC sttPassDesc;
+
+	m_pclsEffectTech->GetPassByIndex(0)->GetDesc( &sttPassDesc );
+	CHECK_FAILED( m_pclsDevice->CreateInputLayout( arrVertexDesc, 2, sttPassDesc.pIAInputSignature, sttPassDesc.IAInputSignatureSize, &m_pclsInputLayout ) );
+
+	XMMATRIX sttI = XMMatrixIdentity();
+	XMStoreFloat4x4( &m_sttWorld, sttI );
+	XMStoreFloat4x4( &m_sttView, sttI );
+	XMStoreFloat4x4( &m_sttProj, sttI );
+
 	return true;
 }
 
 bool CDirectXTriangle::DrawChild()
 {
+	m_pclsContext->IASetInputLayout( m_pclsInputLayout );
+
+	UINT iStride = sizeof(Vertex);
+  UINT iOffset = 0;
+
+  m_pclsContext->IASetVertexBuffers( 0, 1, &(m_pclsVB.p), &iStride, &iOffset );
+
+	XMMATRIX world = XMLoadFloat4x4( &m_sttWorld );
+	XMMATRIX view  = XMLoadFloat4x4( &m_sttView );
+	XMMATRIX proj  = XMLoadFloat4x4( &m_sttProj );
+	XMMATRIX worldViewProj = world * view * proj;
+
+	m_pclsWorldViewProj->SetMatrix( reinterpret_cast<float*>(&worldViewProj) );
+
+	D3DX11_TECHNIQUE_DESC sttTechDesc;
+	m_pclsEffectTech->GetDesc( &sttTechDesc );
+
+	for( UINT p = 0; p < sttTechDesc.Passes; ++p )
+	{
+		m_pclsEffectTech->GetPassByIndex(p)->Apply( 0, m_pclsContext );
+		m_pclsContext->Draw( 3, 0 );
+	}
 
 	return true;
 }

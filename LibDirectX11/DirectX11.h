@@ -49,6 +49,12 @@ protected:
 	CComPtr<ID3D11DeviceContext> m_pclsContext;
 	CComPtr<IDXGISwapChain> m_pclsSwapChain;
 
+	CComPtr<ID3D11Texture2D> m_pclsDepthStencilBuffer;
+	CComPtr<ID3D11RenderTargetView> m_pclsRenderTargetView;
+	CComPtr<ID3D11DepthStencilView> m_pclsDepthStencilView;
+
+	D3D11_VIEWPORT m_sttScreenViewport;
+
 	UINT      m_iQualityLevel;
 
 	// 에러 정보

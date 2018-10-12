@@ -85,6 +85,39 @@ bool CDirectX11::Create( HWND hWnd )
 	CHECK_FAILED( pclsDxAdapter->GetParent( __uuidof(IDXGIFactory), (void**)&pclsDxFactory ) );
 	CHECK_FAILED( pclsDxFactory->CreateSwapChain( m_pclsDevice, &sttSCD, &m_pclsSwapChain ) );
 
+	CComPtr<ID3D11Texture2D> pclsBackBuffer;
+
+	CHECK_FAILED( m_pclsSwapChain->GetBuffer( 0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pclsBackBuffer) ) );
+	CHECK_FAILED( m_pclsDevice->CreateRenderTargetView( pclsBackBuffer, 0, &m_pclsRenderTargetView ) );
+
+	D3D11_TEXTURE2D_DESC sttT2D;
+	
+	sttT2D.Width     = iWidth;
+	sttT2D.Height    = iHeight;
+	sttT2D.MipLevels = 1;
+	sttT2D.ArraySize = 1;
+	sttT2D.Format    = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	sttT2D.SampleDesc.Count   = 4;
+	sttT2D.SampleDesc.Quality = m_iQualityLevel-1;
+	sttT2D.Usage          = D3D11_USAGE_DEFAULT;
+	sttT2D.BindFlags      = D3D11_BIND_DEPTH_STENCIL;
+	sttT2D.CPUAccessFlags = 0; 
+	sttT2D.MiscFlags      = 0;
+
+	CHECK_FAILED( m_pclsDevice->CreateTexture2D( &sttT2D, 0, &m_pclsDepthStencilBuffer ) );
+	CHECK_FAILED( m_pclsDevice->CreateDepthStencilView( m_pclsDepthStencilBuffer, 0, &m_pclsDepthStencilView ) );
+
+	m_pclsContext->OMSetRenderTargets( 1, &(m_pclsRenderTargetView.p), m_pclsDepthStencilView );
+
+	m_sttScreenViewport.TopLeftX = 0;
+	m_sttScreenViewport.TopLeftY = 0;
+	m_sttScreenViewport.Width    = static_cast<float>(iWidth);
+	m_sttScreenViewport.Height   = static_cast<float>(iHeight);
+	m_sttScreenViewport.MinDepth = 0.0f;
+	m_sttScreenViewport.MaxDepth = 1.0f;
+
+	m_pclsContext->RSSetViewports( 1, &m_sttScreenViewport );
+
 	CreateChild();
 
 	return true;
@@ -92,6 +125,10 @@ bool CDirectX11::Create( HWND hWnd )
 
 bool CDirectX11::Draw()
 {
+	XMVECTORF32 sttWhite = {1.0f, 1.0f, 1.0f, 1.0f};
+
+	m_pclsContext->ClearRenderTargetView( m_pclsRenderTargetView, reinterpret_cast<const float*>(&sttWhite) );
+	m_pclsContext->ClearDepthStencilView( m_pclsDepthStencilView, D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0 );
 	m_pclsContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	if( DrawChild() == false ) return false;

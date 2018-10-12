@@ -38,8 +38,16 @@ public:
 
 protected:
 	CComPtr<ID3D11Buffer> m_pclsVB;
+	CComPtr<ID3DX11Effect> m_pclsEffect;
 
 	ID3DX11EffectTechnique * m_pclsEffectTech;
+	ID3DX11EffectMatrixVariable * m_pclsWorldViewProj;
+
+	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
+
+	XMFLOAT4X4 m_sttWorld;
+	XMFLOAT4X4 m_sttView;
+	XMFLOAT4X4 m_sttProj;
 };
 
 #endif
