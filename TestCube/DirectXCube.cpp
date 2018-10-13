@@ -164,6 +164,11 @@ bool CDirectXCube::DrawChild()
 	return true;
 }
 
+/**
+ * @ingroup TestCube
+ * @brief 카메라 위치와 카메라가 큐브를 바라보는 방향을 이용하여서 View 행렬을 생성한다.
+ * @returns true 를 리턴한다.
+ */
 bool CDirectXCube::Update()
 {
 	// 5.6.2 세계 공간에서 시야 공간으로 좌표 변환 변경을 위한 시야 행렬을 생성한다.
