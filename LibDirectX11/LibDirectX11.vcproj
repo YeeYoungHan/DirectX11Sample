@@ -154,6 +154,10 @@
 				RelativePath=".\DirectX11.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\trace.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="헤더 파일"
@@ -162,6 +166,10 @@
 			>
 			<File
 				RelativePath=".\DirectX11.h"
+				>
+			</File>
+			<File
+				RelativePath=".\trace.h"
 				>
 			</File>
 		</Filter>
