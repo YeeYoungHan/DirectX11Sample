@@ -19,8 +19,9 @@
 #include "stdafx.h"
 #include "DirectXCube.h"
 
-CDirectXCube::CDirectXCube() : m_fTheta(1.5f * XM_PI), m_fPhi(1.25f * XM_PI), m_fRadius(5.0f)
+CDirectXCube::CDirectXCube() : m_bMouseDown(false)
 {
+	memset( &m_sttMousePos, 0, sizeof(m_sttMousePos) );
 }
 
 CDirectXCube::~CDirectXCube()
@@ -28,7 +29,7 @@ CDirectXCube::~CDirectXCube()
 }
 
 /**
- * @ingroup TestTriangle
+ * @ingroup TestCube
  * @brief 삼각형을 그리기 위한 준비 작업을 수행한다.
  * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
  */
@@ -38,52 +39,52 @@ bool CDirectXCube::CreateChild()
 	Vertex arrCube[] =
 	{
 		// 앞면 (빨간색)
-		{ XMFLOAT3(  0.5f,  0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f,  0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f,  0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f, -0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5,  0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 0.0, 1.0 ) },
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 0.0, 1.0 ) },
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 0.0, 1.0 ) },
 		
 		// 뒷면 (노랑색)
-		{ XMFLOAT3(  0.5f,  0.5f, -0.5f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f, -0.5f, -0.5f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f, -0.5f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f,  0.5f, -0.5f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f, -0.5f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f,  0.5f, -0.5f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT4( 1.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3(  0.5, -0.5, -0.5 ), XMFLOAT4( 1.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT4( 1.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT4( 1.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT4( 1.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5,  0.5, -0.5 ), XMFLOAT4( 1.0, 1.0, 0.0, 1.0 ) },
 
 		// 왼쪽 면 (파랑색)
-		{ XMFLOAT3( -0.5f,  0.5f,  0.5f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f, -0.5f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f,  0.5f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f,  0.5f,  0.5f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f,  0.5f, -0.5f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f, -0.5f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
+		{ XMFLOAT3( -0.5,  0.5,  0.5 ), XMFLOAT4( 0.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT4( 0.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5,  0.5 ), XMFLOAT4( 0.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5,  0.5,  0.5 ), XMFLOAT4( 0.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5,  0.5, -0.5 ), XMFLOAT4( 0.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT4( 0.0, 0.0, 1.0, 1.0 ) },
 
 		// 오른쪽 면 (보라색)
-		{ XMFLOAT3(  0.5f,  0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f, -0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f,  0.5f, -0.5f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f,  0.5f, -0.5f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f, -0.5f,  0.5f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f, -0.5f, -0.5f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT4( 1.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT4( 1.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT4( 1.0, 0.0, 1.0, 1.0 ) },
+		{ XMFLOAT3(  0.5, -0.5, -0.5 ), XMFLOAT4( 1.0, 0.0, 1.0, 1.0 ) },
 
 		// 윗면 (녹색)
-		{ XMFLOAT3(  0.5f,  0.5f,  0.5f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f,  0.5f, -0.5f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f,  0.5f, -0.5f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f,  0.5f,  0.5f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f,  0.5f, -0.5f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f,  0.5f,  0.5f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT4( 0.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT4( 0.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5,  0.5, -0.5 ), XMFLOAT4( 0.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT4( 0.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5,  0.5, -0.5 ), XMFLOAT4( 0.0, 1.0, 0.0, 1.0 ) },
+		{ XMFLOAT3( -0.5,  0.5,  0.5 ), XMFLOAT4( 0.0, 1.0, 0.0, 1.0 ) },
 
 		// 아랫면 (하늘색)
-		{ XMFLOAT3(  0.5f, -0.5f,  0.5f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f, -0.5f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f, -0.5f, -0.5f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3(  0.5f, -0.5f,  0.5f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f,  0.5f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
-		{ XMFLOAT3( -0.5f, -0.5f, -0.5f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) }
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT4( 0.0, 1.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT4( 0.0, 1.0, 1.0, 1.0 ) },
+		{ XMFLOAT3(  0.5, -0.5, -0.5 ), XMFLOAT4( 0.0, 1.0, 1.0, 1.0 ) },
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT4( 0.0, 1.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5,  0.5 ), XMFLOAT4( 0.0, 1.0, 1.0, 1.0 ) },
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT4( 0.0, 1.0, 1.0, 1.0 ) }
 	};
 
 	// 정점 버퍼를 생성한다.
@@ -131,7 +132,7 @@ bool CDirectXCube::CreateChild()
 }
 
 /**
- * @ingroup TestTriangle
+ * @ingroup TestCube
  * @brief 삼각형을 화면에 그려준다.
  * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
  */
@@ -166,19 +167,14 @@ bool CDirectXCube::DrawChild()
 bool CDirectXCube::Update()
 {
 	// 5.6.2 세계 공간에서 시야 공간으로 좌표 변환 변경을 위한 시야 행렬을 생성한다.
-	float x = m_fRadius * sinf( m_fPhi ) * cosf( m_fTheta );
-	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
-	float y = m_fRadius * cosf( m_fPhi );
-
-	// 카메라 위치
-	//XMVECTOR pos = XMVectorSet( x, y, z, 1.0f );
-	XMVECTOR pos = XMVectorSet( 5.0f, 5.0f, 5.0f, 1.0f );
+	XMVECTOR pos = m_clsCamPos.GetVector();
+	TRACE( "x(%.2f) y(%.2f) z(%.2f)\n", pos.m128_f32[0], pos.m128_f32[1], pos.m128_f32[2] );
 
 	// 큐브 위치
 	XMVECTOR target = XMVectorZero();
 
 	// 카메라가 타겟을 바라볼 때의 위쪽 방향.
-	XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
+	XMVECTOR up = XMVectorSet( 0.0, 1.0, 0.0, 0.0 );
 
 	// 카메라 위치와 카메라가 큐브를 바라보는 방향을 이용하여서 View 행렬을 생성한다.
 	XMMATRIX view = XMMatrixLookAtLH( pos, target, up );
@@ -186,4 +182,53 @@ bool CDirectXCube::Update()
 	XMStoreFloat4x4( &m_sttView, view );
 
 	return true;
+}
+
+/**
+ * @ingroup TestCube
+ * @brief 마우스 버튼 down 이벤트 핸들러
+ * @param hWnd	윈도우 핸들
+ * @param x			마우스 X 위치
+ * @param y			마우스 Y 위치
+ */
+void CDirectXCube::OnMouseDown( HWND hWnd, int x, int y )
+{
+	m_sttMousePos.x = x;
+	m_sttMousePos.y = y;
+	m_bMouseDown = true;
+
+	SetCapture( hWnd );
+}
+
+/**
+ * @ingroup TestCube
+ * @brief 마우스 버튼 up 이벤트 핸들러
+ * @param x			마우스 X 위치
+ * @param y			마우스 Y 위치
+ */
+void CDirectXCube::OnMouseUp( int x, int y )
+{
+	ReleaseCapture();
+	m_bMouseDown = false;
+}
+
+/**
+ * @ingroup TestCube
+ * @brief 마우스 이동 이벤트 핸들러
+ * @param hWnd	윈도우 핸들
+ * @param x			마우스 X 위치
+ * @param y			마우스 Y 위치
+ */
+void CDirectXCube::OnMouseMove( HWND hWnd, int x, int y )
+{
+	if( m_bMouseDown )
+	{
+		m_clsCamPos.Move( x - m_sttMousePos.x, y - m_sttMousePos.y );
+
+		m_sttMousePos.x = x;
+		m_sttMousePos.y = y;
+
+		Update();
+		InvalidateRect( hWnd, NULL, TRUE );
+	}
 }

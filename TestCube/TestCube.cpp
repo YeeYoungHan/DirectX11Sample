@@ -191,6 +191,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
 		}
 		break;
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		gclsDirectX.OnMouseDown( hWnd, LOWORD( lParam ), HIWORD( lParam ) );
+		return 0;
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+		gclsDirectX.OnMouseUp( LOWORD( lParam ), HIWORD( lParam ) );
+		return 0;
+	case WM_MOUSEMOVE:
+		gclsDirectX.OnMouseMove( hWnd, LOWORD( lParam ), HIWORD( lParam ) );
+		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
