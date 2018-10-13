@@ -122,6 +122,8 @@ bool CDirectXCube::CreateChild()
 	XMStoreFloat4x4( &m_sttWorld, sttI );
 	XMStoreFloat4x4( &m_sttView, sttI );
 
+	// 5.6.3 카메라에 보이는 공간을 계산하기 위해서 원근 투영 변환이 필요하다.
+	// 원근 투영 변환을 위해서 수직 시야각이 45도이고 종횡비가 1이며 가까운 평면은 z=1 이고 먼 평면은 z=1000 인 원근투영 행렬을 생성한다.
 	XMMATRIX sttP = XMMatrixPerspectiveFovLH( 0.25f * XM_PI, 1.0f, 1.0f, 1000.0f );
 	XMStoreFloat4x4( &m_sttProj, sttP );
 
@@ -163,6 +165,7 @@ bool CDirectXCube::DrawChild()
 
 bool CDirectXCube::Update()
 {
+	// 5.6.2 세계 공간에서 시야 공간으로 좌표 변환 변경을 위한 시야 행렬을 생성한다.
 	float x = m_fRadius * sinf( m_fPhi ) * cosf( m_fTheta );
 	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
 	float y = m_fRadius * cosf( m_fPhi );
