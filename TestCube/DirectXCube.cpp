@@ -234,6 +234,6 @@ void CDirectXCube::OnMouseMove( HWND hWnd, int x, int y )
 		m_sttMousePos.y = y;
 
 		Update();
-		InvalidateRect( hWnd, NULL, TRUE );
+		Draw();
 	}
 }
