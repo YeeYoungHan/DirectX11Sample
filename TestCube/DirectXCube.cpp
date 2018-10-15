@@ -91,14 +91,14 @@ bool CDirectXCube::CreateChild()
 	D3D11_BUFFER_DESC sttBD;
   
 	sttBD.Usage = D3D11_USAGE_IMMUTABLE;
-  sttBD.ByteWidth = sizeof(arrCube);
-  sttBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-  sttBD.CPUAccessFlags = 0;
-  sttBD.MiscFlags = 0;
+	sttBD.ByteWidth = sizeof(arrCube);
+	sttBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	sttBD.CPUAccessFlags = 0;
+	sttBD.MiscFlags = 0;
 	sttBD.StructureByteStride = 0;
 
-  D3D11_SUBRESOURCE_DATA sttSRD;
-  sttSRD.pSysMem = arrCube;
+	D3D11_SUBRESOURCE_DATA sttSRD;
+	sttSRD.pSysMem = arrCube;
   
 	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsVB ) );
 	m_iVertexCount = _countof(arrCube);
@@ -142,9 +142,9 @@ bool CDirectXCube::DrawChild()
 	m_pclsContext->IASetInputLayout( m_pclsInputLayout );
 
 	UINT iStride = sizeof(Vertex);
-  UINT iOffset = 0;
+	UINT iOffset = 0;
 
-  m_pclsContext->IASetVertexBuffers( 0, 1, &(m_pclsVB.p), &iStride, &iOffset );
+	m_pclsContext->IASetVertexBuffers( 0, 1, &(m_pclsVB.p), &iStride, &iOffset );
 
 	XMMATRIX world = XMLoadFloat4x4( &m_sttWorld );
 	XMMATRIX view  = XMLoadFloat4x4( &m_sttView );
