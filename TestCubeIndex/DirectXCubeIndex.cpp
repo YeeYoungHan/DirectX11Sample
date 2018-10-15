@@ -79,20 +79,20 @@ bool CDirectXCubeIndex::CreateChild()
 	D3D11_BUFFER_DESC sttBD;
   
 	sttBD.Usage = D3D11_USAGE_IMMUTABLE;
-  sttBD.ByteWidth = sizeof(arrCube);
-  sttBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-  sttBD.CPUAccessFlags = 0;
-  sttBD.MiscFlags = 0;
+	sttBD.ByteWidth = sizeof(arrCube);
+	sttBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	sttBD.CPUAccessFlags = 0;
+	sttBD.MiscFlags = 0;
 	sttBD.StructureByteStride = 0;
 
-  D3D11_SUBRESOURCE_DATA sttSRD;
-  sttSRD.pSysMem = arrCube;
+	D3D11_SUBRESOURCE_DATA sttSRD;
+	sttSRD.pSysMem = arrCube;
   
 	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsVB ) );
 
 	// 인덱스 버퍼를 생성한다.
-  sttBD.ByteWidth = sizeof(arrIndex);
-  sttBD.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	sttBD.ByteWidth = sizeof(arrIndex);
+	sttBD.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 	sttSRD.pSysMem = arrIndex;
 
@@ -138,9 +138,9 @@ bool CDirectXCubeIndex::DrawChild()
 	m_pclsContext->IASetInputLayout( m_pclsInputLayout );
 
 	UINT iStride = sizeof(Vertex);
-  UINT iOffset = 0;
+	UINT iOffset = 0;
 
-  m_pclsContext->IASetVertexBuffers( 0, 1, &(m_pclsVB.p), &iStride, &iOffset );
+	m_pclsContext->IASetVertexBuffers( 0, 1, &(m_pclsVB.p), &iStride, &iOffset );
 	m_pclsContext->IASetIndexBuffer( m_pclsIB.p, DXGI_FORMAT_R32_UINT, 0 );
 
 	XMMATRIX world = XMLoadFloat4x4( &m_sttWorld );
