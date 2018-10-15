@@ -19,7 +19,7 @@
 #include "stdafx.h"
 #include "DirectXCube.h"
 
-CDirectXCube::CDirectXCube() : m_bMouseDown(false)
+CDirectXCube::CDirectXCube() : m_bMouseDown(false), m_iVertexCount(0)
 {
 	memset( &m_sttMousePos, 0, sizeof(m_sttMousePos) );
 }
@@ -91,7 +91,7 @@ bool CDirectXCube::CreateChild()
 	D3D11_BUFFER_DESC sttBD;
   
 	sttBD.Usage = D3D11_USAGE_IMMUTABLE;
-  sttBD.ByteWidth = sizeof(Vertex) * 36;
+  sttBD.ByteWidth = sizeof(arrCube);
   sttBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
   sttBD.CPUAccessFlags = 0;
   sttBD.MiscFlags = 0;
@@ -101,6 +101,7 @@ bool CDirectXCube::CreateChild()
   sttSRD.pSysMem = arrCube;
   
 	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsVB ) );
+	m_iVertexCount = _countof(arrCube);
 
 	// 
 	if( CreateEffect( "FX/color.fxo", &m_pclsEffect ) == false ) return false;
@@ -158,7 +159,7 @@ bool CDirectXCube::DrawChild()
 	for( UINT p = 0; p < sttTechDesc.Passes; ++p )
 	{
 		m_pclsEffectTech->GetPassByIndex(p)->Apply( 0, m_pclsContext );
-		m_pclsContext->Draw( 36, 0 );
+		m_pclsContext->Draw( m_iVertexCount, 0 );
 	}
 
 	return true;

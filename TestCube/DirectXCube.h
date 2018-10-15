@@ -133,6 +133,8 @@ protected:
 	CCamPos	m_clsCamPos;
 	POINT		m_sttMousePos;
 	bool		m_bMouseDown;
+
+	int			m_iVertexCount;
 };
 
 #endif
