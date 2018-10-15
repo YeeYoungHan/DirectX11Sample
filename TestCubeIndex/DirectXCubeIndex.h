@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#ifndef _DIRECT_X_CUBE_H_
-#define _DIRECT_X_CUBE_H_
+#ifndef _DIRECT_X_CUBE_INDEX_H_
+#define _DIRECT_X_CUBE_INDEX_H_
 
 #include "DirectX11.h"
 #include "trace.h"
@@ -102,11 +102,11 @@ public:
  * @ingroup TestCube
  * @brief 3D Å¥ºê
  */
-class CDirectXCube : public CDirectX11
+class CDirectXCubeIndex : public CDirectX11
 {
 public:
-	CDirectXCube();
-	~CDirectXCube();
+	CDirectXCubeIndex();
+	~CDirectXCubeIndex();
 
 	virtual bool CreateChild();
 	virtual bool DrawChild();
@@ -119,6 +119,7 @@ public:
 
 protected:
 	CComPtr<ID3D11Buffer> m_pclsVB;
+	CComPtr<ID3D11Buffer> m_pclsIB;
 	CComPtr<ID3DX11Effect> m_pclsEffect;
 
 	ID3DX11EffectTechnique * m_pclsEffectTech;
@@ -133,6 +134,8 @@ protected:
 	CCamPos	m_clsCamPos;
 	POINT		m_sttMousePos;
 	bool		m_bMouseDown;
+
+	int			m_iIndexCount;
 };
 
 #endif
