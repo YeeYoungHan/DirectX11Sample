@@ -25,6 +25,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCubeIndex", "TestCubeIn
 		{E68974BA-1FE7-4AF4-BF5B-04C041124AFB} = {E68974BA-1FE7-4AF4-BF5B-04C041124AFB}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestTwoCube", "TestTwoCube\TestTwoCube.vcproj", "{7FD715F5-D397-4C43-A7F3-1DBAB07073DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF460EAB-570D-4B50-9089-2E2FC801BF38} = {DF460EAB-570D-4B50-9089-2E2FC801BF38}
+		{E68974BA-1FE7-4AF4-BF5B-04C041124AFB} = {E68974BA-1FE7-4AF4-BF5B-04C041124AFB}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -65,6 +71,12 @@ Global
 		{EA4ECFC5-774C-4224-B64C-A889FCDD8B5D}.Release|Win32.ActiveCfg = Release|Win32
 		{EA4ECFC5-774C-4224-B64C-A889FCDD8B5D}.Release|Win32.Build.0 = Release|Win32
 		{EA4ECFC5-774C-4224-B64C-A889FCDD8B5D}.Release|x64.ActiveCfg = Release|Win32
+		{7FD715F5-D397-4C43-A7F3-1DBAB07073DD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7FD715F5-D397-4C43-A7F3-1DBAB07073DD}.Debug|Win32.Build.0 = Debug|Win32
+		{7FD715F5-D397-4C43-A7F3-1DBAB07073DD}.Debug|x64.ActiveCfg = Debug|Win32
+		{7FD715F5-D397-4C43-A7F3-1DBAB07073DD}.Release|Win32.ActiveCfg = Release|Win32
+		{7FD715F5-D397-4C43-A7F3-1DBAB07073DD}.Release|Win32.Build.0 = Release|Win32
+		{7FD715F5-D397-4C43-A7F3-1DBAB07073DD}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
