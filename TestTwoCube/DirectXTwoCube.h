@@ -25,7 +25,7 @@
 #define MAX_XY_ANGLE (XM_PI / 2.0f - 0.01f)
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 정점 저장 구조체
  */
 struct Vertex
@@ -35,7 +35,7 @@ struct Vertex
 };
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 카메라 위치를 저장하는 클래스
  */
 class CCamPos
@@ -45,7 +45,7 @@ public:
 	{}
 
 	/**
-	 * @ingroup TestCube
+	 * @ingroup TestTwoCube
 	 * @brief 카메라 위치를 수정한다.
 	 * @param iX X 축 이동 거리
 	 * @param iY Y 축 이동 거리
@@ -79,7 +79,7 @@ public:
 	}
 
 	/**
-	 * @ingroup TestCube
+	 * @ingroup TestTwoCube
 	 * @brief 카메라 위치를 저장한 VECTOR 를 리턴한다.
 	 * @returns 카메라 위치를 저장한 VECTOR 를 리턴한다.
 	 */
@@ -101,7 +101,7 @@ public:
 };
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 3D 큐브
  */
 class CDirectXTwoCube : public CDirectX11

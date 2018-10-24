@@ -29,7 +29,7 @@ CDirectXTwoCube::~CDirectXTwoCube()
 }
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 삼각형을 그리기 위한 준비 작업을 수행한다.
  * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
  */
@@ -133,7 +133,7 @@ bool CDirectXTwoCube::CreateChild()
 }
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 삼각형을 화면에 그려준다.
  * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
  */
@@ -171,7 +171,7 @@ bool CDirectXTwoCube::DrawChild()
 }
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 카메라 위치와 카메라가 큐브를 바라보는 방향을 이용하여서 View 행렬을 생성한다.
  * @returns true 를 리턴한다.
  */
@@ -196,7 +196,7 @@ bool CDirectXTwoCube::Update()
 }
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 마우스 버튼 down 이벤트 핸들러
  * @param hWnd	윈도우 핸들
  * @param x			마우스 X 위치
@@ -212,7 +212,7 @@ void CDirectXTwoCube::OnMouseDown( HWND hWnd, int x, int y )
 }
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 마우스 버튼 up 이벤트 핸들러
  * @param x			마우스 X 위치
  * @param y			마우스 Y 위치
@@ -224,7 +224,7 @@ void CDirectXTwoCube::OnMouseUp( int x, int y )
 }
 
 /**
- * @ingroup TestCube
+ * @ingroup TestTwoCube
  * @brief 마우스 이동 이벤트 핸들러
  * @param hWnd	윈도우 핸들
  * @param x			마우스 X 위치
