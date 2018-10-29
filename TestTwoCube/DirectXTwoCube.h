@@ -129,7 +129,6 @@ protected:
 
 	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
 
-	XMFLOAT4X4 m_sttWorld;
 	XMFLOAT4X4 m_sttView;
 	XMFLOAT4X4 m_sttProj;
 

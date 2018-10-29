@@ -117,7 +117,6 @@ bool CDirectXTwoCube::CreateChild()
 	CHECK_FAILED( m_pclsDevice->CreateInputLayout( arrVertexDesc, 2, sttPassDesc.pIAInputSignature, sttPassDesc.IAInputSignatureSize, &m_pclsInputLayout ) );
 
 	XMMATRIX sttI = XMMatrixIdentity();
-	XMStoreFloat4x4( &m_sttWorld, sttI );
 	XMStoreFloat4x4( &m_sttView, sttI );
 
 	// 5.6.3 카메라에 보이는 공간을 계산하기 위해서 원근 투영 변환이 필요하다.
