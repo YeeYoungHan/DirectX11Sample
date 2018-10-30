@@ -75,7 +75,7 @@ void ComputeDirectionalLight( Material mat, DirectionalLight L, float3 normal, f
 		// Specular Light (반영광,정반사광)을 계산한다.
 		// r = 반사벡터
 		// toEye = 시아벡터 : 정점에서 시아로 향하는 벡터
-		// 반사벡터와 시아벡터의 내적으로 반사벡터와 시아벡터의 cosine 을 구한 후, mat.Specular.w 지수
+		// 반사벡터와 시아벡터의 내적으로 반사벡터와 시아벡터의 cosine 을 구한 후, mat.Specular.w 지수 거듭제곱한다.
 		float3 r         = reflect(-lightVec, normal);
 		float specFactor = pow(max(dot(r, toEye), 0.0f), mat.Specular.w);
 
