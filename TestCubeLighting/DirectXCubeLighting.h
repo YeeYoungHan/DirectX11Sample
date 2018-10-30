@@ -31,7 +31,7 @@
 struct Vertex
 {
 	XMFLOAT3 Pos;
-	XMFLOAT4 Color;
+	XMFLOAT3 Normal;
 };
 
 /**
@@ -95,9 +95,46 @@ public:
 		return clsVec;
 	}
 
+	XMFLOAT3 GetEyePos()
+	{
+		XMVECTOR clsVec = GetVector();
+		XMFLOAT3 f3EyePos = XMFLOAT3( clsVec.m128_f32[0], clsVec.m128_f32[1], clsVec.m128_f32[2] );
+
+		return f3EyePos;
+	}
+
 	float m_fDistance;	// 중앙에서 카메라까지의 거리
 	float m_fXZAngle;		// 카메라가 중앙을 바로보는 위치에서 X축과 Z축 사이의 각도
 	float m_fXYAngle;		// 카메라가 중앙을 바로보는 위치에서 X축과 Y축 사이의 각도
+};
+
+class CDirectionalLight
+{
+public:
+	CDirectionalLight()
+	{
+		memset( this, 0, sizeof(CDirectionalLight) );
+	}
+
+	XMFLOAT4 m_f4Ambient;
+	XMFLOAT4 m_f4Diffuse;
+	XMFLOAT4 m_f4Specular;
+	XMFLOAT3 m_f3Direction;
+	float		 m_fPad;
+};
+
+class CMaterial
+{
+public:
+	CMaterial()
+	{
+		memset( this, 0, sizeof(CMaterial) );
+	}
+
+	XMFLOAT4 m_f4Ambient;
+	XMFLOAT4 m_f4Diffuse;
+	XMFLOAT4 m_f4Specular; // w = SpecPower
+	XMFLOAT4 m_f4Reflect;
 };
 
 /**
@@ -126,14 +163,22 @@ protected:
 
 	ID3DX11EffectTechnique * m_pclsEffectTech;
 	ID3DX11EffectMatrixVariable * m_pclsWorldViewProj;
+	ID3DX11EffectMatrixVariable * m_pclsWorld;
+	ID3DX11EffectMatrixVariable * m_pclsWorldInvTranspose;
+	ID3DX11EffectVectorVariable * m_pclsEyePosW;
+	ID3DX11EffectVariable * m_pclsDirectionalLight;
+	ID3DX11EffectVariable * m_pclsMaterial;
 
 	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
 
-	XMFLOAT4X4 m_sttWorld;
+	XMFLOAT4X4 m_arrCubeWorld[1];
 	XMFLOAT4X4 m_sttView;
 	XMFLOAT4X4 m_sttProj;
 
-	XMFLOAT4X4 m_arrCubeWorld[1];
+	XMFLOAT3	m_f3EyePos;
+
+	CDirectionalLight	m_clsDirectionalLight;
+	CMaterial m_clsMaterial;
 
 	CCamPos	m_clsCamPos;
 	POINT		m_sttMousePos;
