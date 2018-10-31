@@ -78,6 +78,7 @@ bool CDirectXCubeLighting::CreateChild()
 	};
 
 	// 정점 법선을 계산한다.
+	int iVertexCount = _countof(arrCube);
 	m_iIndexCount = _countof(arrIndex);
 	UINT i0, i1, i2;
 	XMVECTOR v0, v1, v2, vU, vV, vN;
@@ -109,6 +110,13 @@ bool CDirectXCubeLighting::CreateChild()
 		XMStoreFloat3( &arrCube[i0].Normal, v0 );
 		XMStoreFloat3( &arrCube[i1].Normal, v1 );
 		XMStoreFloat3( &arrCube[i2].Normal, v2 );
+	}
+
+	for( int i = 0; i < iVertexCount; ++i )
+	{
+		vN = XMLoadFloat3( &arrCube[i].Normal );
+		vN = XMVector3Normalize( vN );
+		XMStoreFloat3( &arrCube[i].Normal, vN );
 	}
 
 	// 정점 버퍼를 생성한다.
