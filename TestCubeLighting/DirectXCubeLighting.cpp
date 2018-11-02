@@ -143,7 +143,7 @@ bool CDirectXCubeLighting::CreateChild()
 	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsIB ) );
 
 	// 
-	if( CreateEffect( "FX/color.fxo", &m_pclsEffect ) == false ) return false;
+	if( CreateEffect( "FX/lighting.fxo", &m_pclsEffect ) == false ) return false;
 
 	m_pclsEffectTech = m_pclsEffect->GetTechniqueByName("ColorTech");
 	m_pclsWorldViewProj = m_pclsEffect->GetVariableByName("gWorldViewProj")->AsMatrix();

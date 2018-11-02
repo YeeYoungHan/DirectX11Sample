@@ -252,15 +252,15 @@
 			Name="DirectX"
 			>
 			<File
-				RelativePath=".\FX\color.fx"
-				>
-			</File>
-			<File
 				RelativePath=".\DirectXCubeLighting.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\DirectXCubeLighting.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FX\lighting.fx"
 				>
 			</File>
 		</Filter>
