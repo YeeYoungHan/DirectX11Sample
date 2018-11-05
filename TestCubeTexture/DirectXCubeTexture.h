@@ -161,6 +161,7 @@ protected:
 	CComPtr<ID3D11Buffer> m_pclsVB;
 	CComPtr<ID3D11Buffer> m_pclsIB;
 	CComPtr<ID3DX11Effect> m_pclsEffect;
+	CComPtr<ID3D11ShaderResourceView> m_pclsShaderResView;
 
 	ID3DX11EffectTechnique * m_pclsEffectTech;
 	ID3DX11EffectMatrixVariable * m_pclsWorldViewProj;
@@ -169,6 +170,7 @@ protected:
 	ID3DX11EffectVectorVariable * m_pclsEyePosW;
 	ID3DX11EffectVariable * m_pclsDirectionalLight;
 	ID3DX11EffectVariable * m_pclsMaterial;
+	ID3DX11EffectShaderResourceVariable * m_pclsShaderResVar;
 
 	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
 

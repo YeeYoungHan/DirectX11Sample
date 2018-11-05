@@ -147,6 +147,7 @@ bool CDirectXCubeTexture::CreateChild()
 	m_pclsEyePosW = m_pclsEffect->GetVariableByName("gEyePosW")->AsVector();
 	m_pclsDirectionalLight = m_pclsEffect->GetVariableByName("gDirLight");
 	m_pclsMaterial = m_pclsEffect->GetVariableByName("gMaterial");
+	m_pclsShaderResVar = m_pclsEffect->GetVariableByName("gShaderResVar")->AsShaderResource();
 
 	D3D11_INPUT_ELEMENT_DESC arrVertexDesc[] =
 	{
@@ -177,10 +178,12 @@ bool CDirectXCubeTexture::CreateChild()
 	m_clsDirectionalLight.m_f4Specular = XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f );
 	m_clsDirectionalLight.m_f3Direction = XMFLOAT3( -0.5f, -0.5f, 0.5f );
 
-	// 재질 저장 (빨간색)
-	m_clsMaterial.m_f4Ambient = XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f );
-	m_clsMaterial.m_f4Diffuse = XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f );
-	m_clsMaterial.m_f4Specular = XMFLOAT4( 1.0f, 0.0f, 0.0f, 100.0f );
+	// 재질 저장
+	m_clsMaterial.m_f4Ambient = XMFLOAT4( 0.93f, 0.9f, 0.86f, 1.0f );
+	m_clsMaterial.m_f4Diffuse = XMFLOAT4( 0.93f, 0.9f, 0.86f, 1.0f );
+	m_clsMaterial.m_f4Specular = XMFLOAT4( 0.93f, 0.9f, 0.86f, 100.0f );
+
+	CHECK_FAILED( D3DX11CreateShaderResourceViewFromFile( m_pclsDevice, L"Texture/box.png", 0, 0, &m_pclsShaderResView, 0 ) );
 
 	return true;
 }
@@ -206,7 +209,8 @@ bool CDirectXCubeTexture::DrawChild()
 
 	m_pclsDirectionalLight->SetRawValue( &m_clsDirectionalLight, 0, sizeof(m_clsDirectionalLight) );
 	m_pclsEyePosW->SetRawValue( &m_f3EyePos, 0, sizeof(m_f3EyePos) );
-	
+	m_pclsShaderResVar->SetResource( m_pclsShaderResView );
+
 	D3DX11_TECHNIQUE_DESC sttTechDesc;
 	m_pclsEffectTech->GetDesc( &sttTechDesc );
 

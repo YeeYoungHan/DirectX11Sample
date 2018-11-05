@@ -29,6 +29,17 @@ cbuffer cbPerObject
 	Material gMaterial;
 };
 
+Texture2D gShaderResVar;
+
+SamplerState samAnisotropic
+{
+	Filter = ANISOTROPIC;
+	MaxAnisotropy = 4;
+
+	AddressU = WRAP;
+	AddressV = WRAP;
+};
+
 struct VertexIn
 {
 	float3 PosL    : POSITION;
@@ -41,6 +52,7 @@ struct VertexOut
 	float4 PosH    : SV_POSITION;
 	float3 PosW    : POSITION;
 	float3 NormalW : NORMAL;
+	float2 Tex     : TEXCCORD;
 };
 
 // mat     : ¿Á¡˙¿« Ambient, Diffuse, Specular Light
@@ -94,6 +106,8 @@ VertexOut VS( VertexIn vin )
 		
 	// Transform to homogeneous clip space.
 	vout.PosH = mul(float4(vin.PosL, 1.0f), gWorldViewProj);
+
+	vout.Tex = vin.Tex;
 	
 	return vout;
 }
@@ -110,6 +124,8 @@ float4 PS( VertexOut pin ) : SV_Target
 	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
+	float4 texColor = gShaderResVar.Sample( samAnisotropic, pin.Tex );
+
 	// Sum the light contribution from each light source.
 	float4 A, D, S;
 
@@ -118,7 +134,7 @@ float4 PS( VertexOut pin ) : SV_Target
 	diffuse += D;
 	spec    += S;
 	   
-	float4 litColor = ambient + diffuse + spec;
+	float4 litColor = texColor * ( ambient + diffuse ) + spec;
 
 	// Common to take alpha from diffuse material.
 	litColor.a = gMaterial.Diffuse.a;
