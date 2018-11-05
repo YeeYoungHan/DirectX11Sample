@@ -35,19 +35,44 @@ CDirectXCubeTexture::~CDirectXCubeTexture()
  */
 bool CDirectXCubeTexture::CreateChild()
 {
-	XMFLOAT3 f3Init = XMFLOAT3( 0.0,  0.0,  0.0 );
-
 	// Å¥ºê Á¤Á¡ Á¤º¸
 	Vertex arrCube[] =
 	{
-		{ XMFLOAT3(  0.5,  0.5,  0.5 ), f3Init },	// index 0
-		{ XMFLOAT3(  0.5, -0.5,  0.5 ), f3Init },	// index 1
-		{ XMFLOAT3( -0.5, -0.5,  0.5 ), f3Init },	// index 2
-		{ XMFLOAT3( -0.5,  0.5,  0.5 ), f3Init },	// index 3
-		{ XMFLOAT3(  0.5,  0.5, -0.5 ), f3Init },	// index 4
-		{ XMFLOAT3(  0.5, -0.5, -0.5 ), f3Init },	// index 5
-		{ XMFLOAT3( -0.5, -0.5, -0.5 ), f3Init },	// index 6
-		{ XMFLOAT3( -0.5,  0.5, -0.5 ), f3Init },	// index 7
+		// ¾Õ¸é
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT3(  1.0,  1.0,  1.0 ), XMFLOAT2( 0.0f, 0.0f ) },	// index 0
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT3(  1.0, -2.0,  1.0 ), XMFLOAT2( 0.0f, 1.0f ) },	// index 1
+		{ XMFLOAT3( -0.5, -0.5,  0.5 ), XMFLOAT3( -1.0, -1.0,  2.0 ), XMFLOAT2( 1.0f, 1.0f ) },	// index 2
+		{ XMFLOAT3( -0.5,  0.5,  0.5 ), XMFLOAT3( -2.0,  1.0,  1.0 ), XMFLOAT2( 1.0f, 0.0f ) },	// index 3
+
+		// µÞ¸é
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT3(  1.0,  1.0, -2.0 ), XMFLOAT2( 1.0f, 0.0f ) },	// index 4
+		{ XMFLOAT3(  0.5, -0.5, -0.5 ), XMFLOAT3(  2.0, -1.0, -1.0 ), XMFLOAT2( 1.0f, 1.0f ) },	// index 5
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT3( -1.0, -1.0, -1.0 ), XMFLOAT2( 0.0f, 1.0f ) },	// index 6
+		{ XMFLOAT3( -0.5,  0.5, -0.5 ), XMFLOAT3( -1.0,  2.0, -1.0 ), XMFLOAT2( 0.0f, 0.0f ) },	// index 7
+
+		// ¿ÞÂÊ¸é
+		{ XMFLOAT3( -0.5,  0.5,  0.5 ), XMFLOAT3( -2.0,  1.0,  1.0 ), XMFLOAT2( 0.0f, 0.0f ) },	// index 8
+		{ XMFLOAT3( -0.5, -0.5,  0.5 ), XMFLOAT3( -1.0, -1.0,  2.0 ), XMFLOAT2( 0.0f, 1.0f ) },	// index 9
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT3( -1.0, -1.0, -1.0 ), XMFLOAT2( 1.0f, 1.0f ) },	// index 10
+		{ XMFLOAT3( -0.5,  0.5, -0.5 ), XMFLOAT3( -2.0,  1.0, -1.0 ), XMFLOAT2( 1.0f, 0.0f ) },	// index 11
+
+		// ¿À¸¥ÂÊ¸é
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT3(  1.0,  1.0,  1.0 ), XMFLOAT2( 1.0f, 0.0f ) },	// index 12
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT3(  1.0, -2.0,  1.0 ), XMFLOAT2( 1.0f, 1.0f ) },	// index 13
+		{ XMFLOAT3(  0.5, -0.5, -0.5 ), XMFLOAT3(  2.0, -1.0, -1.0 ), XMFLOAT2( 0.0f, 1.0f ) },	// index 14
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT3(  1.0,  1.0, -2.0 ), XMFLOAT2( 0.0f, 0.0f ) },	// index 15
+
+		// À­¸é
+		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT3(  1.0,  1.0,  1.0 ), XMFLOAT2( 1.0f, 0.0f ) },	// index 16
+		{ XMFLOAT3(  0.5,  0.5, -0.5 ), XMFLOAT3(  1.0,  1.0, -2.0 ), XMFLOAT2( 1.0f, 1.0f ) },	// index 17
+		{ XMFLOAT3( -0.5,  0.5, -0.5 ), XMFLOAT3( -1.0,  2.0, -1.0 ), XMFLOAT2( 0.0f, 1.0f ) },	// index 18
+		{ XMFLOAT3( -0.5,  0.5,  0.5 ), XMFLOAT3( -2.0,  1.0,  1.0 ), XMFLOAT2( 0.0f, 0.0f ) },	// index 19
+
+		// ¾Æ·§¸é
+		{ XMFLOAT3(  0.5, -0.5,  0.5 ), XMFLOAT3(  1.0, -2.0,  1.0 ), XMFLOAT2( 0.0f, 0.0f ) },	// index 20
+		{ XMFLOAT3(  0.5, -0.5, -0.5 ), XMFLOAT3(  2.0, -1.0, -1.0 ), XMFLOAT2( 0.0f, 1.0f ) },	// index 21
+		{ XMFLOAT3( -0.5, -0.5, -0.5 ), XMFLOAT3( -1.0, -1.0, -1.0 ), XMFLOAT2( 1.0f, 1.0f ) },	// index 22
+		{ XMFLOAT3( -0.5, -0.5,  0.5 ), XMFLOAT3( -1.0, -1.0,  2.0 ), XMFLOAT2( 1.0f, 0.0f ) }	// index 23
 	};
 
 	UINT arrIndex[] =
@@ -61,56 +86,24 @@ bool CDirectXCubeTexture::CreateChild()
 		4, 5, 6,
 
 		// ¿ÞÂÊ¸é
-		3, 6, 2,
-		3, 7, 6,
+		8, 10, 9,
+		8, 11, 10,
 
 		// ¿À¸¥ÂÊ¸é
-		0, 1, 5,
-		0, 5, 4,
+		12, 13, 14,
+		12, 14, 15,
 
 		// À­¸é
-		0, 4, 7,
-		0, 7, 3,
+		16, 17, 18,
+		16, 18, 19,
 
 		// ¾Æ·§¸é
-		1, 6, 5,
-		1, 2, 6
+		20, 22, 21,
+		20, 23, 22
 	};
 
-	// Á¤Á¡ ¹ý¼±À» °è»êÇÑ´Ù.
 	int iVertexCount = _countof(arrCube);
-	m_iIndexCount = _countof(arrIndex);
-	UINT i0, i1, i2;
-	XMVECTOR v0, v1, v2, vU, vV, vN;
-
-	for( int i = 0; i < m_iIndexCount; i += 3 )
-	{
-		i0 = arrIndex[i];
-		i1 = arrIndex[i+1];
-		i2 = arrIndex[i+2];
-
-		v0 = XMLoadFloat3( &arrCube[i0].Pos );
-		v1 = XMLoadFloat3( &arrCube[i1].Pos );
-		v2 = XMLoadFloat3( &arrCube[i2].Pos );
-
-		vU = v1 - v0;
-		vV = v2 - v0;
-
-		vN = XMVector3Cross( vU, vV );
-		vN = XMVector3Normalize( vN );
-
-		v0 = XMLoadFloat3( &arrCube[i0].Normal );
-		v1 = XMLoadFloat3( &arrCube[i1].Normal );
-		v2 = XMLoadFloat3( &arrCube[i2].Normal );
-
-		v0 += vN;
-		v1 += vN;
-		v2 += vN;
-
-		XMStoreFloat3( &arrCube[i0].Normal, v0 );
-		XMStoreFloat3( &arrCube[i1].Normal, v1 );
-		XMStoreFloat3( &arrCube[i2].Normal, v2 );
-	}
+	XMVECTOR vN;
 
 	for( int i = 0; i < iVertexCount; ++i )
 	{
@@ -156,7 +149,8 @@ bool CDirectXCubeTexture::CreateChild()
 	D3D11_INPUT_ELEMENT_DESC arrVertexDesc[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"NORMAL"  , 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		{"NORMAL"  , 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"TEXCCORD", 0, DXGI_FORMAT_R32G32_FLOAT   , 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
 	D3DX11_PASS_DESC sttPassDesc;

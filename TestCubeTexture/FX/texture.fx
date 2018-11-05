@@ -33,6 +33,7 @@ struct VertexIn
 {
 	float3 PosL    : POSITION;
 	float3 NormalL : NORMAL;
+	float2 Tex     : TEXCCORD;
 };
 
 struct VertexOut
