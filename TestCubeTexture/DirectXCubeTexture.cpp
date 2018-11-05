@@ -102,6 +102,16 @@ bool CDirectXCubeTexture::CreateChild()
 		20, 23, 22
 	};
 
+	int iVertexCount = _countof(arrCube);
+	XMVECTOR vN;
+		
+	for( int i = 0; i < iVertexCount; ++i )
+	{
+		vN = XMLoadFloat3( &arrCube[i].Normal );
+		vN = XMVector3Normalize( vN );
+		XMStoreFloat3( &arrCube[i].Normal, vN );
+	}
+
 	m_iIndexCount = _countof(arrIndex);
 
 	// 정점 버퍼를 생성한다.
