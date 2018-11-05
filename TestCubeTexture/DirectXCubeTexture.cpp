@@ -102,15 +102,7 @@ bool CDirectXCubeTexture::CreateChild()
 		20, 23, 22
 	};
 
-	int iVertexCount = _countof(arrCube);
-	XMVECTOR vN;
-
-	for( int i = 0; i < iVertexCount; ++i )
-	{
-		vN = XMLoadFloat3( &arrCube[i].Normal );
-		vN = XMVector3Normalize( vN );
-		XMStoreFloat3( &arrCube[i].Normal, vN );
-	}
+	m_iIndexCount = _countof(arrIndex);
 
 	// 정점 버퍼를 생성한다.
 	D3D11_BUFFER_DESC sttBD;
@@ -156,7 +148,7 @@ bool CDirectXCubeTexture::CreateChild()
 	D3DX11_PASS_DESC sttPassDesc;
 
 	m_pclsEffectTech->GetPassByIndex(0)->GetDesc( &sttPassDesc );
-	CHECK_FAILED( m_pclsDevice->CreateInputLayout( arrVertexDesc, 2, sttPassDesc.pIAInputSignature, sttPassDesc.IAInputSignatureSize, &m_pclsInputLayout ) );
+	CHECK_FAILED( m_pclsDevice->CreateInputLayout( arrVertexDesc, 3, sttPassDesc.pIAInputSignature, sttPassDesc.IAInputSignatureSize, &m_pclsInputLayout ) );
 
 	XMMATRIX sttI = XMMatrixIdentity();
 	XMStoreFloat4x4( &m_sttView, sttI );
