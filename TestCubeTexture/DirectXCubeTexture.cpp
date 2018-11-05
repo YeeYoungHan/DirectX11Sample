@@ -102,6 +102,7 @@ bool CDirectXCubeTexture::CreateChild()
 		20, 23, 22
 	};
 
+	// 정점법선 벡터를 단위 벡터로 수정한다.
 	int iVertexCount = _countof(arrCube);
 	XMVECTOR vN;
 		
@@ -137,9 +138,10 @@ bool CDirectXCubeTexture::CreateChild()
 
 	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsIB ) );
 
-	// 
+	// 컴파일된 fx 파일을 로그한다.
 	if( CreateEffect( "FX/texture.fxo", &m_pclsEffect ) == false ) return false;
 
+	// fx 파일에 정의된 변수와 연결한다.
 	m_pclsEffectTech = m_pclsEffect->GetTechniqueByName("ColorTech");
 	m_pclsWorldViewProj = m_pclsEffect->GetVariableByName("gWorldViewProj")->AsMatrix();
 	m_pclsWorld = m_pclsEffect->GetVariableByName("gWorld")->AsMatrix();
@@ -183,6 +185,7 @@ bool CDirectXCubeTexture::CreateChild()
 	m_clsMaterial.m_f4Diffuse = XMFLOAT4( 0.93f, 0.9f, 0.86f, 1.0f );
 	m_clsMaterial.m_f4Specular = XMFLOAT4( 0.93f, 0.9f, 0.86f, 100.0f );
 
+	// 텍스처 이미지 파일을 로드한다.
 	CHECK_FAILED( D3DX11CreateShaderResourceViewFromFile( m_pclsDevice, L"Texture/box.png", 0, 0, &m_pclsShaderResView, 0 ) );
 
 	return true;
@@ -260,7 +263,7 @@ bool CDirectXCubeTexture::Update()
 
 	XMStoreFloat4x4( &m_sttView, view );
 
-	//
+	// 카메라 위치를 저장한다.
 	m_f3EyePos = m_clsCamPos.GetEyePos();
 	
 	return true;
