@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="DXUT"
-	ProjectGUID="{85344B7F-5AA0-4e12-A065-D1333D11F6CA}"
+	Name="LibDXUT"
+	ProjectGUID="{85344B7F-5AA0-4E12-A065-D1333D11F6CA}"
 	RootNamespace="DXUT"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"

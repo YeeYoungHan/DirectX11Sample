@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="DXUTOpt"
-	ProjectGUID="{61B333C2-C4F7-4cc1-A9BF-83F6D95588EB}"
+	Name="LibDXUTOpt"
+	ProjectGUID="{61B333C2-C4F7-4CC1-A9BF-83F6D95588EB}"
 	RootNamespace="DXUTOpt"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
