@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#ifndef _DIRECT_X_CUBE_TEXTURE_H_
-#define _DIRECT_X_CUBE_TEXTURE_H_
+#ifndef _DIRECT_X_CUBE_TEXTURE_ALPHA_H_
+#define _DIRECT_X_CUBE_TEXTURE_ALPHA_H_
 
 #include "DirectX11.h"
 #include "trace.h"
@@ -142,11 +142,11 @@ public:
  * @ingroup TestCubeLighting
  * @brief 3D Å¥ºê
  */
-class CDirectXCubeTexture : public CDirectX11
+class CDirectXCubeTextureAlpha : public CDirectX11
 {
 public:
-	CDirectXCubeTexture();
-	~CDirectXCubeTexture();
+	CDirectXCubeTextureAlpha();
+	~CDirectXCubeTextureAlpha();
 
 	virtual bool CreateChild();
 	virtual bool DrawChild();
@@ -161,7 +161,9 @@ protected:
 	CComPtr<ID3D11Buffer> m_pclsVB;
 	CComPtr<ID3D11Buffer> m_pclsIB;
 	CComPtr<ID3DX11Effect> m_pclsEffect;
+	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
 	CComPtr<ID3D11ShaderResourceView> m_pclsShaderResView;
+	CComPtr<ID3D11RasterizerState> m_pclsRS;
 
 	ID3DX11EffectTechnique * m_pclsEffectTech;
 	ID3DX11EffectMatrixVariable * m_pclsWorldViewProj;
@@ -171,8 +173,6 @@ protected:
 	ID3DX11EffectVariable * m_pclsDirectionalLight;
 	ID3DX11EffectVariable * m_pclsMaterial;
 	ID3DX11EffectShaderResourceVariable * m_pclsShaderResVar;
-
-	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
 
 	XMFLOAT4X4 m_arrCubeWorld[1];
 	XMFLOAT4X4 m_sttView;
