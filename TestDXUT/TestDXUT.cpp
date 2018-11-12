@@ -1,202 +1,93 @@
-// TestDXUT.cpp : 응용 프로그램에 대한 진입점을 정의합니다.
-//
+/* 
+ * Copyright (C) 2012 Yee Young Han <websearch@naver.com> (http://blog.naver.com/websearch)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ */
 
 #include "stdafx.h"
 #include "TestDXUT.h"
-#include "DirectXDXUT.h"
+#include "DXUT.h"
+#include "DXUTgui.h"
+#include "DXUTmisc.h"
+#include "SDKmisc.h"
 
-CDirectXDXUT gclsDirectX;
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3dx11.lib")
+#pragma comment(lib, "D3DCompiler.lib")
+#pragma comment(lib, "dxerr.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "comctl32.lib")
 
-#define MAX_LOADSTRING 100
+#define ID_BTN_1	1
 
-// 전역 변수:
-HINSTANCE hInst;								// 현재 인스턴스입니다.
-TCHAR szTitle[MAX_LOADSTRING];					// 제목 표시줄 텍스트입니다.
-TCHAR szWindowClass[MAX_LOADSTRING];			// 기본 창 클래스 이름입니다.
+CDXUTDialogResourceManager gclsDRM;
+CDXUTDialog gclsDlg;
 
-// 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
-ATOM				MyRegisterClass(HINSTANCE hInstance);
-BOOL				InitInstance(HINSTANCE, int);
-LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
-
-int APIENTRY _tWinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     LPTSTR    lpCmdLine,
-                     int       nCmdShow)
+bool CALLBACK Device9AcceptableCallBack( D3DCAPS9 * pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void * pUserContext )
 {
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
-
- 	// TODO: 여기에 코드를 입력합니다.
-	MSG msg;
-	HACCEL hAccelTable;
-
-	// 전역 문자열을 초기화합니다.
-	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_TESTDXUT, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
-
-	// 응용 프로그램 초기화를 수행합니다.
-	if (!InitInstance (hInstance, nCmdShow))
-	{
-		return FALSE;
-	}
-
-	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TESTDXUT));
-
-	// 기본 메시지 루프입니다.
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
-		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
-
-	return (int) msg.wParam;
+	return false;
 }
 
-
-
-//
-//  함수: MyRegisterClass()
-//
-//  목적: 창 클래스를 등록합니다.
-//
-//  설명:
-//
-//    Windows 95에서 추가된 'RegisterClassEx' 함수보다 먼저
-//    해당 코드가 Win32 시스템과 호환되도록
-//    하려는 경우에만 이 함수를 사용합니다. 이 함수를 호출해야
-//    해당 응용 프로그램에 연결된
-//    '올바른 형식의' 작은 아이콘을 가져올 수 있습니다.
-//
-ATOM MyRegisterClass(HINSTANCE hInstance)
+bool CALLBACK Device11AcceptableCallBack( const CD3D11EnumAdapterInfo * AdapterInfo, UINT Output, const CD3D11EnumDeviceInfo * DeviceInfo, DXGI_FORMAT BackBufferFormat, bool bWindowed, void * pUserContext )
 {
-	WNDCLASSEX wcex;
-
-	wcex.cbSize = sizeof(WNDCLASSEX);
-
-	wcex.style			= CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc	= WndProc;
-	wcex.cbClsExtra		= 0;
-	wcex.cbWndExtra		= 0;
-	wcex.hInstance		= hInstance;
-	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TESTDXUT));
-	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_TESTDXUT);
-	wcex.lpszClassName	= szWindowClass;
-	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
-	return RegisterClassEx(&wcex);
+	return true;
 }
 
-//
-//   함수: InitInstance(HINSTANCE, int)
-//
-//   목적: 인스턴스 핸들을 저장하고 주 창을 만듭니다.
-//
-//   설명:
-//
-//        이 함수를 통해 인스턴스 핸들을 전역 변수에 저장하고
-//        주 프로그램 창을 만든 다음 표시합니다.
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+void CALLBACK DeviceDestroyedCallBack( void * pUserContext )
 {
-   HWND hWnd;
-
-   hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
-
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, 700, 700, NULL, NULL, hInstance, NULL);
-
-   if (!hWnd)
-   {
-      return FALSE;
-   }
-
-	 gclsDirectX.m_hWnd = hWnd;
-	 if( gclsDirectX.Create( hWnd ) == false )
-	 {
-		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
-	 }
-	 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
-
-   return TRUE;
+	gclsDRM.OnD3D11DestroyDevice();
 }
 
-//
-//  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  목적: 주 창의 메시지를 처리합니다.
-//
-//  WM_COMMAND	- 응용 프로그램 메뉴를 처리합니다.
-//  WM_PAINT	- 주 창을 그립니다.
-//  WM_DESTROY	- 종료 메시지를 게시하고 반환합니다.
-//
-//
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void CALLBACK FrameRenderCallBack( ID3D11Device * pd3dDevice, ID3D11DeviceContext * pd3dImmediateContext, double fTime, float fElapsedTime, void * pUserContext )
 {
-	int wmId, wmEvent;
-	PAINTSTRUCT ps;
-	HDC hdc;
+	gclsDlg.OnRender( fElapsedTime );
+}
 
-	switch (message)
+void CALLBACK DlgCallBack( UINT nEvent, int nControlID, CDXUTControl * pControl, void * pUserContext )
+{
+	switch( nControlID )
 	{
-	case WM_COMMAND:
-		wmId    = LOWORD(wParam);
-		wmEvent = HIWORD(wParam);
-		// 메뉴의 선택 영역을 구문 분석합니다.
-		switch (wmId)
-		{
-		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
-		break;
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		EndPaint(hWnd, &ps);
-
-		if( gclsDirectX.Draw() == false )
-		{
-			MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
-		}
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-	return 0;
-}
-
-// 정보 대화 상자의 메시지 처리기입니다.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return (INT_PTR)TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
-		}
+	case ID_BTN_1:
+		MessageBox( NULL, _T("Button #1 is clicked"), _T("Debug"), MB_OK );
 		break;
 	}
-	return (INT_PTR)FALSE;
+}
+
+int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
+{
+	DXUTSetCallbackD3D9DeviceAcceptable( Device9AcceptableCallBack );
+	DXUTSetCallbackD3D11DeviceAcceptable( Device11AcceptableCallBack );
+	DXUTSetCallbackD3D11DeviceDestroyed( DeviceDestroyedCallBack );
+	DXUTSetCallbackD3D11FrameRender( FrameRenderCallBack );
+
+	DXUTInit( true, true, NULL );
+  DXUTSetCursorSettings( true, true );
+  DXUTCreateWindow( _T("TestDXUT") );
+	DXUTCreateDevice( D3D_FEATURE_LEVEL_11_0, true, 700, 700 );
+	DXUTSetMediaSearchPath( _T("..\\LIbDXUT11\\Media\\") );
+
+	gclsDRM.OnD3D11CreateDevice( DXUTGetD3D11Device(), DXUTGetD3D11DeviceContext() );
+	gclsDlg.Init( &gclsDRM );
+	gclsDlg.SetCallback( DlgCallBack );
+	gclsDlg.SetLocation( 0, 0 );
+	gclsDlg.SetSize( 700, 700 );
+	gclsDlg.AddButton( ID_BTN_1, _T("Button #1"), 10, 10, 200, 50 );
+
+	DXUTMainLoop();
+
+	return DXUTGetExitCode();
 }

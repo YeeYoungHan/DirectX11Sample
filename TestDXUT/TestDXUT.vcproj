@@ -238,18 +238,6 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="DirectX"
-			>
-			<File
-				RelativePath=".\DirectXDXUT.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DirectXDXUT.h"
-				>
-			</File>
-		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>
