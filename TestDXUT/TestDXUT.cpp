@@ -40,16 +40,19 @@
 CDXUTDialogResourceManager gclsDRM;
 CDXUTDialog gclsDlg;
 
+// DirectX 9 은 사용하지 않는다.
 bool CALLBACK Device9AcceptableCallBack( D3DCAPS9 * pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void * pUserContext )
 {
 	return false;
 }
 
+// DirectX 11 은 사용한다.
 bool CALLBACK Device11AcceptableCallBack( const CD3D11EnumAdapterInfo * AdapterInfo, UINT Output, const CD3D11EnumDeviceInfo * DeviceInfo, DXGI_FORMAT BackBufferFormat, bool bWindowed, void * pUserContext )
 {
 	return true;
 }
 
+// DirectX Device 생성 callback 함수
 HRESULT CALLBACK DeviceCreatedCallBack( ID3D11Device * pd3dDevice, const DXGI_SURFACE_DESC * pBackBufferSurfaceDesc, void * pUserContext )
 {
 	HRESULT hr;
@@ -60,11 +63,13 @@ HRESULT CALLBACK DeviceCreatedCallBack( ID3D11Device * pd3dDevice, const DXGI_SU
 	return S_OK;
 }
 
+// DirectX Device 소멸 callback 함수
 void CALLBACK DeviceDestroyedCallBack( void * pUserContext )
 {
 	gclsDRM.OnD3D11DestroyDevice();
 }
 
+// FrameRender callback 함수
 void CALLBACK FrameRenderCallBack( ID3D11Device * pd3dDevice, ID3D11DeviceContext * pd3dImmediateContext, double fTime, float fElapsedTime, void * pUserContext )
 {
   float ClearColor[4] = { 0.0f, 0.0, 0.0, 0.0f };
@@ -77,6 +82,7 @@ void CALLBACK FrameRenderCallBack( ID3D11Device * pd3dDevice, ID3D11DeviceContex
 	gclsDlg.OnRender( fElapsedTime );
 }
 
+// SwapChainResized callback 함수
 HRESULT CALLBACK SwapChainResizedCallBack( ID3D11Device * pd3dDevice, IDXGISwapChain * pSwapChain, const DXGI_SURFACE_DESC * pBackBufferSurfaceDesc, void * pUserContext )
 {
 	HRESULT hr;
@@ -89,11 +95,13 @@ HRESULT CALLBACK SwapChainResizedCallBack( ID3D11Device * pd3dDevice, IDXGISwapC
 	return S_OK;
 }
 
+// SwapChainReleasing callback 함수
 void CALLBACK SwapChainReleasingCallBack( void* pUserContext )
 {
 	gclsDRM.OnD3D11ReleasingSwapChain();
 }
 
+// DXUT 메시지 핸들러
 LRESULT CALLBACK MsgProcCallBack( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool * pbNoFurtherProcessing, void * pUserContext )
 {
 	*pbNoFurtherProcessing = gclsDRM.MsgProc( hWnd, uMsg, wParam, lParam );
@@ -105,21 +113,22 @@ LRESULT CALLBACK MsgProcCallBack( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	return 0;
 }
 
+// control 메시지 핸들러
 void CALLBACK DlgCallBack( UINT nEvent, int nControlID, CDXUTControl * pControl, void * pUserContext )
 {
 	switch( nControlID )
 	{
 	case ID_BTN_1:
-		MessageBox( NULL, _T("Button #1 is clicked"), _T("Debug"), MB_OK );
+		TRACE( "Button #1 is clicked\r\n" );
 		break;
 	case ID_CHK_1:
 		if( ((CDXUTCheckBox*)pControl)->GetChecked() )
 		{
-			MessageBox( NULL, _T("Check #1 is checked"), _T("Debug"), MB_OK );
+			TRACE( "Check #1 is checked\r\n" );
 		}
 		else
 		{
-			MessageBox( NULL, _T("Check #1 is not checked"), _T("Debug"), MB_OK );
+			TRACE( "Check #1 is not checked\r\n" );
 		}
 		break;
 	case ID_SLD_1:
@@ -134,6 +143,7 @@ void CALLBACK DlgCallBack( UINT nEvent, int nControlID, CDXUTControl * pControl,
 
 int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
+	// DXUT callback 함수를 설정한다.
 	DXUTSetCallbackD3D9DeviceAcceptable( Device9AcceptableCallBack );
 	DXUTSetCallbackD3D11DeviceAcceptable( Device11AcceptableCallBack );
 	DXUTSetCallbackD3D11DeviceCreated( DeviceCreatedCallBack );
@@ -143,6 +153,7 @@ int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
 	DXUTSetCallbackD3D11SwapChainReleasing( SwapChainReleasingCallBack );
 	DXUTSetCallbackMsgProc( MsgProcCallBack );
 
+	// static, button, checkbox, slider control 을 추가한다.
 	gclsDlg.Init( &gclsDRM );
 	gclsDlg.SetCallback( DlgCallBack );
 
@@ -160,6 +171,7 @@ int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
 	gclsDlg.AddSlider( ID_SLD_1, 10, iY, 160, 22 );
 	iY += 30;
 
+	// DXUT 로 DirectX 디바이스, 윈도우 등을 생성한 후, 윈도우 메시지 루프를 시작한다.
 	DXUTInit( true, true, NULL );
   DXUTSetCursorSettings( true, true );
   DXUTCreateWindow( _T("TestDXUT") );
