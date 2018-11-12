@@ -22,6 +22,7 @@
 #include "DXUTgui.h"
 #include "DXUTmisc.h"
 #include "SDKmisc.h"
+#include "trace.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
@@ -33,6 +34,8 @@
 #pragma comment(lib, "comctl32.lib")
 
 #define ID_BTN_1	1
+#define ID_CHK_1	3
+#define ID_SLD_1	5
 
 CDXUTDialogResourceManager gclsDRM;
 CDXUTDialog gclsDlg;
@@ -81,7 +84,7 @@ HRESULT CALLBACK SwapChainResizedCallBack( ID3D11Device * pd3dDevice, IDXGISwapC
 	V_RETURN( gclsDRM.OnD3D11ResizedSwapChain( pd3dDevice, pBackBufferSurfaceDesc ) );
 
 	gclsDlg.SetLocation( 0, 0 );
-	gclsDlg.SetSize( 700, 700 );
+	gclsDlg.SetSize( 700, 300 );
 
 	return S_OK;
 }
@@ -109,6 +112,23 @@ void CALLBACK DlgCallBack( UINT nEvent, int nControlID, CDXUTControl * pControl,
 	case ID_BTN_1:
 		MessageBox( NULL, _T("Button #1 is clicked"), _T("Debug"), MB_OK );
 		break;
+	case ID_CHK_1:
+		if( ((CDXUTCheckBox*)pControl)->GetChecked() )
+		{
+			MessageBox( NULL, _T("Check #1 is checked"), _T("Debug"), MB_OK );
+		}
+		else
+		{
+			MessageBox( NULL, _T("Check #1 is not checked"), _T("Debug"), MB_OK );
+		}
+		break;
+	case ID_SLD_1:
+		{
+			int iCurVal = ((CDXUTSlider*)pControl)->GetValue();
+
+			TRACE( "Slider #1 pos(%d)\r\n", iCurVal );
+		}
+		break;
 	}
 }
 
@@ -125,12 +145,25 @@ int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
 
 	gclsDlg.Init( &gclsDRM );
 	gclsDlg.SetCallback( DlgCallBack );
-	gclsDlg.AddButton( ID_BTN_1, _T("Button #1"), 10, 10, 160, 22 );
+
+	int iY = 10;
+
+	gclsDlg.AddStatic( 0, _T("Static"), 10, iY, 160, 22 );
+	iY += 30;
+
+	gclsDlg.AddButton( ID_BTN_1, _T("Button #1"), 10, iY, 160, 22 );
+	iY += 30;
+
+	gclsDlg.AddCheckBox( ID_CHK_1, _T("Check #1"), 10, iY, 160, 22 );
+	iY += 30;
+
+	gclsDlg.AddSlider( ID_SLD_1, 10, iY, 160, 22 );
+	iY += 30;
 
 	DXUTInit( true, true, NULL );
   DXUTSetCursorSettings( true, true );
   DXUTCreateWindow( _T("TestDXUT") );
-	DXUTCreateDevice( D3D_FEATURE_LEVEL_11_0, true, 700, 700 );
+	DXUTCreateDevice( D3D_FEATURE_LEVEL_11_0, true, 700, 300 );
 
 	DXUTMainLoop();
 
