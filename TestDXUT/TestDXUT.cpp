@@ -47,6 +47,16 @@ bool CALLBACK Device11AcceptableCallBack( const CD3D11EnumAdapterInfo * AdapterI
 	return true;
 }
 
+HRESULT CALLBACK DeviceCreatedCallBack( ID3D11Device * pd3dDevice, const DXGI_SURFACE_DESC * pBackBufferSurfaceDesc, void * pUserContext )
+{
+	HRESULT hr;
+
+	V_RETURN( DXUTSetMediaSearchPath( _T("..\\LIbDXUT11\\Media\\") ) );
+	V_RETURN( gclsDRM.OnD3D11CreateDevice( DXUTGetD3D11Device(), DXUTGetD3D11DeviceContext() ) );
+
+	return S_OK;
+}
+
 void CALLBACK DeviceDestroyedCallBack( void * pUserContext )
 {
 	gclsDRM.OnD3D11DestroyDevice();
@@ -54,7 +64,42 @@ void CALLBACK DeviceDestroyedCallBack( void * pUserContext )
 
 void CALLBACK FrameRenderCallBack( ID3D11Device * pd3dDevice, ID3D11DeviceContext * pd3dImmediateContext, double fTime, float fElapsedTime, void * pUserContext )
 {
+  float ClearColor[4] = { 0.0f, 0.0, 0.0, 0.0f };
+  ID3D11RenderTargetView* pRTV = DXUTGetD3D11RenderTargetView();
+  pd3dImmediateContext->ClearRenderTargetView( pRTV, ClearColor );
+
+  ID3D11DepthStencilView * pDSV = DXUTGetD3D11DepthStencilView();
+  pd3dImmediateContext->ClearDepthStencilView( pDSV, D3D11_CLEAR_DEPTH, 1.0, 0 );
+
 	gclsDlg.OnRender( fElapsedTime );
+}
+
+HRESULT CALLBACK SwapChainResizedCallBack( ID3D11Device * pd3dDevice, IDXGISwapChain * pSwapChain, const DXGI_SURFACE_DESC * pBackBufferSurfaceDesc, void * pUserContext )
+{
+	HRESULT hr;
+
+	V_RETURN( gclsDRM.OnD3D11ResizedSwapChain( pd3dDevice, pBackBufferSurfaceDesc ) );
+
+	gclsDlg.SetLocation( 0, 0 );
+	gclsDlg.SetSize( 700, 700 );
+
+	return S_OK;
+}
+
+void CALLBACK SwapChainReleasingCallBack( void* pUserContext )
+{
+	gclsDRM.OnD3D11ReleasingSwapChain();
+}
+
+LRESULT CALLBACK MsgProcCallBack( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool * pbNoFurtherProcessing, void * pUserContext )
+{
+	*pbNoFurtherProcessing = gclsDRM.MsgProc( hWnd, uMsg, wParam, lParam );
+	if( *pbNoFurtherProcessing ) return 0;
+
+	*pbNoFurtherProcessing = gclsDlg.MsgProc( hWnd, uMsg, wParam, lParam );
+	if( *pbNoFurtherProcessing ) return 0;
+
+	return 0;
 }
 
 void CALLBACK DlgCallBack( UINT nEvent, int nControlID, CDXUTControl * pControl, void * pUserContext )
@@ -71,21 +116,21 @@ int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
 {
 	DXUTSetCallbackD3D9DeviceAcceptable( Device9AcceptableCallBack );
 	DXUTSetCallbackD3D11DeviceAcceptable( Device11AcceptableCallBack );
+	DXUTSetCallbackD3D11DeviceCreated( DeviceCreatedCallBack );
 	DXUTSetCallbackD3D11DeviceDestroyed( DeviceDestroyedCallBack );
 	DXUTSetCallbackD3D11FrameRender( FrameRenderCallBack );
+	DXUTSetCallbackD3D11SwapChainResized( SwapChainResizedCallBack );
+	DXUTSetCallbackD3D11SwapChainReleasing( SwapChainReleasingCallBack );
+	DXUTSetCallbackMsgProc( MsgProcCallBack );
+
+	gclsDlg.Init( &gclsDRM );
+	gclsDlg.SetCallback( DlgCallBack );
+	gclsDlg.AddButton( ID_BTN_1, _T("Button #1"), 10, 10, 160, 22 );
 
 	DXUTInit( true, true, NULL );
   DXUTSetCursorSettings( true, true );
   DXUTCreateWindow( _T("TestDXUT") );
 	DXUTCreateDevice( D3D_FEATURE_LEVEL_11_0, true, 700, 700 );
-	DXUTSetMediaSearchPath( _T("..\\LIbDXUT11\\Media\\") );
-
-	gclsDRM.OnD3D11CreateDevice( DXUTGetD3D11Device(), DXUTGetD3D11DeviceContext() );
-	gclsDlg.Init( &gclsDRM );
-	gclsDlg.SetCallback( DlgCallBack );
-	gclsDlg.SetLocation( 0, 0 );
-	gclsDlg.SetSize( 700, 700 );
-	gclsDlg.AddButton( ID_BTN_1, _T("Button #1"), 10, 10, 200, 50 );
 
 	DXUTMainLoop();
 
