@@ -16,8 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#ifndef _DIRECT_X_CUBE_INDEX_H_
-#define _DIRECT_X_CUBE_INDEX_H_
+#pragma once
 
 #include "DirectX11.h"
 #include "trace.h"
@@ -137,5 +136,3 @@ protected:
 
 	int			m_iIndexCount;
 };
-
-#endif

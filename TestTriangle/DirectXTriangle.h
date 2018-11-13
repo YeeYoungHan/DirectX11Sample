@@ -16,8 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#ifndef _DIRECT_X_TRIANGLE_H_
-#define _DIRECT_X_TRIANGLE_H_
+#pragma once
 
 #include "DirectX11.h"
 
@@ -49,5 +48,3 @@ protected:
 	XMFLOAT4X4 m_sttView;
 	XMFLOAT4X4 m_sttProj;
 };
-
-#endif
