@@ -60,6 +60,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDXUT", "TestDXUT\TestDX
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibDXUTOpt", "LibDXUT11\Optional\DXUTOpt_2008.vcproj", "{61B333C2-C4F7-4CC1-A9BF-83F6D95588EB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGrid", "TestGrid\TestGrid.vcproj", "{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -187,6 +189,15 @@ Global
 		{61B333C2-C4F7-4CC1-A9BF-83F6D95588EB}.Release|Win32.Build.0 = Release|Win32
 		{61B333C2-C4F7-4CC1-A9BF-83F6D95588EB}.Release|x64.ActiveCfg = Release|x64
 		{61B333C2-C4F7-4CC1-A9BF-83F6D95588EB}.Release|x64.Build.0 = Release|x64
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Debug|Win32.Build.0 = Debug|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Debug|x64.ActiveCfg = Debug|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Profile|Win32.ActiveCfg = Release|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Profile|Win32.Build.0 = Release|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Profile|x64.ActiveCfg = Release|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Release|Win32.ActiveCfg = Release|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Release|Win32.Build.0 = Release|Win32
+		{1ADC768C-D3FB-4BA0-ACD4-78CB116513B3}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
