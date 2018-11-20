@@ -18,6 +18,7 @@
 
 #include "stdafx.h"
 #include "DirectXGrid.h"
+#include "trace.h"
 
 CDirectXGrid::CDirectXGrid() : m_bMouseDown(false), m_iIndexCount(0)
 {

@@ -18,6 +18,7 @@
 
 #include "stdafx.h"
 #include "DirectXCubeLighting.h"
+#include "trace.h"
 
 CDirectXCubeLighting::CDirectXCubeLighting() : m_bMouseDown(false), m_iIndexCount(0)
 {

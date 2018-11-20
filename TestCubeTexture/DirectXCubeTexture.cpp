@@ -18,6 +18,7 @@
 
 #include "stdafx.h"
 #include "DirectXCubeTexture.h"
+#include "trace.h"
 
 CDirectXCubeTexture::CDirectXCubeTexture() : m_bMouseDown(false), m_iIndexCount(0)
 {

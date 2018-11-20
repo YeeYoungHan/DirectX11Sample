@@ -18,6 +18,7 @@
 
 #include "stdafx.h"
 #include "DirectXTwoCube.h"
+#include "trace.h"
 
 CDirectXTwoCube::CDirectXTwoCube() : m_bMouseDown(false), m_iIndexCount(0)
 {
