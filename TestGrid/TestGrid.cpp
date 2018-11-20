@@ -3,6 +3,9 @@
 
 #include "stdafx.h"
 #include "TestGrid.h"
+#include "DirectXGrid.h"
+
+CDirectXGrid gclsDirectX;
 
 #define MAX_LOADSTRING 100
 
@@ -107,13 +110,22 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, 700, 700, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {
       return FALSE;
    }
+
+	 if( gclsDirectX.Create( hWnd ) == false )
+	 {
+		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+	 }
+	 
+	 if( gclsDirectX.Update() == false )
+	 {
+		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+	 }
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -157,9 +169,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		// TODO: 여기에 그리기 코드를 추가합니다.
 		EndPaint(hWnd, &ps);
+
+		if( gclsDirectX.Draw() == false )
+		{
+			MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+		}
 		break;
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		gclsDirectX.OnMouseDown( hWnd, LOWORD( lParam ), HIWORD( lParam ) );
+		return 0;
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+		gclsDirectX.OnMouseUp( LOWORD( lParam ), HIWORD( lParam ) );
+		return 0;
+	case WM_MOUSEMOVE:
+		gclsDirectX.OnMouseMove( hWnd, LOWORD( lParam ), HIWORD( lParam ) );
+		return 0;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

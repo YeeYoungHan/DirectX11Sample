@@ -14,6 +14,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\fx_compile.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -30,6 +33,9 @@
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="컴파일"
+			/>
+			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
@@ -41,6 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../LibEffect11/Inc;../LibDirectX11;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,6 +68,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -102,6 +110,9 @@
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="컴파일"
+			/>
+			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
@@ -114,6 +125,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../LibEffect11/Inc;../LibDirectX11;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -133,6 +145,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -232,6 +245,22 @@
 			</File>
 			<File
 				RelativePath=".\TestGrid.rc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="DirectX"
+			>
+			<File
+				RelativePath=".\DirectXGrid.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DirectXGrid.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FX\texture.fx"
 				>
 			</File>
 		</Filter>
