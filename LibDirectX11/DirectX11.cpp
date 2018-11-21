@@ -20,6 +20,7 @@
 #include <comdef.h>
 #include <fstream>
 #include <vector>
+#include "check.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
@@ -182,19 +183,4 @@ bool CDirectX11::CreateEffect( const char * pszFxoFile, ID3DX11Effect ** ppclsEf
 	CHECK_FAILED( D3DX11CreateEffectFromMemory( &arrData[0], iSize, 0, m_pclsDevice, ppclsEffect ) );
 
 	return true;
-}
-
-/**
- * @ingroup LibDirectX11
- * @brief DirectX11 함수 사용시 발생한 오류 정보 문자열을 가져온다.
- * @returns DirectX11 함수 사용시 발생한 오류 정보 문자열을 리턴한다.
- */
-const TCHAR * CDirectX11::GetErrString()
-{
-	_com_error clsError( m_iErrCode );
-
-	_sntprintf( m_szErrMsg, sizeof(m_szErrMsg)/sizeof(TCHAR), _T("hr=%d;\r\nmsg=%s;\r\nfile=%s;\r\nline=%d\r\nfunc=%s")
-		, m_iErrCode, clsError.ErrorMessage(), m_strErrFile.c_str(), m_iErrLine, m_strErrFunc.c_str() );
-
-	return m_szErrMsg;
 }

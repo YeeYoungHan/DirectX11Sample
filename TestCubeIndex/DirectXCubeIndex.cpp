@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "DirectXCubeIndex.h"
 #include "trace.h"
+#include "check.h"
 
 CDirectXCubeIndex::CDirectXCubeIndex() : m_bMouseDown(false), m_iIndexCount(0)
 {

@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "TestTriangle.h"
 #include "DirectXTriangle.h"
+#include "check.h"
 
 CDirectXTriangle gclsDirectX;
 
@@ -134,7 +135,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	 if( gclsDirectX.Create( hWnd ) == false )
 	 {
-		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+		 MessageBox( hWnd, GetErrString(), _T( "Error" ), MB_OK );
 	 }
 
    ShowWindow(hWnd, nCmdShow);

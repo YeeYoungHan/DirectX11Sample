@@ -16,8 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#ifndef _LIGHT_H_
-#define _LIGHT_H_
+#pragma once
 
 #include <d3dx11.h>
 #include <xnamath.h>
@@ -44,5 +43,3 @@ public:
 	XMFLOAT4 m_f4Specular; // w = SpecPower
 	XMFLOAT4 m_f4Reflect;
 };
-
-#endif

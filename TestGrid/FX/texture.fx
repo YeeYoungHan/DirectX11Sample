@@ -19,6 +19,7 @@ cbuffer cbPerFrame
 {
 	DirectionalLight gDirLight;
 	float3 gEyePosW;
+	bool	 gUseTexture;
 };
 
 cbuffer cbPerObject
@@ -123,9 +124,16 @@ float4 PS( VertexOut pin ) : SV_Target
 	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 texColor;
 
-	//float4 texColor = gShaderResVar.Sample( samAnisotropic, pin.Tex );
-	float4 texColor = float4(1.0f, 0.0f, 0.0f, 1.0f);
+	if( gUseTexture )
+	{
+		texColor = gShaderResVar.Sample( samAnisotropic, pin.Tex );
+	}
+	else
+	{
+		texColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
 
 	// Sum the light contribution from each light source.
 	float4 A, D, S;

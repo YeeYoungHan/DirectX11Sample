@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "DirectXCubeTextureAlpha.h"
 #include "trace.h"
+#include "check.h"
 
 CDirectXCubeTextureAlpha::CDirectXCubeTextureAlpha() : m_bMouseDown(false), m_iIndexCount(0)
 {

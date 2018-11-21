@@ -16,8 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#ifndef _ROTATION_CAMERA_POS_H_
-#define _ROTATION_CAMERA_POS_H_
+#pragma once
 
 #include <d3dx11.h>
 #include <xnamath.h>
@@ -43,5 +42,3 @@ private:
 	float m_fXZAngle;		// 카메라가 중앙을 바로보는 위치에서 X축과 Z축 사이의 각도
 	float m_fXYAngle;		// 카메라가 중앙을 바로보는 위치에서 X축과 Y축 사이의 각도
 };
-
-#endif

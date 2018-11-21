@@ -66,6 +66,7 @@ protected:
 	ID3DX11EffectVariable * m_pclsDirectionalLight;
 	ID3DX11EffectVariable * m_pclsMaterial;
 	ID3DX11EffectShaderResourceVariable * m_pclsShaderResVar;
+	ID3DX11EffectScalarVariable * m_pclsUseTexture;
 
 	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
 

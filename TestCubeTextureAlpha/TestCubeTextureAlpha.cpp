@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "TestCubeTextureAlpha.h"
 #include "DirectXCubeTextureAlpha.h"
+#include "check.h"
 
 CDirectXCubeTextureAlpha gclsDirectX;
 
@@ -119,12 +120,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	 if( gclsDirectX.Create( hWnd ) == false )
 	 {
-		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+		 MessageBox( hWnd, GetErrString(), _T( "Error" ), MB_OK );
 	 }
 	 
 	 if( gclsDirectX.Update() == false )
 	 {
-		 MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+		 MessageBox( hWnd, GetErrString(), _T( "Error" ), MB_OK );
 	 }
 
    ShowWindow(hWnd, nCmdShow);
@@ -173,7 +174,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		if( gclsDirectX.Draw() == false )
 		{
-			MessageBox( hWnd, gclsDirectX.GetErrString(), _T( "Error" ), MB_OK );
+			MessageBox( hWnd, GetErrString(), _T( "Error" ), MB_OK );
 		}
 		break;
 	case WM_LBUTTONDOWN:

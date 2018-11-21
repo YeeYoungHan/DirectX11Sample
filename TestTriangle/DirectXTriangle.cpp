@@ -18,6 +18,7 @@
 
 #include "stdafx.h"
 #include "DirectXTriangle.h"
+#include "check.h"
 
 CDirectXTriangle::CDirectXTriangle()
 {

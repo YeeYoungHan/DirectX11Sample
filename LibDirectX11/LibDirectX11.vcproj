@@ -151,41 +151,63 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\check.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\check.h"
+				>
+			</File>
+			<File
 				RelativePath=".\DirectX11.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Light.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RotationCameraPos.cpp"
+				RelativePath=".\DirectX11.h"
 				>
 			</File>
 			<File
 				RelativePath=".\trace.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\trace.h"
+				>
+			</File>
 		</Filter>
 		<Filter
-			Name="헤더 파일"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Name="도형"
 			>
 			<File
-				RelativePath=".\DirectX11.h"
+				RelativePath=".\Figure.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Light.h"
+				RelativePath=".\Figure.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="카메라"
+			>
+			<File
+				RelativePath=".\RotationCameraPos.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\RotationCameraPos.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="조명"
+			>
 			<File
-				RelativePath=".\trace.h"
+				RelativePath=".\Light.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Light.h"
 				>
 			</File>
 		</Filter>

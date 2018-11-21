@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "DirectXGrid.h"
 #include "trace.h"
+#include "check.h"
 
 CDirectXGrid::CDirectXGrid() : m_bMouseDown(false), m_iIndexCount(0)
 {
@@ -151,6 +152,7 @@ bool CDirectXGrid::CreateChild()
 	m_pclsDirectionalLight = m_pclsEffect->GetVariableByName("gDirLight");
 	m_pclsMaterial = m_pclsEffect->GetVariableByName("gMaterial");
 	m_pclsShaderResVar = m_pclsEffect->GetVariableByName("gShaderResVar")->AsShaderResource();
+	m_pclsUseTexture = m_pclsEffect->GetVariableByName("gUseTexture")->AsScalar();
 
 	D3D11_INPUT_ELEMENT_DESC arrVertexDesc[] =
 	{
@@ -187,7 +189,7 @@ bool CDirectXGrid::CreateChild()
 	m_clsMaterial.m_f4Specular = XMFLOAT4( 0.93f, 0.9f, 0.86f, 100.0f );
 
 	// 텍스처 이미지 파일을 로드한다.
-	//CHECK_FAILED( D3DX11CreateShaderResourceViewFromFile( m_pclsDevice, L"Texture/box.png", 0, 0, &m_pclsShaderResView, 0 ) );
+	CHECK_FAILED( D3DX11CreateShaderResourceViewFromFile( m_pclsDevice, L"Texture/box.png", 0, 0, &m_pclsShaderResView, 0 ) );
 
 	return true;
 }
@@ -213,7 +215,7 @@ bool CDirectXGrid::DrawChild()
 
 	m_pclsDirectionalLight->SetRawValue( &m_clsDirectionalLight, 0, sizeof(m_clsDirectionalLight) );
 	m_pclsEyePosW->SetRawValue( &m_f3EyePos, 0, sizeof(m_f3EyePos) );
-	//m_pclsShaderResVar->SetResource( m_pclsShaderResView );
+	m_pclsShaderResVar->SetResource( m_pclsShaderResView );
 
 	D3DX11_TECHNIQUE_DESC sttTechDesc;
 	m_pclsEffectTech->GetDesc( &sttTechDesc );
@@ -232,6 +234,7 @@ bool CDirectXGrid::DrawChild()
 		m_pclsWorld->SetMatrix( (float*)&m_arrCubeWorld[0] );
 		m_pclsWorldViewProj->SetMatrix( (float*)&worldViewProj );
 		m_pclsWorldInvTranspose->SetMatrix( (float*)&worldInvTranspose );
+		m_pclsUseTexture->SetBool(FALSE);
 
 		m_pclsMaterial->SetRawValue( &m_clsMaterial, 0, sizeof(m_clsMaterial) );
 

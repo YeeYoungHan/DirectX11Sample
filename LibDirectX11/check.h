@@ -20,35 +20,26 @@
 
 #include <windows.h>
 #include <string>
-#include <atlbase.h>
-#include <d3dx11.h>
-#include <xnamath.h>
-#include "d3dx11effect.h"
 
-class CDirectX11
-{
-public:
-	CDirectX11();
-	virtual ~CDirectX11();
+extern HRESULT giErrCode;
+extern std::wstring gstrErrFunc;
+extern std::wstring gstrErrFile;
+extern int giErrLine;
+extern TCHAR gszErrMsg[1024];
 
-	bool Create( HWND hWnd );
-	bool Draw();
+#define CHECK_FAILED(x)    \
+{                          \
+	HRESULT hrt = (x);       \
+	if( FAILED(hrt) )        \
+	{                        \
+		WCHAR szBuf[512];      \
+		MultiByteToWideChar( CP_ACP, 0, __FILE__, -1, szBuf, 512 ); \
+		giErrCode = hrt;      \
+		gstrErrFunc = L#x;    \
+		gstrErrFile = szBuf;  \
+		giErrLine = __LINE__; \
+		return false;          \
+	}                        \
+}
 
-	bool CreateEffect( const char * pszFxoFile, ID3DX11Effect ** ppclsEffect );
-
-	virtual bool CreateChild() = 0;
-	virtual bool DrawChild() = 0;
-
-protected:
-	CComPtr<ID3D11Device> m_pclsDevice;
-	CComPtr<ID3D11DeviceContext> m_pclsContext;
-	CComPtr<IDXGISwapChain> m_pclsSwapChain;
-
-	CComPtr<ID3D11Texture2D> m_pclsDepthStencilBuffer;
-	CComPtr<ID3D11RenderTargetView> m_pclsRenderTargetView;
-	CComPtr<ID3D11DepthStencilView> m_pclsDepthStencilView;
-
-	D3D11_VIEWPORT m_sttScreenViewport;
-
-	UINT      m_iQualityLevel;
-};
+const TCHAR * GetErrString();

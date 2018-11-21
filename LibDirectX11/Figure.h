@@ -18,37 +18,27 @@
 
 #pragma once
 
-#include <windows.h>
-#include <string>
 #include <atlbase.h>
 #include <d3dx11.h>
 #include <xnamath.h>
-#include "d3dx11effect.h"
 
-class CDirectX11
+struct VertexPosNormalTexture
+{
+	XMFLOAT3 Pos;
+	XMFLOAT3 Normal;
+	XMFLOAT2 Texture;
+};
+
+class CFigure
 {
 public:
-	CDirectX11();
-	virtual ~CDirectX11();
+	CFigure( ID3D11Device * pclsDevice );
+	~CFigure();
 
-	bool Create( HWND hWnd );
-	bool Draw();
+	bool SetVertexIndex( VertexPosNormalTexture * parrVertex, int iVertexCount, UINT * parrIndex, int iIndexCount );
 
-	bool CreateEffect( const char * pszFxoFile, ID3DX11Effect ** ppclsEffect );
-
-	virtual bool CreateChild() = 0;
-	virtual bool DrawChild() = 0;
-
-protected:
+private:
 	CComPtr<ID3D11Device> m_pclsDevice;
-	CComPtr<ID3D11DeviceContext> m_pclsContext;
-	CComPtr<IDXGISwapChain> m_pclsSwapChain;
-
-	CComPtr<ID3D11Texture2D> m_pclsDepthStencilBuffer;
-	CComPtr<ID3D11RenderTargetView> m_pclsRenderTargetView;
-	CComPtr<ID3D11DepthStencilView> m_pclsDepthStencilView;
-
-	D3D11_VIEWPORT m_sttScreenViewport;
-
-	UINT      m_iQualityLevel;
+	CComPtr<ID3D11Buffer> m_pclsVB;
+	CComPtr<ID3D11Buffer> m_pclsIB;
 };

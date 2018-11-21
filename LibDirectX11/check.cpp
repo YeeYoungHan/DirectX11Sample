@@ -16,39 +16,27 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#pragma once
+#define _CRT_SECURE_NO_WARNINGS
 
-#include <windows.h>
-#include <string>
+#include "check.h"
+#include <stdio.h>
+#include <comdef.h>
 #include <atlbase.h>
-#include <d3dx11.h>
-#include <xnamath.h>
-#include "d3dx11effect.h"
 
-class CDirectX11
+// 에러 정보
+HRESULT giErrCode;
+std::wstring gstrErrFunc;
+std::wstring gstrErrFile;
+int giErrLine;
+TCHAR gszErrMsg[1024];
+
+const TCHAR * GetErrString()
 {
-public:
-	CDirectX11();
-	virtual ~CDirectX11();
+	_com_error clsError( giErrCode );
 
-	bool Create( HWND hWnd );
-	bool Draw();
+	_sntprintf( gszErrMsg, sizeof(gszErrMsg)/sizeof(TCHAR), _T("hr=%d;\r\nmsg=%s;\r\nfile=%s;\r\nline=%d\r\nfunc=%s")
+		, giErrCode, clsError.ErrorMessage(), gstrErrFile.c_str(), giErrLine, gstrErrFunc.c_str() );
 
-	bool CreateEffect( const char * pszFxoFile, ID3DX11Effect ** ppclsEffect );
+	return gszErrMsg;
+}
 
-	virtual bool CreateChild() = 0;
-	virtual bool DrawChild() = 0;
-
-protected:
-	CComPtr<ID3D11Device> m_pclsDevice;
-	CComPtr<ID3D11DeviceContext> m_pclsContext;
-	CComPtr<IDXGISwapChain> m_pclsSwapChain;
-
-	CComPtr<ID3D11Texture2D> m_pclsDepthStencilBuffer;
-	CComPtr<ID3D11RenderTargetView> m_pclsRenderTargetView;
-	CComPtr<ID3D11DepthStencilView> m_pclsDepthStencilView;
-
-	D3D11_VIEWPORT m_sttScreenViewport;
-
-	UINT      m_iQualityLevel;
-};

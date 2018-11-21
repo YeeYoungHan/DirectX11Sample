@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "DirectXCube.h"
 #include "trace.h"
+#include "check.h"
 
 CDirectXCube::CDirectXCube() : m_bMouseDown(false), m_iVertexCount(0)
 {
