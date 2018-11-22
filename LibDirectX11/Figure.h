@@ -19,8 +19,9 @@
 #pragma once
 
 #include <atlbase.h>
-#include <d3dx11.h>
-#include <xnamath.h>
+#include "d3dx11effect.h"
+#include "Light.h"
+#include "Effect.h"
 
 struct VertexPosNormalTexture
 {
@@ -32,13 +33,32 @@ struct VertexPosNormalTexture
 class CFigure
 {
 public:
-	CFigure( ID3D11Device * pclsDevice );
+	CFigure();
 	~CFigure();
 
+	bool SetDevice( ID3D11Device * pclsDevice, ID3D11DeviceContext * pclsContext, CEffect * pclsEffect );
 	bool SetVertexIndex( VertexPosNormalTexture * parrVertex, int iVertexCount, UINT * parrIndex, int iIndexCount );
+	bool SetMaterial( CMaterial * pclsMaterial );
+	bool SetWorld( XMFLOAT4X4 * psttWorld );
+	bool SetTexture( const TCHAR * pszFileName );
+
+	bool Draw( XMFLOAT4X4 * psttView, XMFLOAT4X4 * psttProj );
 
 private:
-	CComPtr<ID3D11Device> m_pclsDevice;
+	ID3D11Device * m_pclsDevice;
+	ID3D11DeviceContext * m_pclsContext;
+	CEffect * m_pclsEffect;
+	
+public:
 	CComPtr<ID3D11Buffer> m_pclsVB;
 	CComPtr<ID3D11Buffer> m_pclsIB;
+
+	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
+	CComPtr<ID3D11ShaderResourceView> m_pclsShaderResView;
+
+	CMaterial m_clsMaterial;
+
+	XMFLOAT4X4 m_sttWorld;
+
+	int		m_iIndexCount;
 };

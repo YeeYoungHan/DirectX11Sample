@@ -19,19 +19,10 @@
 #pragma once
 
 #include "DirectX11.h"
+#include "Effect.h"
+#include "Figure.h"
 #include "Light.h"
 #include "RotationCameraPos.h"
-
-/**
- * @ingroup TestGrid
- * @brief 정점 저장 구조체
- */
-struct Vertex
-{
-	XMFLOAT3 Pos;
-	XMFLOAT3 Normal;
-	XMFLOAT2 Texture;
-};
 
 /**
  * @ingroup TestGrid
@@ -53,22 +44,8 @@ public:
 	void OnMouseMove( HWND hWnd, int x, int y );
 
 protected:
-	CComPtr<ID3D11Buffer> m_pclsVB;
-	CComPtr<ID3D11Buffer> m_pclsIB;
-	CComPtr<ID3DX11Effect> m_pclsEffect;
-	CComPtr<ID3D11ShaderResourceView> m_pclsShaderResView;
-
-	ID3DX11EffectTechnique * m_pclsEffectTech;
-	ID3DX11EffectMatrixVariable * m_pclsWorldViewProj;
-	ID3DX11EffectMatrixVariable * m_pclsWorld;
-	ID3DX11EffectMatrixVariable * m_pclsWorldInvTranspose;
-	ID3DX11EffectVectorVariable * m_pclsEyePosW;
-	ID3DX11EffectVariable * m_pclsDirectionalLight;
-	ID3DX11EffectVariable * m_pclsMaterial;
-	ID3DX11EffectShaderResourceVariable * m_pclsShaderResVar;
-	ID3DX11EffectScalarVariable * m_pclsUseTexture;
-
-	CComPtr<ID3D11InputLayout> m_pclsInputLayout;
+	CEffect m_clsEffect;
+	CFigure m_clsFigure;
 
 	XMFLOAT4X4 m_arrCubeWorld[1];
 	XMFLOAT4X4 m_sttView;
@@ -82,7 +59,5 @@ protected:
 	CRotationCameraPos	m_clsCamPos;
 	POINT		m_sttMousePos;
 	bool		m_bMouseDown;
-
-	int			m_iIndexCount;
 };
 

@@ -21,7 +21,7 @@
 #include "trace.h"
 #include "check.h"
 
-CDirectXGrid::CDirectXGrid() : m_bMouseDown(false), m_iIndexCount(0)
+CDirectXGrid::CDirectXGrid() : m_bMouseDown(false)
 {
 	memset( &m_sttMousePos, 0, sizeof(m_sttMousePos) );
 }
@@ -38,7 +38,7 @@ CDirectXGrid::~CDirectXGrid()
 bool CDirectXGrid::CreateChild()
 {
 	// 큐브 정점 정보
-	Vertex arrCube[] =
+	VertexPosNormalTexture arrCube[] =
 	{
 		// 앞면
 		{ XMFLOAT3(  0.5,  0.5,  0.5 ), XMFLOAT3(  1.0,  1.0,  1.0 ), XMFLOAT2( 0.0f, 0.0f ) },	// index 0
@@ -115,59 +115,11 @@ bool CDirectXGrid::CreateChild()
 		XMStoreFloat3( &arrCube[i].Normal, vN );
 	}
 
-	m_iIndexCount = _countof(arrIndex);
-
-	// 정점 버퍼를 생성한다.
-	D3D11_BUFFER_DESC sttBD;
-  
-	sttBD.Usage = D3D11_USAGE_IMMUTABLE;
-	sttBD.ByteWidth = sizeof(arrCube);
-	sttBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	sttBD.CPUAccessFlags = 0;
-	sttBD.MiscFlags = 0;
-	sttBD.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA sttSRD;
-	sttSRD.pSysMem = arrCube;
-  
-	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsVB ) );
-
-	// 인덱스 버퍼를 생성한다.
-	sttBD.ByteWidth = sizeof(arrIndex);
-	sttBD.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-	sttSRD.pSysMem = arrIndex;
-
-	CHECK_FAILED( m_pclsDevice->CreateBuffer( &sttBD, &sttSRD, &m_pclsIB ) );
-
 	// 컴파일된 fx 파일을 로그한다.
-	if( CreateEffect( "FX/texture.fxo", &m_pclsEffect ) == false ) return false;
+	if( m_clsEffect.Create( m_pclsDevice, m_pclsContext, "FX/texture.fxo" ) == false ) return false;
 
-	// fx 파일에 정의된 변수와 연결한다.
-	m_pclsEffectTech = m_pclsEffect->GetTechniqueByName("ColorTech");
-	m_pclsWorldViewProj = m_pclsEffect->GetVariableByName("gWorldViewProj")->AsMatrix();
-	m_pclsWorld = m_pclsEffect->GetVariableByName("gWorld")->AsMatrix();
-	m_pclsWorldInvTranspose = m_pclsEffect->GetVariableByName("gWorldInvTranspose")->AsMatrix();
-	m_pclsEyePosW = m_pclsEffect->GetVariableByName("gEyePosW")->AsVector();
-	m_pclsDirectionalLight = m_pclsEffect->GetVariableByName("gDirLight");
-	m_pclsMaterial = m_pclsEffect->GetVariableByName("gMaterial");
-	m_pclsShaderResVar = m_pclsEffect->GetVariableByName("gShaderResVar")->AsShaderResource();
-	m_pclsUseTexture = m_pclsEffect->GetVariableByName("gUseTexture")->AsScalar();
-
-	D3D11_INPUT_ELEMENT_DESC arrVertexDesc[] =
-	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"NORMAL"  , 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"TEXCCORD", 0, DXGI_FORMAT_R32G32_FLOAT   , 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
-	};
-
-	D3DX11_PASS_DESC sttPassDesc;
-
-	m_pclsEffectTech->GetPassByIndex(0)->GetDesc( &sttPassDesc );
-	CHECK_FAILED( m_pclsDevice->CreateInputLayout( arrVertexDesc, 3, sttPassDesc.pIAInputSignature, sttPassDesc.IAInputSignatureSize, &m_pclsInputLayout ) );
-
-	XMMATRIX sttI = XMMatrixIdentity();
-	XMStoreFloat4x4( &m_sttView, sttI );
+	m_clsFigure.SetDevice( m_pclsDevice, m_pclsContext, &m_clsEffect );
+	m_clsFigure.SetVertexIndex( arrCube, _countof(arrCube), arrIndex, _countof(arrIndex) );
 
 	// 5.6.3 카메라에 보이는 공간을 계산하기 위해서 원근 투영 변환이 필요하다.
 	// 원근 투영 변환을 위해서 수직 시야각이 45도이고 종횡비가 1이며 가까운 평면은 z=1 이고 먼 평면은 z=1000 인 원근투영 행렬을 생성한다.
@@ -189,7 +141,7 @@ bool CDirectXGrid::CreateChild()
 	m_clsMaterial.m_f4Specular = XMFLOAT4( 0.93f, 0.9f, 0.86f, 100.0f );
 
 	// 텍스처 이미지 파일을 로드한다.
-	CHECK_FAILED( D3DX11CreateShaderResourceViewFromFile( m_pclsDevice, L"Texture/box.png", 0, 0, &m_pclsShaderResView, 0 ) );
+	//CHECK_FAILED( D3DX11CreateShaderResourceViewFromFile( m_pclsDevice, _T("Texture/box.png"), 0, 0, &m_pclsShaderResView, 0 ) );
 
 	return true;
 }
@@ -201,46 +153,12 @@ bool CDirectXGrid::CreateChild()
  */
 bool CDirectXGrid::DrawChild()
 {
-	m_pclsContext->IASetInputLayout( m_pclsInputLayout );
+	m_clsEffect.SetDirectionalLight( &m_clsDirectionalLight );
+	m_clsEffect.SetEyePos( &m_f3EyePos );
 
-	UINT iStride = sizeof(Vertex);
-	UINT iOffset = 0;
-
-	m_pclsContext->IASetVertexBuffers( 0, 1, &(m_pclsVB.p), &iStride, &iOffset );
-	m_pclsContext->IASetIndexBuffer( m_pclsIB.p, DXGI_FORMAT_R32_UINT, 0 );
-
-	XMMATRIX view  = XMLoadFloat4x4( &m_sttView );
-	XMMATRIX proj  = XMLoadFloat4x4( &m_sttProj );
-	XMMATRIX world, worldViewProj;
-
-	m_pclsDirectionalLight->SetRawValue( &m_clsDirectionalLight, 0, sizeof(m_clsDirectionalLight) );
-	m_pclsEyePosW->SetRawValue( &m_f3EyePos, 0, sizeof(m_f3EyePos) );
-	m_pclsShaderResVar->SetResource( m_pclsShaderResView );
-
-	D3DX11_TECHNIQUE_DESC sttTechDesc;
-	m_pclsEffectTech->GetDesc( &sttTechDesc );
-
-	for( UINT p = 0; p < sttTechDesc.Passes; ++p )
-	{
-		XMMATRIX world = XMLoadFloat4x4( &m_arrCubeWorld[0] ); 
-		XMMATRIX worldViewProj = world * view * proj;
-
-		XMMATRIX A = world;
-		A.r[3] = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
-
-		XMVECTOR det = XMMatrixDeterminant(A);
-		XMMATRIX worldInvTranspose = XMMatrixTranspose( XMMatrixInverse(&det, A) );
-
-		m_pclsWorld->SetMatrix( (float*)&m_arrCubeWorld[0] );
-		m_pclsWorldViewProj->SetMatrix( (float*)&worldViewProj );
-		m_pclsWorldInvTranspose->SetMatrix( (float*)&worldInvTranspose );
-		m_pclsUseTexture->SetBool(FALSE);
-
-		m_pclsMaterial->SetRawValue( &m_clsMaterial, 0, sizeof(m_clsMaterial) );
-
-		m_pclsEffectTech->GetPassByIndex(p)->Apply( 0, m_pclsContext );
-		m_pclsContext->DrawIndexed( m_iIndexCount, 0, 0 );
-	}
+	m_clsFigure.SetWorld( &m_arrCubeWorld[0] );
+	m_clsFigure.SetMaterial( &m_clsMaterial );
+	m_clsFigure.Draw( &m_sttView, &m_sttProj );
 
 	return true;
 }
