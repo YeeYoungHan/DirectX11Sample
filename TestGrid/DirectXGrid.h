@@ -45,16 +45,12 @@ public:
 
 protected:
 	CEffect m_clsEffect;
-	CFigure m_clsFigure;
+	CFigure m_clsBox1, m_clsBox2;
 
-	XMFLOAT4X4 m_arrCubeWorld[1];
 	XMFLOAT4X4 m_sttView;
 	XMFLOAT4X4 m_sttProj;
 
 	XMFLOAT3	m_f3EyePos;
-
-	CDirectionalLight	m_clsDirectionalLight;
-	CMaterial m_clsMaterial;
 
 	CRotationCameraPos	m_clsCamPos;
 	POINT		m_sttMousePos;

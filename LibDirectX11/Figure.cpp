@@ -82,9 +82,9 @@ bool CFigure::SetMaterial( CMaterial * pclsMaterial )
 	return true;
 }
 
-bool CFigure::SetWorld( XMFLOAT4X4 * psttWorld )
+bool CFigure::SetWorld( float fX, float fY, float fZ )
 {
-	m_sttWorld = *psttWorld;
+	XMStoreFloat4x4( &m_sttWorld, XMMatrixTranslation( fX, fY, fZ ) );
 
 	return true;
 }

@@ -39,7 +39,7 @@ public:
 	bool SetDevice( ID3D11Device * pclsDevice, ID3D11DeviceContext * pclsContext, CEffect * pclsEffect );
 	bool SetVertexIndex( VertexPosNormalTexture * parrVertex, int iVertexCount, UINT * parrIndex, int iIndexCount );
 	bool SetMaterial( CMaterial * pclsMaterial );
-	bool SetWorld( XMFLOAT4X4 * psttWorld );
+	bool SetWorld( float fX, float fY, float fZ );
 	bool SetTexture( const TCHAR * pszFileName );
 
 	bool Draw( XMFLOAT4X4 * psttView, XMFLOAT4X4 * psttProj );
