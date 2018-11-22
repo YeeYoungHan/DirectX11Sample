@@ -36,7 +36,7 @@ public:
 	bool SetWorld( XMFLOAT4X4 * psttWorld, XMMATRIX * psttWorldViewProj, XMMATRIX * psttWorldInvTranspose );
 	bool SetShaderResourceView( ID3D11ShaderResourceView * pclsShaderResView );
 	bool SetMaterial( CMaterial * pclsMaterial );
-	bool SetDirectionalLight( CDirectionalLight * pclsDirectionalLight );
+	bool SetDirectionalLight( XMFLOAT4 & f4Ambient, XMFLOAT4 & f4Diffuse, XMFLOAT4 & f4Specular, XMFLOAT3 & f3Direction );
 	bool SetEyePos( XMFLOAT3 * psttEyePos );
 
 	bool Apply( int iPassIndex );

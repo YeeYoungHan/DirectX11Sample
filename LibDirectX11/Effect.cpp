@@ -54,6 +54,8 @@ bool CEffect::Create( ID3D11Device * pclsDevice, ID3D11DeviceContext * pclsConte
 
 bool CEffect::CreateInputLayout( const D3D11_INPUT_ELEMENT_DESC * parrVertexDesc, int iVertexDescCount, ID3D11InputLayout ** pclsInputLayout )
 {
+	if( m_pclsDevice == NULL || m_pclsEffectTech == NULL ) return false;
+
 	D3DX11_PASS_DESC sttPassDesc;
 
 	m_pclsEffectTech->GetPassByIndex(0)->GetDesc( &sttPassDesc );
@@ -64,6 +66,8 @@ bool CEffect::CreateInputLayout( const D3D11_INPUT_ELEMENT_DESC * parrVertexDesc
 
 bool CEffect::SetWorld( XMFLOAT4X4 * psttWorld, XMMATRIX * psttWorldViewProj, XMMATRIX * psttWorldInvTranspose )
 {
+	if( m_pclsWorld == NULL || m_pclsWorldViewProj == NULL || m_pclsWorldInvTranspose == NULL ) return false;
+
 	m_pclsWorld->SetMatrix( (float*)psttWorld );
 	m_pclsWorldViewProj->SetMatrix( (float*)psttWorldViewProj );
 	m_pclsWorldInvTranspose->SetMatrix( (float*)psttWorldInvTranspose );
@@ -73,6 +77,8 @@ bool CEffect::SetWorld( XMFLOAT4X4 * psttWorld, XMMATRIX * psttWorldViewProj, XM
 
 bool CEffect::SetShaderResourceView( ID3D11ShaderResourceView * pclsShaderResView )
 {
+	if( m_pclsShaderResVar == NULL || m_pclsUseTexture == NULL ) return false;
+
 	if( pclsShaderResView )
 	{
 		m_pclsShaderResVar->SetResource( pclsShaderResView );
@@ -88,20 +94,33 @@ bool CEffect::SetShaderResourceView( ID3D11ShaderResourceView * pclsShaderResVie
 
 bool CEffect::SetMaterial( CMaterial * pclsMaterial )
 {
+	if( m_pclsMaterial == NULL ) return false;
+
 	m_pclsMaterial->SetRawValue( pclsMaterial, 0, sizeof(CMaterial) );
 
 	return true;
 }
 
-bool CEffect::SetDirectionalLight( CDirectionalLight * pclsDirectionalLight )
+bool CEffect::SetDirectionalLight( XMFLOAT4 & f4Ambient, XMFLOAT4 & f4Diffuse, XMFLOAT4 & f4Specular, XMFLOAT3 & f3Direction )
 {
-	m_pclsDirectionalLight->SetRawValue( pclsDirectionalLight, 0, sizeof(CDirectionalLight) );
+	if( m_pclsDirectionalLight == NULL ) return false;
+
+	CDirectionalLight clsLight;
+
+	clsLight.m_f4Ambient = f4Ambient;
+	clsLight.m_f4Diffuse = f4Diffuse;
+	clsLight.m_f4Specular = f4Specular;
+	clsLight.m_f3Direction = f3Direction;
+
+	m_pclsDirectionalLight->SetRawValue( &clsLight, 0, sizeof(clsLight) );
 
 	return true;
 }
 
 bool CEffect::SetEyePos( XMFLOAT3 * psttEyePos )
 {
+	if( m_pclsEyePosW == NULL ) return false;
+
 	m_pclsEyePosW->SetRawValue( psttEyePos, 0, sizeof(XMFLOAT3) );
 
 	return true;
@@ -109,6 +128,8 @@ bool CEffect::SetEyePos( XMFLOAT3 * psttEyePos )
 
 bool CEffect::Apply( int iPassIndex )
 {
+	if( m_pclsEffectTech == NULL || m_pclsContext == NULL ) return false;
+
 	m_pclsEffectTech->GetPassByIndex(iPassIndex)->Apply( 0, m_pclsContext );
 
 	return true;
@@ -116,6 +137,8 @@ bool CEffect::Apply( int iPassIndex )
 
 int CEffect::GetPassCount()
 {
+	if( m_pclsEffectTech == NULL ) return -1;
+
 	D3DX11_TECHNIQUE_DESC sttTechDesc;
 	m_pclsEffectTech->GetDesc( &sttTechDesc );
 

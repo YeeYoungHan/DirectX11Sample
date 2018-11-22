@@ -130,26 +130,11 @@ bool CDirectXGrid::CreateChild()
 	XMStoreFloat4x4( &m_sttProj, sttP );
 
 	// 평행광 저장
-	CDirectionalLight	clsDirectionalLight;
-
-	clsDirectionalLight.m_f4Ambient = XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f );
-	clsDirectionalLight.m_f4Diffuse = XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f );
-	clsDirectionalLight.m_f4Specular = XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f );
-	clsDirectionalLight.m_f3Direction = XMFLOAT3( -0.5f, -0.5f, 0.5f );
-	m_clsEffect.SetDirectionalLight( &clsDirectionalLight );
+	m_clsEffect.SetDirectionalLight( XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f ), XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f ), XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f ), XMFLOAT3( -0.5f, -0.5f, 0.5f ) );
 
 	// 재질 저장
-	CMaterial clsMaterial;
-
-	clsMaterial.m_f4Ambient = XMFLOAT4( 0.93f, 0.9f, 0.86f, 1.0f );
-	clsMaterial.m_f4Diffuse = XMFLOAT4( 0.93f, 0.9f, 0.86f, 1.0f );
-	clsMaterial.m_f4Specular = XMFLOAT4( 0.93f, 0.9f, 0.86f, 100.0f );
-	m_clsBox1.SetMaterial( &clsMaterial );
-
-	clsMaterial.m_f4Ambient = XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f );
-	clsMaterial.m_f4Diffuse = XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f );
-	clsMaterial.m_f4Specular = XMFLOAT4( 1.0f, 0.0f, 0.0f, 100.0f );
-	m_clsBox2.SetMaterial( &clsMaterial );
+	m_clsBox1.SetMaterial( XMFLOAT4( 0.93f, 0.9f, 0.86f, 1.0f ), XMFLOAT4( 0.93f, 0.9f, 0.86f, 1.0f ), XMFLOAT4( 0.93f, 0.9f, 0.86f, 100.0f ) );
+	m_clsBox2.SetMaterial( XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 100.0f ) );
 
 	// 텍스처 이미지 파일을 로드한다.
 	//CHECK_FAILED( D3DX11CreateShaderResourceViewFromFile( m_pclsDevice, _T("Texture/box.png"), 0, 0, &m_pclsShaderResView, 0 ) );

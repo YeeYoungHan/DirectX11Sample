@@ -75,18 +75,16 @@ bool CFigure::SetVertexIndex( VertexPosNormalTexture * parrVertex, int iVertexCo
 	return true;
 }
 
-bool CFigure::SetMaterial( CMaterial * pclsMaterial )
+void CFigure::SetMaterial( XMFLOAT4 & f4Ambient, XMFLOAT4 & f4Diffuse, XMFLOAT4 & f4Specular )
 {
-	m_clsMaterial = *pclsMaterial;
-
-	return true;
+	m_clsMaterial.m_f4Ambient = f4Ambient;
+	m_clsMaterial.m_f4Diffuse = f4Diffuse;
+	m_clsMaterial.m_f4Specular = f4Specular;
 }
 
-bool CFigure::SetWorld( float fX, float fY, float fZ )
+void CFigure::SetWorld( float fX, float fY, float fZ )
 {
 	XMStoreFloat4x4( &m_sttWorld, XMMatrixTranslation( fX, fY, fZ ) );
-
-	return true;
 }
 
 bool CFigure::SetTexture( const TCHAR * pszFileName )
