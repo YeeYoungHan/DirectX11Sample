@@ -270,14 +270,36 @@ void CDirectXTetris::Rotate()
 
 void CDirectXTetris::MoveRight( )
 {
-	m_clsMoveBlock.MoveRight();
-	Draw();
+	CTetrisBlock clsBlock = m_clsMoveBlock;
+	clsBlock.MoveRight();
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+
+	if( eType == CT_NULL )
+	{
+		m_clsMoveBlock.MoveRight();
+		Draw();
+	}
+	else if( eType == CT_BOTTOM )
+	{
+
+	}
 }
 
 void CDirectXTetris::MoveLeft( )
 {
-	m_clsMoveBlock.MoveLeft();
-	Draw();
+	CTetrisBlock clsBlock = m_clsMoveBlock;
+	clsBlock.MoveLeft();
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+
+	if( eType == CT_NULL )
+	{
+		m_clsMoveBlock.MoveLeft();
+		Draw();
+	}
+	else if( eType == CT_BOTTOM )
+	{
+
+	}
 }
 
 void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )
@@ -290,4 +312,17 @@ void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )
 		m_clsBox[itPL->m_eColor].SetWorld( 0, itPL->GetY(), itPL->GetZ() );
 		m_clsBox[itPL->m_eColor].Draw( &m_sttView, &m_sttProj );
 	}
+}
+
+E_COLLISION_TYPE CDirectXTetris::CheckCollision( CTetrisBlock & clsBlock )
+{
+	E_COLLISION_TYPE eType = CT_NULL;
+
+	eType = m_clsFixBlock.CheckCollision( clsBlock );
+	if( eType != CT_NULL ) return eType;
+
+	eType = m_clsWallBlock.CheckCollision( clsBlock );
+	if( eType != CT_NULL ) return eType;
+
+	return eType;
 }

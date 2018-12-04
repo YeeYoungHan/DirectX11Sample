@@ -50,6 +50,7 @@ public:
 
 protected:
 	void DrawTetrisBlock( CTetrisBlock & clsBlock );
+	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock );
 
 	CEffect m_clsEffect;
 	CFigure m_clsBox[9];

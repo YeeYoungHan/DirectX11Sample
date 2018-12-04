@@ -19,40 +19,11 @@
 #include "stdafx.h"
 #include "TetrisBlock.h"
 
-CTetrisBlockPart::CTetrisBlockPart( float fLocalY, float fLocalZ, BOX_COLOR eColor ) : m_fLocalY(fLocalY), m_fLocalZ(fLocalZ), m_fWorldY(0.0f), m_fWorldZ(0.0f), m_eColor(eColor)
-{
-}
-
-void CTetrisBlockPart::Move( float fY, float fZ )
-{
-	m_fWorldY += fY;
-	m_fWorldZ += fZ;
-}
-
-void CTetrisBlockPart::Rotate()
-{
-	float fTemp = m_fLocalY;
-	m_fLocalY = m_fLocalZ;
-	m_fLocalZ = fTemp;
-
-	m_fLocalZ *= -1;
-}
-
-float CTetrisBlockPart::GetY()
-{
-	return m_fWorldY + m_fLocalY;
-}
-
-float CTetrisBlockPart::GetZ()
-{
-	return m_fWorldZ + m_fLocalZ;
-}
-
 CTetrisBlock::CTetrisBlock()
 {
 }
 
-void CTetrisBlock::Create( BOX_COLOR eColor )
+void CTetrisBlock::Create( E_BOX_COLOR eColor )
 {
 	m_clsList.clear();
 
@@ -167,12 +138,32 @@ void CTetrisBlock::Rotate( )
 	}
 }
 
+E_COLLISION_TYPE CTetrisBlock::CheckCollision( CTetrisBlock & clsBlock )
+{
+	TETRIS_BLOCK_PART_LIST * pclsList = clsBlock.GetList();
+	TETRIS_BLOCK_PART_LIST::iterator itPL, itIPL;
+	E_COLLISION_TYPE eType = CT_NULL;
+
+	for( itPL = m_clsList.begin(); itPL != m_clsList.end(); ++itPL )
+	{
+		for( itIPL = pclsList->begin(); itIPL != pclsList->end(); ++itIPL )
+		{
+			eType = itPL->CheckCollision( *itIPL );
+			if( eType != CT_NULL ) break;
+		}
+
+		if( eType != CT_NULL ) break;
+	}
+
+	return eType;
+}
+
 TETRIS_BLOCK_PART_LIST * CTetrisBlock::GetList()
 {
 	return &m_clsList;
 }
 
-bool CTetrisBlock::AddPart( float fLocalY, float fLocalZ, BOX_COLOR eColor )
+bool CTetrisBlock::AddPart( float fLocalY, float fLocalZ, E_BOX_COLOR eColor )
 {
 	CTetrisBlockPart clsPart( fLocalY, fLocalZ, eColor );
 	

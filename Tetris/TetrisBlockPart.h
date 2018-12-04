@@ -18,24 +18,48 @@
 
 #pragma once
 
-#include "TetrisBlockPart.h"
+#define BOX_WIDTH	0.16f
 
-class CTetrisBlock
+#include <list>
+
+enum E_BOX_COLOR
+{
+	BC_BLUE = 0,
+	BC_GREEN,
+	BC_ORANGE,
+	BC_RED,
+	BC_SKYBLUE,
+	BC_VILOET,
+	BC_YELLOW,
+	BC_BLACK,
+	BC_BLACK_TOP
+};
+
+enum E_COLLISION_TYPE
+{
+	CT_NULL,
+	CT_LEFT_RIGHT,
+	CT_BOTTOM
+};
+
+class CTetrisBlockPart
 {
 public:
-	CTetrisBlock();
+	CTetrisBlockPart( float fLocalY, float fLocalZ, E_BOX_COLOR eColor );
 
-	void Create( E_BOX_COLOR eColor );
-	void MoveRight( );
-	void MoveLeft( );
-	void MoveDown( float fDown );
-	void Rotate( );
+	void Move( float fY, float fZ );
+	void Rotate();
+	float GetY();
+	float GetZ();
+	E_COLLISION_TYPE CheckCollision( CTetrisBlockPart & clsPart );
 
-	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock );
-	TETRIS_BLOCK_PART_LIST * GetList();
+	E_BOX_COLOR m_eColor;
 
 private:
-	bool AddPart( float fLocalY, float fLocalZ, E_BOX_COLOR eColor );
-
-	TETRIS_BLOCK_PART_LIST m_clsList;
+	float	m_fLocalY;
+	float	m_fLocalZ;
+	float m_fWorldY;
+	float m_fWorldZ;
 };
+
+typedef std::list< CTetrisBlockPart > TETRIS_BLOCK_PART_LIST;
