@@ -76,7 +76,10 @@ E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart )
 
 	if( fZ <= BOX_WIDTH / 8 )
 	{
-		if( fY <= BOX_WIDTH * 7/8 ) return CT_BOTTOM;
+		if( fY <= BOX_WIDTH * 7/8 )
+		{
+			return CT_BOTTOM;
+		}
 	}
 
 	if( fY <= BOX_WIDTH / 8 )
