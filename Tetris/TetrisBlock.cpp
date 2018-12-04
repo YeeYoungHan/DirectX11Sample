@@ -100,6 +100,27 @@ void CTetrisBlock::Create( BOX_COLOR eColor )
 		AddPart( 0, -BOX_WIDTH, eColor );
 		AddPart( 0, 0, eColor );
 		break;
+	case BC_BLACK:
+		// 하단 테두리
+		for( int i = 0; i < 12; ++i )
+		{
+			AddPart( -BOX_WIDTH * 10, -BOX_WIDTH * 6 + i * BOX_WIDTH, eColor );
+		}
+
+		// 좌/우 테두리
+		for( int i = 0; i < 20; ++i )
+		{
+			AddPart( -BOX_WIDTH * 9 + i * BOX_WIDTH, -BOX_WIDTH * 6, eColor );
+			AddPart( -BOX_WIDTH * 9 + i * BOX_WIDTH, BOX_WIDTH * 5, eColor );
+		}
+		break;
+	case BC_BLACK_TOP:
+		// 상단 테두리
+		for( int i = 0; i < 12; ++i )
+		{
+			AddPart( BOX_WIDTH * 11, -BOX_WIDTH * 6 + i * BOX_WIDTH, eColor );
+		}
+		break;
 	}
 }
 

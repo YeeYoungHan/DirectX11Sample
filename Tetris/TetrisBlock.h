@@ -30,7 +30,9 @@ enum BOX_COLOR
 	BC_RED,
 	BC_SKYBLUE,
 	BC_VILOET,
-	BC_YELLOW
+	BC_YELLOW,
+	BC_BLACK,
+	BC_BLACK_TOP
 };
 
 class CTetrisBlockPart

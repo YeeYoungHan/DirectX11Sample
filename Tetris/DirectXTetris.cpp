@@ -118,14 +118,11 @@ bool CDirectXTetris::CreateChild()
 	// 컴파일된 fx 파일을 로그한다.
 	if( m_clsEffect.Create( m_pclsDevice, m_pclsContext, "FX/texture.fxo" ) == false ) return false;
 
-	for( int i = 0; i < 7; ++i )
+	for( int i = 0; i < 9; ++i )
 	{
 		m_clsBox[i].SetDevice( m_pclsDevice, m_pclsContext, &m_clsEffect );
 		m_clsBox[i].SetVertexIndex( arrCube, _countof(arrCube), arrIndex, _countof(arrIndex) );
 	}
-
-	m_clsBoxWall.SetDevice( m_pclsDevice, m_pclsContext, &m_clsEffect );
-	m_clsBoxWall.SetVertexIndex( arrCube, _countof(arrCube), arrIndex, _countof(arrIndex) );
 
 	// 5.6.3 카메라에 보이는 공간을 계산하기 위해서 원근 투영 변환이 필요하다.
 	// 원근 투영 변환을 위해서 수직 시야각이 45도이고 종횡비가 1이며 가까운 평면은 z=1 이고 먼 평면은 z=1000 인 원근투영 행렬을 생성한다.
@@ -139,9 +136,11 @@ bool CDirectXTetris::CreateChild()
 	m_clsBox[4].SetTexture( _T("Texture/box_skyblue.png") );
 	m_clsBox[5].SetTexture( _T("Texture/box_violet.png") );
 	m_clsBox[6].SetTexture( _T("Texture/box_yellow.png") );
+	m_clsBox[7].SetTexture( _T("Texture/box_gray.jpg") );
+	m_clsBox[8].SetTexture( _T("Texture/box_gray.jpg") );
 
-	m_clsBoxWall.SetTexture( _T("Texture/box_gray.jpg") );
-
+	m_clsWallBlock.Create( BC_BLACK );
+	m_clsTopWallBlock.Create( BC_BLACK_TOP );
 	m_clsMoveBlock.Create( BC_VILOET );
 
 	return true;
@@ -156,6 +155,7 @@ bool CDirectXTetris::DrawChild()
 {
 	m_clsEffect.SetEyePos( &m_f3EyePos );
 
+	/*
 	// 상단/하단 테두리
 	for( int i = 0; i < 12; ++i )
 	{
@@ -175,23 +175,12 @@ bool CDirectXTetris::DrawChild()
 		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 9 + i * BOX_WIDTH, BOX_WIDTH * 5 );
 		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
 	}
+	*/
 
-	TETRIS_BLOCK_PART_LIST::iterator itPL;
-	TETRIS_BLOCK_PART_LIST * pclsList = m_clsFixBlock.GetList();
-
-	for( itPL = pclsList->begin(); itPL != pclsList->end(); ++itPL )
-	{
-		m_clsBox[itPL->m_eColor].SetWorld( 0, itPL->GetY(), itPL->GetZ() );
-		m_clsBox[itPL->m_eColor].Draw( &m_sttView, &m_sttProj );
-	}
-
-	pclsList = m_clsMoveBlock.GetList();
-
-	for( itPL = pclsList->begin(); itPL != pclsList->end(); ++itPL )
-	{
-		m_clsBox[itPL->m_eColor].SetWorld( 0, itPL->GetY(), itPL->GetZ() );
-		m_clsBox[itPL->m_eColor].Draw( &m_sttView, &m_sttProj );
-	}
+	DrawTetrisBlock( m_clsWallBlock );
+	DrawTetrisBlock( m_clsTopWallBlock );
+	DrawTetrisBlock( m_clsFixBlock );
+	DrawTetrisBlock( m_clsMoveBlock );
 
 	return true;
 }
@@ -289,4 +278,16 @@ void CDirectXTetris::MoveLeft( )
 {
 	m_clsMoveBlock.MoveLeft();
 	Draw();
+}
+
+void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )
+{
+	TETRIS_BLOCK_PART_LIST::iterator itPL;
+	TETRIS_BLOCK_PART_LIST * pclsList = clsBlock.GetList();
+
+	for( itPL = pclsList->begin(); itPL != pclsList->end(); ++itPL )
+	{
+		m_clsBox[itPL->m_eColor].SetWorld( 0, itPL->GetY(), itPL->GetZ() );
+		m_clsBox[itPL->m_eColor].Draw( &m_sttView, &m_sttProj );
+	}
 }

@@ -49,9 +49,10 @@ public:
 	void MoveLeft( );
 
 protected:
+	void DrawTetrisBlock( CTetrisBlock & clsBlock );
+
 	CEffect m_clsEffect;
-	CFigure m_clsBox[7];
-	CFigure m_clsBoxWall;
+	CFigure m_clsBox[9];
 	CComPtr<ID3D11ShaderResourceView> m_pclsShaderResView;
 
 	XMFLOAT4X4 m_sttView;
@@ -63,7 +64,9 @@ protected:
 	POINT		m_sttMousePos;
 	bool		m_bMouseDown;
 
-	CTetrisBlock m_clsFixBlock;
-	CTetrisBlock m_clsMoveBlock;
+	CTetrisBlock m_clsFixBlock;			// 고정된 블록
+	CTetrisBlock m_clsMoveBlock;		// 움직이는 블록
+	CTetrisBlock m_clsWallBlock;		// 좌/우/바닥 벽
+	CTetrisBlock m_clsTopWallBlock;	// 상단 벽
 };
 
