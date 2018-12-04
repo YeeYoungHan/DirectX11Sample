@@ -18,52 +18,57 @@
 
 #pragma once
 
-#include "DirectX11.h"
-#include "Effect.h"
-#include "Figure.h"
-#include "Light.h"
-#include "RotationCameraPos.h"
-#include "TetrisBlock.h"
+#define BOX_WIDTH	0.16f
 
-/**
- * @ingroup TestGrid
- * @brief 3D Å¥ºê
- */
-class CDirectXTetris : public CDirectX11
+#include <list>
+
+enum BOX_COLOR
 {
-public:
-	CDirectXTetris();
-	~CDirectXTetris();
-
-	virtual bool CreateChild();
-	virtual bool DrawChild();
-
-	bool Update();
-
-	void OnMouseDown( HWND hWnd, int x, int y );
-	void OnMouseUp( int x, int y );
-	void OnMouseMove( HWND hWnd, int x, int y );
-
-	void Rotate();
-	void MoveRight( );
-	void MoveLeft( );
-
-protected:
-	CEffect m_clsEffect;
-	CFigure m_clsBox[7];
-	CFigure m_clsBoxWall;
-	CComPtr<ID3D11ShaderResourceView> m_pclsShaderResView;
-
-	XMFLOAT4X4 m_sttView;
-	XMFLOAT4X4 m_sttProj;
-
-	XMFLOAT3	m_f3EyePos;
-
-	CRotationCameraPos	m_clsCamPos;
-	POINT		m_sttMousePos;
-	bool		m_bMouseDown;
-
-	CTetrisBlock m_clsFixBlock;
-	CTetrisBlock m_clsMoveBlock;
+	BC_BLUE = 0,
+	BC_GREEN,
+	BC_ORANGE,
+	BC_RED,
+	BC_SKYBLUE,
+	BC_VILOET,
+	BC_YELLOW
 };
 
+class CTetrisBlockPart
+{
+public:
+	CTetrisBlockPart( float fLocalY, float fLocalZ, BOX_COLOR eColor );
+
+	void Move( float fY, float fZ );
+	void Rotate();
+	float GetY();
+	float GetZ();
+
+	BOX_COLOR m_eColor;
+
+private:
+	float	m_fLocalY;
+	float	m_fLocalZ;
+	float m_fWorldY;
+	float m_fWorldZ;
+};
+
+typedef std::list< CTetrisBlockPart > TETRIS_BLOCK_PART_LIST;
+
+class CTetrisBlock
+{
+public:
+	CTetrisBlock();
+
+	void Create( BOX_COLOR eColor );
+	void MoveRight( );
+	void MoveLeft( );
+	void MoveDown( float fDown );
+	void Rotate( );
+
+	TETRIS_BLOCK_PART_LIST * GetList();
+
+private:
+	bool AddPart( float fLocalY, float fLocalZ, BOX_COLOR eColor );
+
+	TETRIS_BLOCK_PART_LIST m_clsList;
+};

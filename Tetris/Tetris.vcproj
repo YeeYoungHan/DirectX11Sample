@@ -260,6 +260,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TetrisBlock.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TetrisBlock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FX\texture.fx"
 				>
 			</File>

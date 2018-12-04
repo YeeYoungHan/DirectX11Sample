@@ -142,6 +142,8 @@ bool CDirectXTetris::CreateChild()
 
 	m_clsBoxWall.SetTexture( _T("Texture/box_gray.jpg") );
 
+	m_clsMoveBlock.Create( BC_VILOET );
+
 	return true;
 }
 
@@ -157,21 +159,38 @@ bool CDirectXTetris::DrawChild()
 	// 상단/하단 테두리
 	for( int i = 0; i < 12; ++i )
 	{
-		m_clsBoxWall.SetWorld( 0, BOX_WIDTH * 10 + BOX_WIDTH / 2, -BOX_WIDTH * 6 + i * BOX_WIDTH + BOX_WIDTH / 2 );
+		m_clsBoxWall.SetWorld( 0, BOX_WIDTH * 11, -BOX_WIDTH * 6 + i * BOX_WIDTH );
 		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
 
-		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 10 - BOX_WIDTH / 2, -BOX_WIDTH * 6 + i * BOX_WIDTH + BOX_WIDTH / 2 );
+		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 10, -BOX_WIDTH * 6 + i * BOX_WIDTH );
 		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
 	}
 
 	// 좌/우 테두리
 	for( int i = 0; i < 20; ++i )
 	{
-		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 10 + i * BOX_WIDTH + BOX_WIDTH / 2, -BOX_WIDTH * 6 + BOX_WIDTH / 2 );
+		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 9 + i * BOX_WIDTH, -BOX_WIDTH * 6 );
 		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
 
-		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 10 + i * BOX_WIDTH + BOX_WIDTH / 2, BOX_WIDTH * 5 + BOX_WIDTH / 2 );
+		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 9 + i * BOX_WIDTH, BOX_WIDTH * 5 );
 		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
+	}
+
+	TETRIS_BLOCK_PART_LIST::iterator itPL;
+	TETRIS_BLOCK_PART_LIST * pclsList = m_clsFixBlock.GetList();
+
+	for( itPL = pclsList->begin(); itPL != pclsList->end(); ++itPL )
+	{
+		m_clsBox[itPL->m_eColor].SetWorld( 0, itPL->GetY(), itPL->GetZ() );
+		m_clsBox[itPL->m_eColor].Draw( &m_sttView, &m_sttProj );
+	}
+
+	pclsList = m_clsMoveBlock.GetList();
+
+	for( itPL = pclsList->begin(); itPL != pclsList->end(); ++itPL )
+	{
+		m_clsBox[itPL->m_eColor].SetWorld( 0, itPL->GetY(), itPL->GetZ() );
+		m_clsBox[itPL->m_eColor].Draw( &m_sttView, &m_sttProj );
 	}
 
 	return true;
@@ -252,4 +271,22 @@ void CDirectXTetris::OnMouseMove( HWND hWnd, int x, int y )
 		Update();
 		Draw();
 	}
+}
+
+void CDirectXTetris::Rotate()
+{
+	m_clsMoveBlock.Rotate();
+	Draw();
+}
+
+void CDirectXTetris::MoveRight( )
+{
+	m_clsMoveBlock.MoveRight();
+	Draw();
+}
+
+void CDirectXTetris::MoveLeft( )
+{
+	m_clsMoveBlock.MoveLeft();
+	Draw();
 }

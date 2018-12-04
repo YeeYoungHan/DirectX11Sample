@@ -144,7 +144,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY	- 종료 메시지를 게시하고 반환합니다.
 //
 //
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
@@ -170,8 +170,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		// TODO: 여기에 그리기 코드를 추가합니다.
 		EndPaint(hWnd, &ps);
+
 		if( gclsDirectX.Draw() == false )
 		{
 			MessageBox( hWnd, GetErrString(), _T( "Error" ), MB_OK );
@@ -191,6 +191,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		gclsDirectX.OnMouseMove( hWnd, LOWORD( lParam ), HIWORD( lParam ) );
 		return 0;
+
+	case WM_KEYDOWN:
+		switch( wParam )
+		{
+		case VK_LEFT:
+			gclsDirectX.MoveLeft();
+			break;
+		case VK_RIGHT:
+			gclsDirectX.MoveRight();
+			break;
+		case VK_UP:
+			gclsDirectX.Rotate();
+			break;
+		case VK_DOWN:
+			break;
+		}
+		break;
 
 	case WM_DESTROY:
 		PostQuitMessage(0);
