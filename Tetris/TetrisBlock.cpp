@@ -125,6 +125,16 @@ void CTetrisBlock::MoveDown( float fDown )
 	}
 }
 
+void CTetrisBlock::AddBlock( CTetrisBlock & clsBlock )
+{
+	TETRIS_BLOCK_PART_LIST::iterator itBL;
+
+	for( itBL = clsBlock.m_clsList.begin(); itBL != clsBlock.m_clsList.end(); ++itBL )
+	{
+		m_clsList.push_back( *itBL );
+	}
+}
+
 void CTetrisBlock::Rotate( )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL;
@@ -140,15 +150,14 @@ void CTetrisBlock::Rotate( )
 
 E_COLLISION_TYPE CTetrisBlock::CheckCollision( CTetrisBlock & clsBlock )
 {
-	TETRIS_BLOCK_PART_LIST * pclsList = clsBlock.GetList();
-	TETRIS_BLOCK_PART_LIST::iterator itPL, itIPL;
+	TETRIS_BLOCK_PART_LIST::iterator itPL, itBL;
 	E_COLLISION_TYPE eType = CT_NULL;
 
 	for( itPL = m_clsList.begin(); itPL != m_clsList.end(); ++itPL )
 	{
-		for( itIPL = pclsList->begin(); itIPL != pclsList->end(); ++itIPL )
+		for( itBL = clsBlock.m_clsList.begin(); itBL != clsBlock.m_clsList.end(); ++itBL )
 		{
-			eType = itPL->CheckCollision( *itIPL );
+			eType = itPL->CheckCollision( *itBL );
 			if( eType != CT_NULL ) break;
 		}
 

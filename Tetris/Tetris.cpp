@@ -205,6 +205,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			gclsDirectX.Rotate();
 			break;
 		case VK_DOWN:
+			gclsDirectX.MoveDown();
 			break;
 		}
 		break;

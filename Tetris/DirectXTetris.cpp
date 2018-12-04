@@ -20,6 +20,7 @@
 #include "DirectXTetris.h"
 #include "trace.h"
 #include "check.h"
+#include <time.h>
 
 CDirectXTetris::CDirectXTetris() : m_bMouseDown(false)
 {
@@ -141,7 +142,10 @@ bool CDirectXTetris::CreateChild()
 
 	m_clsWallBlock.Create( BC_BLACK );
 	m_clsTopWallBlock.Create( BC_BLACK_TOP );
-	m_clsMoveBlock.Create( BC_VILOET );
+
+	srand( (unsigned int)time(NULL) );
+
+	NewMoveBlock( );
 
 	return true;
 }
@@ -154,28 +158,6 @@ bool CDirectXTetris::CreateChild()
 bool CDirectXTetris::DrawChild()
 {
 	m_clsEffect.SetEyePos( &m_f3EyePos );
-
-	/*
-	// 상단/하단 테두리
-	for( int i = 0; i < 12; ++i )
-	{
-		m_clsBoxWall.SetWorld( 0, BOX_WIDTH * 11, -BOX_WIDTH * 6 + i * BOX_WIDTH );
-		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
-
-		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 10, -BOX_WIDTH * 6 + i * BOX_WIDTH );
-		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
-	}
-
-	// 좌/우 테두리
-	for( int i = 0; i < 20; ++i )
-	{
-		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 9 + i * BOX_WIDTH, -BOX_WIDTH * 6 );
-		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
-
-		m_clsBoxWall.SetWorld( 0, -BOX_WIDTH * 9 + i * BOX_WIDTH, BOX_WIDTH * 5 );
-		m_clsBoxWall.Draw( &m_sttView, &m_sttProj );
-	}
-	*/
 
 	DrawTetrisBlock( m_clsWallBlock );
 	DrawTetrisBlock( m_clsTopWallBlock );
@@ -281,7 +263,7 @@ void CDirectXTetris::MoveRight( )
 	}
 	else if( eType == CT_BOTTOM )
 	{
-
+		AddFixBlock( );
 	}
 }
 
@@ -298,8 +280,39 @@ void CDirectXTetris::MoveLeft( )
 	}
 	else if( eType == CT_BOTTOM )
 	{
-
+		AddFixBlock( );
 	}
+}
+
+void CDirectXTetris::MoveDown( )
+{
+	CTetrisBlock clsBlock = m_clsMoveBlock;
+	clsBlock.MoveDown( -BOX_WIDTH );
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+
+	if( eType == CT_NULL )
+	{
+		m_clsMoveBlock.MoveDown( -BOX_WIDTH );
+		Draw();
+	}
+	else if( eType == CT_BOTTOM )
+	{
+		AddFixBlock( );
+	}
+}
+
+void CDirectXTetris::AddFixBlock( )
+{
+	m_clsFixBlock.AddBlock( m_clsMoveBlock );
+	NewMoveBlock( );
+	Draw();
+}
+
+void CDirectXTetris::NewMoveBlock( )
+{
+	E_BOX_COLOR eColor = (E_BOX_COLOR)(rand() % 7);
+	m_clsMoveBlock.Create( eColor );
+	m_clsMoveBlock.MoveDown( BOX_WIDTH * 10 );
 }
 
 void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )

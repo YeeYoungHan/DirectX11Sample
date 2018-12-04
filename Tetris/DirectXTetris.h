@@ -47,8 +47,11 @@ public:
 	void Rotate();
 	void MoveRight( );
 	void MoveLeft( );
+	void MoveDown( );
 
 protected:
+	void AddFixBlock( );
+	void NewMoveBlock( );
 	void DrawTetrisBlock( CTetrisBlock & clsBlock );
 	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock );
 

@@ -31,6 +31,7 @@ public:
 	void MoveDown( float fDown );
 	void Rotate( );
 
+	void AddBlock( CTetrisBlock & clsBlock );
 	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock );
 	TETRIS_BLOCK_PART_LIST * GetList();
 
