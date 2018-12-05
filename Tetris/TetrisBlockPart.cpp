@@ -106,6 +106,8 @@ E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart, b
 		{
 			if( fY <= BOX_WIDTH * 7/8 )
 			{
+				TRACE( "CT_BOTTOM fZ(%f) fY(%f) fMyY(%f) fMyZ(%f) fOtherY(%f) fOtherZ(%f)\n", fZ, fY, fMyY, fMyZ, fOtherY, fOtherZ );
+
 				return CT_BOTTOM;
 			}
 		}
