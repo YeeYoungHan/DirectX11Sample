@@ -73,5 +73,7 @@ protected:
 	CTetrisBlock m_clsWallBlock;				// 좌/우/바닥 벽
 	CTetrisBlock m_clsTopWallBlock;			// 상단 벽
 	CTetrisBlock m_clsBottomWallBlock;	// 하단 벽 ( 충돌 처리를 위해서 하단 벽과 상단 벽을 구분하였다. )
+
+	bool		m_bWork;
 };
 

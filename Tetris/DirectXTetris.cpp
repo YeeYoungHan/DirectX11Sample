@@ -148,6 +148,7 @@ bool CDirectXTetris::CreateChild()
 	srand( (unsigned int)time(NULL) );
 
 	NewMoveBlock( );
+	m_bWork = true;
 
 	return true;
 }
@@ -333,11 +334,14 @@ void CDirectXTetris::MoveDown( )
  */
 void CDirectXTetris::AddFixBlock( )
 {
+	if( m_bWork == false ) return;
+
 	m_clsFixBlock.AddBlock( m_clsMoveBlock );
 	m_clsFixBlock.CheckCompleteRow( );
 	if( m_clsFixBlock.CheckGameOver() )
 	{
-		MessageBox( NULL, _T("GAME OVER"), _T("Alert"), MB_OK );
+		m_bWork = false;
+		MessageBox( NULL, _T("GAME OVER"), _T("GAME OVER"), MB_OK | MB_ICONSTOP );
 		return;
 	}
 
