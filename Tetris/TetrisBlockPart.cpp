@@ -18,6 +18,7 @@
 
 #include "stdafx.h"
 #include "TetrisBlock.h"
+#include "trace.h"
 
 CTetrisBlockPart::CTetrisBlockPart( float fLocalY, float fLocalZ, E_BOX_COLOR eColor ) : m_fLocalY(fLocalY), m_fLocalZ(fLocalZ), m_fWorldY(0.0f), m_fWorldZ(0.0f), m_eColor(eColor)
 {
@@ -92,17 +93,22 @@ bool TetrisBlockPartSort( const CTetrisBlockPart & clsFirst, const CTetrisBlockP
 {
 	float fFY = clsFirst.GetY();
 	float fSY = clsSecond.GetY();
-
-	if( fSY > fFY ) return true;
-
 	float fY = GetDistance( fSY, fFY );
 
 	if( fY <= BOX_WIDTH / 8 )
 	{
 		float fFZ = clsFirst.GetZ();
 		float fSZ = clsSecond.GetZ();
+		float fZ = GetDistance( fFZ, fSZ );
 
-		if( fSZ > fFZ ) return true;
+		if( fZ > BOX_WIDTH / 8 )
+		{
+			if( fSZ > fFZ ) return true;
+		}
+	}
+	else
+	{
+		if( fSY > fFY ) return true;
 	}
 
 	return false;

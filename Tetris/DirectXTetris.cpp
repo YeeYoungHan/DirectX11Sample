@@ -307,6 +307,7 @@ void CDirectXTetris::MoveDown( )
 void CDirectXTetris::AddFixBlock( )
 {
 	m_clsFixBlock.AddBlock( m_clsMoveBlock );
+	m_clsFixBlock.CheckCompleteRow( );
 	NewMoveBlock( );
 	Draw();
 }

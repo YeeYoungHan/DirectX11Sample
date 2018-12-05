@@ -145,7 +145,7 @@ bool CTetrisBlock::CheckCompleteRow( )
 {
 	m_clsList.sort( TetrisBlockPartSort );
 
-	TETRIS_BLOCK_PART_LIST::iterator itPL, itRow;
+	TETRIS_BLOCK_PART_LIST::iterator itPL, itRow, itTemp;
 	int iColCount = 0;
 
 	for( itPL = m_clsList.begin(); itPL != m_clsList.end(); ++itPL )
@@ -158,13 +158,21 @@ bool CTetrisBlock::CheckCompleteRow( )
 		else if( itRow->IsSameY( *itPL ) )
 		{
 			++iColCount;
-			if( iColCount == BOX_COL_COUNT )
-			{
-				
-			}
 		}
 		else
 		{
+			if( iColCount == BOX_COL_COUNT )
+			{
+				// 모두 완성된 row 를 삭제한다.
+				m_clsList.erase( itRow, itPL );
+
+				// 모두 완성된 row 위에 존재하는 블록은 1칸씩 내린다.
+				for( itTemp = itPL; itTemp != m_clsList.end(); ++itTemp )
+				{
+					itTemp->Move( -BOX_WIDTH, 0.0f );
+				}
+			}
+
 			itRow = itPL;
 			iColCount = 1;
 		}
