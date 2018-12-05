@@ -317,7 +317,7 @@ void CDirectXTetris::AddFixBlock( )
 	m_clsFixBlock.CheckCompleteRow( );
 	if( m_clsFixBlock.CheckGameOver() )
 	{
-		// QQQ: show GAME OVER
+		MessageBox( NULL, _T("GAME OVER"), _T("Alert"), MB_OK );
 		return;
 	}
 	NewMoveBlock( );
