@@ -315,6 +315,11 @@ void CDirectXTetris::AddFixBlock( )
 {
 	m_clsFixBlock.AddBlock( m_clsMoveBlock );
 	m_clsFixBlock.CheckCompleteRow( );
+	if( m_clsFixBlock.CheckGameOver() )
+	{
+		// QQQ: show GAME OVER
+		return;
+	}
 	NewMoveBlock( );
 	Draw();
 }

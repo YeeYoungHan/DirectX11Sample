@@ -181,6 +181,31 @@ bool CTetrisBlock::CheckCompleteRow( )
 	return false;
 }
 
+bool CTetrisBlock::CheckGameOver( )
+{
+	TETRIS_BLOCK_PART_LIST::reverse_iterator itPL, itRow;
+	CTetrisBlockPart clsPart( BOX_WIDTH * BOX_ROW_COUNT / 2, 0.0f, BC_RED );
+
+	for( itPL = m_clsList.rbegin(); itPL != m_clsList.rend(); ++itPL )
+	{
+		if( itPL->IsSameY( clsPart ) )
+		{
+			return true;
+		}
+
+		if( itPL == m_clsList.rbegin() )
+		{
+			itRow = itPL;
+		}
+		else if( itRow->IsSameY( *itPL ) )
+		{
+			break;
+		}
+	}
+
+	return false;
+}
+
 void CTetrisBlock::Rotate( )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL;

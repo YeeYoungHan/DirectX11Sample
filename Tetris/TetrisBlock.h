@@ -38,6 +38,7 @@ public:
 
 	void AddBlock( CTetrisBlock & clsBlock );
 	bool CheckCompleteRow( );
+	bool CheckGameOver( );
 	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock, bool bCheckBottom );
 	TETRIS_BLOCK_PART_LIST * GetList();
 
