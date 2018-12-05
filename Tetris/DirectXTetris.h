@@ -56,7 +56,7 @@ protected:
 	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock );
 
 	CEffect m_clsEffect;
-	CFigure m_clsBox[9];
+	CFigure m_clsBox[10];
 	CComPtr<ID3D11ShaderResourceView> m_pclsShaderResView;
 
 	XMFLOAT4X4 m_sttView;
@@ -72,5 +72,6 @@ protected:
 	CTetrisBlock m_clsMoveBlock;		// 움직이는 블록
 	CTetrisBlock m_clsWallBlock;		// 좌/우/바닥 벽
 	CTetrisBlock m_clsTopWallBlock;	// 상단 벽
+	CTetrisBlock m_clsBottomWallBlock;	// 하단 벽
 };
 

@@ -72,27 +72,33 @@ void CTetrisBlock::Create( E_BOX_COLOR eColor )
 		AddPart( 0, 0, eColor );
 		break;
 	case BC_BLACK:
-		// 하단 테두리
-		for( int i = 0; i < 12; ++i )
-		{
-			AddPart( -BOX_WIDTH * 10, -BOX_WIDTH * 6 + i * BOX_WIDTH, eColor );
-		}
-
 		// 좌/우 테두리
-		for( int i = 0; i < 20; ++i )
+		for( int i = 0; i < 22; ++i )
 		{
-			AddPart( -BOX_WIDTH * 9 + i * BOX_WIDTH, -BOX_WIDTH * 6, eColor );
-			AddPart( -BOX_WIDTH * 9 + i * BOX_WIDTH, BOX_WIDTH * 5, eColor );
+			AddPart( -BOX_WIDTH * 10 + i * BOX_WIDTH, -BOX_WIDTH * 6, eColor );
+			AddPart( -BOX_WIDTH * 10 + i * BOX_WIDTH, BOX_WIDTH * 5, eColor );
 		}
 		break;
 	case BC_BLACK_TOP:
 		// 상단 테두리
-		for( int i = 0; i < 12; ++i )
+		for( int i = 0; i < 10; ++i )
 		{
-			AddPart( BOX_WIDTH * 11, -BOX_WIDTH * 6 + i * BOX_WIDTH, eColor );
+			AddPart( BOX_WIDTH * 11, -BOX_WIDTH * 5 + i * BOX_WIDTH, eColor );
+		}
+		break;
+	case BC_BLACK_BOTTOM:
+		// 하단 테두리
+		for( int i = 0; i < 10; ++i )
+		{
+			AddPart( -BOX_WIDTH * 10, -BOX_WIDTH * 5 + i * BOX_WIDTH, eColor );
 		}
 		break;
 	}
+}
+
+void CTetrisBlock::Clear( )
+{
+	m_clsList.clear();
 }
 
 void CTetrisBlock::MoveRight( )
@@ -148,7 +154,7 @@ void CTetrisBlock::Rotate( )
 	}
 }
 
-E_COLLISION_TYPE CTetrisBlock::CheckCollision( CTetrisBlock & clsBlock )
+E_COLLISION_TYPE CTetrisBlock::CheckCollision( CTetrisBlock & clsBlock, bool bCheckBottom )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL, itBL;
 	E_COLLISION_TYPE eType = CT_NULL;
@@ -157,7 +163,7 @@ E_COLLISION_TYPE CTetrisBlock::CheckCollision( CTetrisBlock & clsBlock )
 	{
 		for( itBL = clsBlock.m_clsList.begin(); itBL != clsBlock.m_clsList.end(); ++itBL )
 		{
-			eType = itPL->CheckCollision( *itBL );
+			eType = itPL->CheckCollision( *itBL, bCheckBottom );
 			if( eType != CT_NULL ) break;
 		}
 

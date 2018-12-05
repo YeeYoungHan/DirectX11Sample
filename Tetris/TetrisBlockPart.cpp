@@ -48,7 +48,7 @@ float CTetrisBlockPart::GetZ()
 	return m_fWorldZ + m_fLocalZ;
 }
 
-E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart )
+E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart, bool bCheckBottom )
 {
 	float fMyY = GetY();
 	float fMyZ = GetZ();
@@ -74,11 +74,14 @@ E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart )
 		fZ = fOtherZ - fMyZ;
 	}
 
-	if( fZ <= BOX_WIDTH / 8 )
+	if( bCheckBottom )
 	{
-		if( fY <= BOX_WIDTH * 7/8 )
+		if( fZ <= BOX_WIDTH / 8 )
 		{
-			return CT_BOTTOM;
+			if( fY <= BOX_WIDTH * 7/8 )
+			{
+				return CT_BOTTOM;
+			}
 		}
 	}
 

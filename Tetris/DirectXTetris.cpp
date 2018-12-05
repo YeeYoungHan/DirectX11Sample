@@ -119,7 +119,7 @@ bool CDirectXTetris::CreateChild()
 	// 컴파일된 fx 파일을 로그한다.
 	if( m_clsEffect.Create( m_pclsDevice, m_pclsContext, "FX/texture.fxo" ) == false ) return false;
 
-	for( int i = 0; i < 9; ++i )
+	for( int i = 0; i < 10; ++i )
 	{
 		m_clsBox[i].SetDevice( m_pclsDevice, m_pclsContext, &m_clsEffect );
 		m_clsBox[i].SetVertexIndex( arrCube, _countof(arrCube), arrIndex, _countof(arrIndex) );
@@ -139,9 +139,11 @@ bool CDirectXTetris::CreateChild()
 	m_clsBox[6].SetTexture( _T("Texture/box_yellow.png") );
 	m_clsBox[7].SetTexture( _T("Texture/box_gray.jpg") );
 	m_clsBox[8].SetTexture( _T("Texture/box_gray.jpg") );
+	m_clsBox[9].SetTexture( _T("Texture/box_gray.jpg") );
 
 	m_clsWallBlock.Create( BC_BLACK );
 	m_clsTopWallBlock.Create( BC_BLACK_TOP );
+	m_clsBottomWallBlock.Create( BC_BLACK_BOTTOM );
 
 	srand( (unsigned int)time(NULL) );
 
@@ -161,6 +163,7 @@ bool CDirectXTetris::DrawChild()
 
 	DrawTetrisBlock( m_clsWallBlock );
 	DrawTetrisBlock( m_clsTopWallBlock );
+	DrawTetrisBlock( m_clsBottomWallBlock );
 	DrawTetrisBlock( m_clsFixBlock );
 	DrawTetrisBlock( m_clsMoveBlock );
 
@@ -331,10 +334,13 @@ E_COLLISION_TYPE CDirectXTetris::CheckCollision( CTetrisBlock & clsBlock )
 {
 	E_COLLISION_TYPE eType = CT_NULL;
 
-	eType = m_clsFixBlock.CheckCollision( clsBlock );
+	eType = m_clsBottomWallBlock.CheckCollision( clsBlock, true );
 	if( eType != CT_NULL ) return eType;
 
-	eType = m_clsWallBlock.CheckCollision( clsBlock );
+	eType = m_clsFixBlock.CheckCollision( clsBlock, true );
+	if( eType != CT_NULL ) return eType;
+
+	eType = m_clsWallBlock.CheckCollision( clsBlock, false );
 	if( eType != CT_NULL ) return eType;
 
 	return eType;

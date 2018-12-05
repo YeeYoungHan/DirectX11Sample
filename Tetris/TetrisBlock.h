@@ -26,13 +26,15 @@ public:
 	CTetrisBlock();
 
 	void Create( E_BOX_COLOR eColor );
+	void Clear( );
+
 	void MoveRight( );
 	void MoveLeft( );
 	void MoveDown( float fDown );
 	void Rotate( );
 
 	void AddBlock( CTetrisBlock & clsBlock );
-	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock );
+	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock, bool bCheckBottom );
 	TETRIS_BLOCK_PART_LIST * GetList();
 
 private:

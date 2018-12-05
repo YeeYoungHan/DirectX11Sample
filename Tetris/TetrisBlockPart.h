@@ -32,7 +32,8 @@ enum E_BOX_COLOR
 	BC_VILOET,
 	BC_YELLOW,
 	BC_BLACK,
-	BC_BLACK_TOP
+	BC_BLACK_TOP,
+	BC_BLACK_BOTTOM
 };
 
 enum E_COLLISION_TYPE
@@ -51,7 +52,7 @@ public:
 	void Rotate();
 	float GetY();
 	float GetZ();
-	E_COLLISION_TYPE CheckCollision( CTetrisBlockPart & clsPart );
+	E_COLLISION_TYPE CheckCollision( CTetrisBlockPart & clsPart, bool bCheckBottom );
 
 	E_BOX_COLOR m_eColor;
 
