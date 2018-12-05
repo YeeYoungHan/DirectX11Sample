@@ -54,7 +54,7 @@ protected:
 	void AddFixBlock( );
 	void NewMoveBlock( );
 	void DrawTetrisBlock( CTetrisBlock & clsBlock );
-	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock );
+	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock, bool bCheckBottom );
 
 	CEffect m_clsEffect;
 	CFigure m_clsBox[10];

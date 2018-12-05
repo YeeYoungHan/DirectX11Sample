@@ -256,7 +256,7 @@ void CDirectXTetris::Rotate()
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
 	clsBlock.Rotate();
-	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock, true );
 
 	if( eType == CT_NULL )
 	{
@@ -273,7 +273,7 @@ void CDirectXTetris::MoveRight( )
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
 	clsBlock.MoveRight();
-	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock, false );
 
 	if( eType == CT_NULL )
 	{
@@ -294,7 +294,7 @@ void CDirectXTetris::MoveLeft( )
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
 	clsBlock.MoveLeft();
-	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock, false );
 
 	if( eType == CT_NULL )
 	{
@@ -315,7 +315,7 @@ void CDirectXTetris::MoveDown( )
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
 	clsBlock.MoveDown( -BOX_WIDTH );
-	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock, true );
 
 	if( eType == CT_NULL )
 	{
@@ -373,7 +373,7 @@ void CDirectXTetris::NewMoveBlock( )
 	m_clsMoveBlock.Create( eColor );
 	m_clsMoveBlock.MoveDown( BOX_WIDTH * BOX_ROW_COUNT / 2 );
 
-	E_COLLISION_TYPE eType = CheckCollision( m_clsMoveBlock );
+	E_COLLISION_TYPE eType = CheckCollision( m_clsMoveBlock, true );
 	if( eType == CT_BOTTOM )
 	{
 		m_clsMoveBlock.Clear();
@@ -402,17 +402,18 @@ void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )
 /**
  * @ingroup Tetris
  * @brief 움직이는 블록이 벽 또는 고정된 블록과 충돌하는지 검사한다.
- * @param clsBlock 움직이는 블록
+ * @param clsBlock			움직이는 블록
+ * @param bCheckBottom	고정 블록과 충돌 검사할 때 상하 충돌을 검사하려면 true 를 입력하고 그렇지 않으면 false 를 입력한다.
  * @returns 움직이는 블록이 벽 또는 고정된 블록과 상하로 충돌하면 CT_BOTTOM 을 리턴하고 좌우로 충돌하면 CT_LEFT_RIGHT 를 리턴한다.
  */
-E_COLLISION_TYPE CDirectXTetris::CheckCollision( CTetrisBlock & clsBlock )
+E_COLLISION_TYPE CDirectXTetris::CheckCollision( CTetrisBlock & clsBlock, bool bCheckBottom )
 {
 	E_COLLISION_TYPE eType = CT_NULL;
 
 	eType = m_clsBottomWallBlock.CheckCollision( clsBlock, true );
 	if( eType != CT_NULL ) return eType;
 
-	eType = m_clsFixBlock.CheckCollision( clsBlock, true );
+	eType = m_clsFixBlock.CheckCollision( clsBlock, bCheckBottom ? true : false );
 	if( eType != CT_NULL ) return eType;
 
 	eType = m_clsWallBlock.CheckCollision( clsBlock, false );
