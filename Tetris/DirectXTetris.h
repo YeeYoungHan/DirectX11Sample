@@ -48,6 +48,7 @@ public:
 	void MoveRight( );
 	void MoveLeft( );
 	void MoveDown( );
+	void ReStartGame( );
 
 protected:
 	void AddFixBlock( );

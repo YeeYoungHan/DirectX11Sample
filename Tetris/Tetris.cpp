@@ -163,6 +163,9 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		// 메뉴의 선택 영역을 구문 분석합니다.
 		switch (wmId)
 		{
+		case IDM_START_GAME:
+			gclsDirectX.ReStartGame();
+			break;
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;

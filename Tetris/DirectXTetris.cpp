@@ -330,6 +330,20 @@ void CDirectXTetris::MoveDown( )
 
 /**
  * @ingroup Tetris
+ * @brief 게임을 다시 시작한다.
+ */
+void CDirectXTetris::ReStartGame( )
+{
+	if( m_bWork ) return;
+
+	m_clsFixBlock.Clear( );
+	NewMoveBlock( );
+	m_bWork = true;
+	Draw();
+}
+
+/**
+ * @ingroup Tetris
  * @brief 움직이는 블록을 고정된 블록에 추가한다.
  */
 void CDirectXTetris::AddFixBlock( )
@@ -358,6 +372,14 @@ void CDirectXTetris::NewMoveBlock( )
 	E_BOX_COLOR eColor = (E_BOX_COLOR)(rand() % 7);
 	m_clsMoveBlock.Create( eColor );
 	m_clsMoveBlock.MoveDown( BOX_WIDTH * BOX_ROW_COUNT / 2 );
+
+	E_COLLISION_TYPE eType = CheckCollision( m_clsMoveBlock );
+	if( eType == CT_BOTTOM )
+	{
+		m_clsMoveBlock.Clear();
+		m_bWork = false;
+		MessageBox( NULL, _T("GAME OVER"), _T("GAME OVER"), MB_OK | MB_ICONSTOP );
+	}
 }
 
 /**
