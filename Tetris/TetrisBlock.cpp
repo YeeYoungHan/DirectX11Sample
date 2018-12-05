@@ -23,6 +23,11 @@ CTetrisBlock::CTetrisBlock()
 {
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 생성한다.
+ * @param eColor 테트리스 블록 색상
+ */
 void CTetrisBlock::Create( E_BOX_COLOR eColor )
 {
 	m_clsList.clear();
@@ -96,11 +101,19 @@ void CTetrisBlock::Create( E_BOX_COLOR eColor )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 초기화시킨다.
+ */
 void CTetrisBlock::Clear( )
 {
 	m_clsList.clear();
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 오른쪽으로 이동시킨다.
+ */
 void CTetrisBlock::MoveRight( )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL;
@@ -111,6 +124,10 @@ void CTetrisBlock::MoveRight( )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 왼쪽으로 이동시킨다.
+ */
 void CTetrisBlock::MoveLeft( )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL;
@@ -121,6 +138,11 @@ void CTetrisBlock::MoveLeft( )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 아래로 이동시킨다.
+ * @param fDown 아래로 이동시킬 거리
+ */
 void CTetrisBlock::MoveDown( float fDown )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL;
@@ -131,6 +153,11 @@ void CTetrisBlock::MoveDown( float fDown )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 추가한다.
+ * @param clsBlock 추가할 테트리스 블록
+ */
 void CTetrisBlock::AddBlock( CTetrisBlock & clsBlock )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itBL;
@@ -141,6 +168,11 @@ void CTetrisBlock::AddBlock( CTetrisBlock & clsBlock )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 1 row 가 완성되었다면 완성된 row 를 삭제하고 그 위의 row 들을 1칸씩 내린다.
+ * @returns false 를 리턴한다.
+ */
 bool CTetrisBlock::CheckCompleteRow( )
 {
 	m_clsList.sort( TetrisBlockPartSort );
@@ -181,6 +213,11 @@ bool CTetrisBlock::CheckCompleteRow( )
 	return false;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 게임이 종료되었는지 검사한다.
+ * @returns 게임이 종료되었으면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
+ */
 bool CTetrisBlock::CheckGameOver( )
 {
 	TETRIS_BLOCK_PART_LIST::reverse_iterator itPL, itRow;
@@ -206,6 +243,10 @@ bool CTetrisBlock::CheckGameOver( )
 	return false;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 회전시킨다.
+ */
 void CTetrisBlock::Rotate( )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL;
@@ -219,6 +260,13 @@ void CTetrisBlock::Rotate( )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록과 충돌되었는지 검사한다.
+ * @param clsBlock			충돌 검사 대상 테트리스 블록
+ * @param bCheckBottom	하단 충돌 검사하려면 true 를 입력하고 그렇지 않으면 false 를 입력한다.
+ * @returns 하단과 충돌되었으면 CT_BOTTOM 을 리턴하고 좌/우로 충돌되었으면 CT_LEFT_RIGHT 를 리턴한다. 충돌되지 않았으면 CT_NULL 을 리턴한다.
+ */
 E_COLLISION_TYPE CTetrisBlock::CheckCollision( CTetrisBlock & clsBlock, bool bCheckBottom )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL, itBL;
@@ -238,11 +286,24 @@ E_COLLISION_TYPE CTetrisBlock::CheckCollision( CTetrisBlock & clsBlock, bool bCh
 	return eType;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록에 포함된 정사각형 리스트의 포인터를 리턴한다.
+ * @returns 테트리스 블록에 포함된 정사각형 리스트의 포인터를 리턴한다.
+ */
 TETRIS_BLOCK_PART_LIST * CTetrisBlock::GetList()
 {
 	return &m_clsList;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록에 정사각형 1개를 추가한다.
+ * @param fLocalY		Y 위치
+ * @param fLocalZ		Z 위치
+ * @param eColor		텍스처 번호
+ * @returns true 를 리턴한다.
+ */
 bool CTetrisBlock::AddPart( float fLocalY, float fLocalZ, E_BOX_COLOR eColor )
 {
 	CTetrisBlockPart clsPart( fLocalY, fLocalZ, eColor );

@@ -6,9 +6,12 @@
 #include "DirectXTetris.h"
 #include "check.h"
 
-CDirectXTetris gclsDirectX;
+CDirectXTetris	gclsDirectX;
+HANDLE					ghTimer;
 
-#define MAX_LOADSTRING 100
+#define MAX_LOADSTRING		100
+#define TIMER_ID					1
+#define TIMER_MILISECOND	500
 
 // 전역 변수:
 HINSTANCE hInst;								// 현재 인스턴스입니다.
@@ -111,7 +114,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-  hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, 700, 700, NULL, NULL, hInstance, NULL);
+	 hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, 700, 700, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -127,6 +130,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	 {
 		 MessageBox( hWnd, GetErrString(), _T( "Error" ), MB_OK );
 	 }
+
+	 ghTimer = (HANDLE)SetTimer( hWnd, TIMER_ID, TIMER_MILISECOND, NULL );
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -209,8 +214,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			break;
 		}
 		break;
+	case WM_TIMER:
+		gclsDirectX.MoveDown();
+		break;
 
 	case WM_DESTROY:
+		KillTimer( hWnd, TIMER_ID );
 		PostQuitMessage(0);
 		break;
 	default:

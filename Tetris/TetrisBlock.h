@@ -23,6 +23,10 @@
 
 #include "TetrisBlockPart.h"
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록을 저장하는 클래스
+ */
 class CTetrisBlock
 {
 public:

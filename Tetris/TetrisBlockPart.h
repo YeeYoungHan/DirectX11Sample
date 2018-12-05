@@ -22,6 +22,10 @@
 
 #include <list>
 
+/**
+ * @ingroup Tetris
+ * @brief 정사각형 Texture
+ */
 enum E_BOX_COLOR
 {
 	BC_BLUE = 0,
@@ -36,6 +40,10 @@ enum E_BOX_COLOR
 	BC_BLACK_BOTTOM
 };
 
+/**
+ * @ingroup Tetris
+ * @brief 충돌 타입
+ */
 enum E_COLLISION_TYPE
 {
 	CT_NULL,
@@ -43,6 +51,10 @@ enum E_COLLISION_TYPE
 	CT_BOTTOM
 };
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록의 하나의 정사각형 정보를 저장하는 클래스
+ */
 class CTetrisBlockPart
 {
 public:

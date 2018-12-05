@@ -24,12 +24,22 @@ CTetrisBlockPart::CTetrisBlockPart( float fLocalY, float fLocalZ, E_BOX_COLOR eC
 {
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 입력된 fY 만큼 Y 축으로 이동하고 입력된 fZ 만큼 Z 축으로 이동한다.
+ * @param fY	Y 축으로 이동할 값
+ * @param fZ	Z 축으로 이동할 값
+ */
 void CTetrisBlockPart::Move( float fY, float fZ )
 {
 	m_fWorldY += fY;
 	m_fWorldZ += fZ;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 회전한다.
+ */
 void CTetrisBlockPart::Rotate()
 {
 	float fTemp = m_fLocalY;
@@ -39,16 +49,32 @@ void CTetrisBlockPart::Rotate()
 	m_fLocalZ *= -1;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 현재 Y 값을 리턴한다.
+ * @returns 현재 Y 값을 리턴한다.
+ */
 float CTetrisBlockPart::GetY() const
 {
 	return m_fWorldY + m_fLocalY;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 현재 Z 값을 리턴한다.
+ * @returns 현재 Z 값을 리턴한다.
+ */
 float CTetrisBlockPart::GetZ() const
 {
 	return m_fWorldZ + m_fLocalZ;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 동일한 Y 값인지 검사한다.
+ * @param clsPart 검사 대상 정사각형 정보 저장 객체
+ * @returns 동일한 Y 값이면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
+ */
 bool CTetrisBlockPart::IsSameY( CTetrisBlockPart & clsPart )
 {
 	float fY = GetDistance( GetY(), clsPart.GetY() );
@@ -58,6 +84,13 @@ bool CTetrisBlockPart::IsSameY( CTetrisBlockPart & clsPart )
 	return false;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 충돌 여부를 검사한다.
+ * @param clsPart				충돌 검사 대상 정사각형 정보 저장 객체
+ * @param bCheckBottom	하단 충돌을 검사하면 true 를 입력하고 그렇지 않으면 false 를 입력한다.
+ * @returns 하단과 충돌되었으면 CT_BOTTOM 을 리턴하고 좌/우로 충돌되었으면 CT_LEFT_RIGHT 를 리턴한다. 충돌되지 않았으면 CT_NULL 을 리턴한다.
+ */
 E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart, bool bCheckBottom )
 {
 	float fMyY = GetY();
@@ -89,6 +122,13 @@ E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart, b
 	return CT_NULL;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 테트리스 블록의 정사각형 리스트를 오름차순으로 정렬하는 함수
+ * @param clsFirst	첫번째 정사각형 정보 저장 객체
+ * @param clsSecond 두번째 정사각형 정보 저장 객체
+ * @returns 두번째 정사각형 정보 저장 객체가 첫번째 정사각형 정보 저장 객체보다 뒤에 있으면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
+ */
 bool TetrisBlockPartSort( const CTetrisBlockPart & clsFirst, const CTetrisBlockPart & clsSecond )
 {
 	float fFY = clsFirst.GetY();
@@ -114,6 +154,13 @@ bool TetrisBlockPartSort( const CTetrisBlockPart & clsFirst, const CTetrisBlockP
 	return false;
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 두 개의 float 의 거리 계산 함수
+ * @param f1 첫번째 위치
+ * @param f2 두번째 위치
+ * @returns 두 개의 float 의 거리를 리턴한다.
+ */
 float GetDistance( float f1, float f2 )
 {
 	if( f1 >= f2 )

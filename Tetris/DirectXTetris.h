@@ -26,8 +26,8 @@
 #include "TetrisBlock.h"
 
 /**
- * @ingroup TestGrid
- * @brief 3D 큐브
+ * @ingroup Tetris
+ * @brief 3D 기반 2차원 테트리스
  */
 class CDirectXTetris : public CDirectX11
 {
@@ -68,10 +68,10 @@ protected:
 	POINT		m_sttMousePos;
 	bool		m_bMouseDown;
 
-	CTetrisBlock m_clsFixBlock;			// 고정된 블록
-	CTetrisBlock m_clsMoveBlock;		// 움직이는 블록
-	CTetrisBlock m_clsWallBlock;		// 좌/우/바닥 벽
-	CTetrisBlock m_clsTopWallBlock;	// 상단 벽
-	CTetrisBlock m_clsBottomWallBlock;	// 하단 벽
+	CTetrisBlock m_clsFixBlock;					// 고정된 블록 ( 움직이는 블록이 고정된 블록 또는 하단 벽에 충돌하면 고정된 블록에 포함된다. )
+	CTetrisBlock m_clsMoveBlock;				// 움직이는 블록
+	CTetrisBlock m_clsWallBlock;				// 좌/우/바닥 벽
+	CTetrisBlock m_clsTopWallBlock;			// 상단 벽
+	CTetrisBlock m_clsBottomWallBlock;	// 하단 벽 ( 충돌 처리를 위해서 하단 벽과 상단 벽을 구분하였다. )
 };
 

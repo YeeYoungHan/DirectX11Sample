@@ -32,7 +32,7 @@ CDirectXTetris::~CDirectXTetris()
 }
 
 /**
- * @ingroup TestGrid
+ * @ingroup Tetris
  * @brief 삼각형을 그리기 위한 준비 작업을 수행한다.
  * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
  */
@@ -153,7 +153,7 @@ bool CDirectXTetris::CreateChild()
 }
 
 /**
- * @ingroup TestGrid
+ * @ingroup Tetris
  * @brief 삼각형을 화면에 그려준다.
  * @returns 성공하면 true 를 리턴하고 그렇지 않으면 false 를 리턴한다.
  */
@@ -171,7 +171,7 @@ bool CDirectXTetris::DrawChild()
 }
 
 /**
- * @ingroup TestGrid
+ * @ingroup Tetris
  * @brief 카메라 위치와 카메라가 큐브를 바라보는 방향을 이용하여서 View 행렬을 생성한다.
  * @returns true 를 리턴한다.
  */
@@ -199,7 +199,7 @@ bool CDirectXTetris::Update()
 }
 
 /**
- * @ingroup TestGrid
+ * @ingroup Tetris
  * @brief 마우스 버튼 down 이벤트 핸들러
  * @param hWnd	윈도우 핸들
  * @param x			마우스 X 위치
@@ -215,7 +215,7 @@ void CDirectXTetris::OnMouseDown( HWND hWnd, int x, int y )
 }
 
 /**
- * @ingroup TestGrid
+ * @ingroup Tetris
  * @brief 마우스 버튼 up 이벤트 핸들러
  * @param x			마우스 X 위치
  * @param y			마우스 Y 위치
@@ -227,7 +227,7 @@ void CDirectXTetris::OnMouseUp( int x, int y )
 }
 
 /**
- * @ingroup TestGrid
+ * @ingroup Tetris
  * @brief 마우스 이동 이벤트 핸들러
  * @param hWnd	윈도우 핸들
  * @param x			마우스 X 위치
@@ -247,6 +247,10 @@ void CDirectXTetris::OnMouseMove( HWND hWnd, int x, int y )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 움직이는 블록을 회전한다.
+ */
 void CDirectXTetris::Rotate()
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
@@ -260,6 +264,10 @@ void CDirectXTetris::Rotate()
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 움직이는 블록을 오른쪽으로 이동한다.
+ */
 void CDirectXTetris::MoveRight( )
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
@@ -277,6 +285,10 @@ void CDirectXTetris::MoveRight( )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 움직이는 블록을 왼쪽으로 이동한다.
+ */
 void CDirectXTetris::MoveLeft( )
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
@@ -294,6 +306,10 @@ void CDirectXTetris::MoveLeft( )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 움직이는 블록을 아래로 한 칸 이동한다.
+ */
 void CDirectXTetris::MoveDown( )
 {
 	CTetrisBlock clsBlock = m_clsMoveBlock;
@@ -311,6 +327,10 @@ void CDirectXTetris::MoveDown( )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 움직이는 블록을 고정된 블록에 추가한다.
+ */
 void CDirectXTetris::AddFixBlock( )
 {
 	m_clsFixBlock.AddBlock( m_clsMoveBlock );
@@ -320,10 +340,15 @@ void CDirectXTetris::AddFixBlock( )
 		MessageBox( NULL, _T("GAME OVER"), _T("Alert"), MB_OK );
 		return;
 	}
+
 	NewMoveBlock( );
 	Draw();
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 새로운 움직이는 블록을 생성한다.
+ */
 void CDirectXTetris::NewMoveBlock( )
 {
 	E_BOX_COLOR eColor = (E_BOX_COLOR)(rand() % 7);
@@ -331,6 +356,11 @@ void CDirectXTetris::NewMoveBlock( )
 	m_clsMoveBlock.MoveDown( BOX_WIDTH * BOX_ROW_COUNT / 2 );
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 블록을 그린다.
+ * @param clsBlock 블록 객체
+ */
 void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )
 {
 	TETRIS_BLOCK_PART_LIST::iterator itPL;
@@ -343,6 +373,12 @@ void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )
 	}
 }
 
+/**
+ * @ingroup Tetris
+ * @brief 움직이는 블록이 벽 또는 고정된 블록과 충돌하는지 검사한다.
+ * @param clsBlock 움직이는 블록
+ * @returns 움직이는 블록이 벽 또는 고정된 블록과 상하로 충돌하면 CT_BOTTOM 을 리턴하고 좌우로 충돌하면 CT_LEFT_RIGHT 를 리턴한다.
+ */
 E_COLLISION_TYPE CDirectXTetris::CheckCollision( CTetrisBlock & clsBlock )
 {
 	E_COLLISION_TYPE eType = CT_NULL;
