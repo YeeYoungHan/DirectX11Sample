@@ -249,8 +249,15 @@ void CDirectXTetris::OnMouseMove( HWND hWnd, int x, int y )
 
 void CDirectXTetris::Rotate()
 {
-	m_clsMoveBlock.Rotate();
-	Draw();
+	CTetrisBlock clsBlock = m_clsMoveBlock;
+	clsBlock.Rotate();
+	E_COLLISION_TYPE eType = CheckCollision( clsBlock );
+
+	if( eType == CT_NULL )
+	{
+		m_clsMoveBlock.Rotate();
+		Draw();
+	}
 }
 
 void CDirectXTetris::MoveRight( )

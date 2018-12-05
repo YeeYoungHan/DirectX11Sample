@@ -18,7 +18,7 @@
 
 #pragma once
 
-#define BOX_WIDTH	0.10f
+#define BOX_WIDTH	0.15f
 
 #include <list>
 
