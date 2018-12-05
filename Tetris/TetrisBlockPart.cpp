@@ -38,14 +38,23 @@ void CTetrisBlockPart::Rotate()
 	m_fLocalZ *= -1;
 }
 
-float CTetrisBlockPart::GetY()
+float CTetrisBlockPart::GetY() const
 {
 	return m_fWorldY + m_fLocalY;
 }
 
-float CTetrisBlockPart::GetZ()
+float CTetrisBlockPart::GetZ() const
 {
 	return m_fWorldZ + m_fLocalZ;
+}
+
+bool CTetrisBlockPart::IsSameY( CTetrisBlockPart & clsPart )
+{
+	float fY = GetDistance( GetY(), clsPart.GetY() );
+
+	if( fY <= BOX_WIDTH / 8 ) return true;
+
+	return false;
 }
 
 E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart, bool bCheckBottom )
@@ -54,25 +63,8 @@ E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart, b
 	float fMyZ = GetZ();
 	float fOtherY = clsPart.GetY();
 	float fOtherZ = clsPart.GetZ();
-	float fY, fZ;
-
-	if( fMyY >= fOtherY )
-	{
-		fY = fMyY - fOtherY;
-	}
-	else
-	{
-		fY = fOtherY - fMyY;
-	}
-
-	if( fMyZ >= fOtherZ )
-	{
-		fZ = fMyZ - fOtherZ;
-	}
-	else
-	{
-		fZ = fOtherZ - fMyZ;
-	}
+	float fY = GetDistance( fMyY, fOtherY );
+	float fZ = GetDistance( fMyZ, fOtherZ );
 
 	if( bCheckBottom )
 	{
@@ -94,4 +86,34 @@ E_COLLISION_TYPE CTetrisBlockPart::CheckCollision( CTetrisBlockPart & clsPart, b
 	}
 
 	return CT_NULL;
+}
+
+bool TetrisBlockPartSort( const CTetrisBlockPart & clsFirst, const CTetrisBlockPart & clsSecond )
+{
+	float fFY = clsFirst.GetY();
+	float fSY = clsSecond.GetY();
+
+	if( fSY > fFY ) return true;
+
+	float fY = GetDistance( fSY, fFY );
+
+	if( fY <= BOX_WIDTH / 8 )
+	{
+		float fFZ = clsFirst.GetZ();
+		float fSZ = clsSecond.GetZ();
+
+		if( fSZ > fFZ ) return true;
+	}
+
+	return false;
+}
+
+float GetDistance( float f1, float f2 )
+{
+	if( f1 >= f2 )
+	{
+		return f1 - f2;
+	}
+
+	return f2 - f1;
 }

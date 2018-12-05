@@ -73,24 +73,24 @@ void CTetrisBlock::Create( E_BOX_COLOR eColor )
 		break;
 	case BC_BLACK:
 		// 좌/우 테두리
-		for( int i = 0; i < 22; ++i )
+		for( int i = 0; i < ( BOX_ROW_COUNT + 2 ); ++i )
 		{
-			AddPart( -BOX_WIDTH * 10 + i * BOX_WIDTH, -BOX_WIDTH * 6, eColor );
-			AddPart( -BOX_WIDTH * 10 + i * BOX_WIDTH, BOX_WIDTH * 5, eColor );
+			AddPart( -BOX_WIDTH * BOX_ROW_COUNT / 2 + i * BOX_WIDTH, -BOX_WIDTH * ( BOX_COL_COUNT / 2 + 1 ), eColor );
+			AddPart( -BOX_WIDTH * BOX_ROW_COUNT / 2 + i * BOX_WIDTH, BOX_WIDTH * BOX_COL_COUNT / 2, eColor );
 		}
 		break;
 	case BC_BLACK_TOP:
 		// 상단 테두리
-		for( int i = 0; i < 10; ++i )
+		for( int i = 0; i < BOX_COL_COUNT; ++i )
 		{
-			AddPart( BOX_WIDTH * 11, -BOX_WIDTH * 5 + i * BOX_WIDTH, eColor );
+			AddPart( BOX_WIDTH * ( BOX_ROW_COUNT / 2 + 1 ), -BOX_WIDTH * BOX_COL_COUNT / 2 + i * BOX_WIDTH, eColor );
 		}
 		break;
 	case BC_BLACK_BOTTOM:
 		// 하단 테두리
-		for( int i = 0; i < 10; ++i )
+		for( int i = 0; i < BOX_COL_COUNT; ++i )
 		{
-			AddPart( -BOX_WIDTH * 10, -BOX_WIDTH * 5 + i * BOX_WIDTH, eColor );
+			AddPart( -BOX_WIDTH * BOX_ROW_COUNT / 2, -BOX_WIDTH * BOX_COL_COUNT / 2 + i * BOX_WIDTH, eColor );
 		}
 		break;
 	}
@@ -139,6 +139,38 @@ void CTetrisBlock::AddBlock( CTetrisBlock & clsBlock )
 	{
 		m_clsList.push_back( *itBL );
 	}
+}
+
+bool CTetrisBlock::CheckCompleteRow( )
+{
+	m_clsList.sort( TetrisBlockPartSort );
+
+	TETRIS_BLOCK_PART_LIST::iterator itPL, itRow;
+	int iColCount = 0;
+
+	for( itPL = m_clsList.begin(); itPL != m_clsList.end(); ++itPL )
+	{
+		if( itPL == m_clsList.begin() )
+		{
+			itRow = itPL;
+			iColCount = 1;
+		}
+		else if( itRow->IsSameY( *itPL ) )
+		{
+			++iColCount;
+			if( iColCount == BOX_COL_COUNT )
+			{
+				
+			}
+		}
+		else
+		{
+			itRow = itPL;
+			iColCount = 1;
+		}
+	}
+
+	return false;
 }
 
 void CTetrisBlock::Rotate( )

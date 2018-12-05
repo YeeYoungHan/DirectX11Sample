@@ -50,8 +50,9 @@ public:
 
 	void Move( float fY, float fZ );
 	void Rotate();
-	float GetY();
-	float GetZ();
+	float GetY() const;
+	float GetZ() const;
+	bool IsSameY( CTetrisBlockPart & clsPart );
 	E_COLLISION_TYPE CheckCollision( CTetrisBlockPart & clsPart, bool bCheckBottom );
 
 	E_BOX_COLOR m_eColor;
@@ -64,3 +65,6 @@ private:
 };
 
 typedef std::list< CTetrisBlockPart > TETRIS_BLOCK_PART_LIST;
+
+bool TetrisBlockPartSort( const CTetrisBlockPart & clsFirst, const CTetrisBlockPart & clsSecond );
+float GetDistance( float f1, float f2 );

@@ -18,6 +18,9 @@
 
 #pragma once
 
+#define BOX_COL_COUNT 10
+#define BOX_ROW_COUNT	20
+
 #include "TetrisBlockPart.h"
 
 class CTetrisBlock
@@ -34,6 +37,7 @@ public:
 	void Rotate( );
 
 	void AddBlock( CTetrisBlock & clsBlock );
+	bool CheckCompleteRow( );
 	E_COLLISION_TYPE CheckCollision( CTetrisBlock & clsBlock, bool bCheckBottom );
 	TETRIS_BLOCK_PART_LIST * GetList();
 

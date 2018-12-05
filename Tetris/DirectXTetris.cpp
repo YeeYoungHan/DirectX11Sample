@@ -137,9 +137,9 @@ bool CDirectXTetris::CreateChild()
 	m_clsBox[4].SetTexture( _T("Texture/box_skyblue.png") );
 	m_clsBox[5].SetTexture( _T("Texture/box_violet.png") );
 	m_clsBox[6].SetTexture( _T("Texture/box_yellow.png") );
-	m_clsBox[7].SetTexture( _T("Texture/box_gray.jpg") );
-	m_clsBox[8].SetTexture( _T("Texture/box_gray.jpg") );
-	m_clsBox[9].SetTexture( _T("Texture/box_gray.jpg") );
+	m_clsBox[7].SetTexture( _T("Texture/box_gray.png") );
+	m_clsBox[8].SetTexture( _T("Texture/box_gray.png") );
+	m_clsBox[9].SetTexture( _T("Texture/box_gray.png") );
 
 	m_clsWallBlock.Create( BC_BLACK );
 	m_clsTopWallBlock.Create( BC_BLACK_TOP );
@@ -315,7 +315,7 @@ void CDirectXTetris::NewMoveBlock( )
 {
 	E_BOX_COLOR eColor = (E_BOX_COLOR)(rand() % 7);
 	m_clsMoveBlock.Create( eColor );
-	m_clsMoveBlock.MoveDown( BOX_WIDTH * 10 );
+	m_clsMoveBlock.MoveDown( BOX_WIDTH * BOX_ROW_COUNT / 2 );
 }
 
 void CDirectXTetris::DrawTetrisBlock( CTetrisBlock & clsBlock )
