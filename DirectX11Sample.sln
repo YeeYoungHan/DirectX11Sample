@@ -72,6 +72,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tetris", "Tetris\Tetris.vcp
 		{E68974BA-1FE7-4AF4-BF5B-04C041124AFB} = {E68974BA-1FE7-4AF4-BF5B-04C041124AFB}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestXNAMath", "TestXNAMath\TestXNAMath.vcproj", "{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -217,6 +219,15 @@ Global
 		{94D04426-1A9D-44F8-9FEA-ED894995A750}.Release|Win32.ActiveCfg = Release|Win32
 		{94D04426-1A9D-44F8-9FEA-ED894995A750}.Release|Win32.Build.0 = Release|Win32
 		{94D04426-1A9D-44F8-9FEA-ED894995A750}.Release|x64.ActiveCfg = Release|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Debug|Win32.Build.0 = Debug|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Debug|x64.ActiveCfg = Debug|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Profile|Win32.ActiveCfg = Release|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Profile|Win32.Build.0 = Release|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Profile|x64.ActiveCfg = Release|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Release|Win32.ActiveCfg = Release|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Release|Win32.Build.0 = Release|Win32
+		{BC0869BD-39DB-48D7-9B61-BA37A404E6C5}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
