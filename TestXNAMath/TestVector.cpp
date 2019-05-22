@@ -31,12 +31,32 @@ void PrintFloat4( XMFLOAT4 & sttFloat4 )
 void TestVector()
 {
 	XMVECTOR sttVec;
+
+	// XMFLOAT2 변수에 저장된 내용을 XMVECTOR 에 저장한다.
 	XMFLOAT2 sttFloat2( 1.0, 2.0 );
 
 	sttVec = XMLoadFloat2( &sttFloat2 );
 	PrintVector( sttVec );
+	// [ 1.000000, 2.000000, 0.000000, 0.000000 ]
 
+	// XMVECTOR 의 z, w 에 값을 저장한다.
+	sttVec = XMVectorSetZ( sttVec, 3.0 );
+	sttVec = XMVectorSetW( sttVec, 4.0 );
+
+	// XMVECTOR 에 저장된 내용을 XMFLOAT4 에 저장한다.
 	XMFLOAT4 sttFloat4;
+
 	XMStoreFloat4( &sttFloat4, sttVec );
 	PrintFloat4( sttFloat4 );
+	// [ 1.000000, 2.000000, 3.000000, 4.000000 ]
+
+	// XMVECTOR 의 x, y, z, w 를 출력한다.
+	printf( "[ %f, %f, %f, %f ]\n", XMVectorGetX( sttVec ), XMVectorGetY( sttVec ), XMVectorGetZ( sttVec ), XMVectorGetW( sttVec ) );
+	// [ 1.000000, 2.000000, 3.000000, 4.000000 ]
+
+	FLOAT fX;
+
+	XMVectorGetXPtr( &fX, sttVec );
+	printf( "x = %f\n", fX );
+	// x = 1.000000
 }
