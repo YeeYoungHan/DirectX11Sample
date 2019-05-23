@@ -86,3 +86,23 @@ void TestVectorArithmetic()
 	// [ 1.000000, 4.000000, 9.000000, 16.000000 ]
 	PrintVector( XMVectorMultiply( sttVec, sttVec ) );
 }
+
+/** XMVECTOR length 테스트 */
+void TestVectorLength()
+{
+	XMVECTOR sttVec;
+
+	XMFLOAT4 sttFloat4( 1.0, 2.0, 3.0, 4.0 );
+	sttVec = XMLoadFloat4( &sttFloat4 );
+
+	// vector length = sqrt( x*x + y*y + z*z + w*w ) = sqrt( 1 + 4 + 9 + 16 ) = 5.4772255..
+	// [ 5.477226, 5.477226, 5.477226, 5.477226 ] 출력된다.
+	PrintVector( XMVector4Length( sttVec ) );
+
+	// [ 5.477226, 5.477226, 5.477226, 5.477226 ] 출력된다.
+	PrintVector( XMVector4LengthEst( sttVec ) );
+
+	// XMVector4LengthSq = length * length = x*x + y*y + z*z + w*w
+	// [ 30.000000, 30.000000, 30.000000, 30.000000 ]
+	PrintVector( XMVector4LengthSq( sttVec ) );
+}

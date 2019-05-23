@@ -22,6 +22,7 @@ int main( int argc, char * argv[] )
 {
 	TestVectorSetGet();
 	TestVectorArithmetic();
+	TestVectorLength();
 
 	return 0;
 }

@@ -22,5 +22,7 @@
 #include <xnamath.h>
 #include <stdio.h>
 
+// TestVector.cpp
 void TestVectorSetGet();
 void TestVectorArithmetic();
+void TestVectorLength();
