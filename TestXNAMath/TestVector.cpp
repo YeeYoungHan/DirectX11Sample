@@ -28,7 +28,8 @@ void PrintFloat4( XMFLOAT4 & sttFloat4 )
 	printf( "[ %f, %f, %f, %f ]\n", sttFloat4.x, sttFloat4.y, sttFloat4.z, sttFloat4.w );
 }
 
-void TestVector()
+/** XMVECTOR 입력/출력 테스트 */
+void TestVectorSetGet()
 {
 	XMVECTOR sttVec;
 
@@ -59,4 +60,29 @@ void TestVector()
 	XMVectorGetXPtr( &fX, sttVec );
 	printf( "x = %f\n", fX );
 	// x = 1.000000
+}
+
+/** XMVECTOR 산술 연산 테스트 */
+void TestVectorArithmetic()
+{
+	XMVECTOR sttVec;
+
+	XMFLOAT4 sttFloat4( 1.0, 2.0, 3.0, 4.0 );
+	sttVec = XMLoadFloat4( &sttFloat4 );
+
+	// 더하기
+	// [ 2.000000, 4.000000, 6.000000, 8.000000 ] 출력된다.
+	PrintVector( XMVectorAdd( sttVec, sttVec ) );
+
+	// 빼기
+	// [ 0.000000, 0.000000, 0.000000, 0.000000 ] 출력된다.
+	PrintVector( XMVectorSubtract( sttVec, sttVec ) );
+
+	// 나누기
+	// [ 1.000000, 1.000000, 1.000000, 1.000000 ] 출력된다.
+	PrintVector( XMVectorDivide( sttVec, sttVec ) );
+
+	// 곱하기
+	// [ 1.000000, 4.000000, 9.000000, 16.000000 ]
+	PrintVector( XMVectorMultiply( sttVec, sttVec ) );
 }

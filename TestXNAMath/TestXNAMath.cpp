@@ -20,7 +20,8 @@
 
 int main( int argc, char * argv[] )
 {
-	TestVector();
+	TestVectorSetGet();
+	TestVectorArithmetic();
 
 	return 0;
 }

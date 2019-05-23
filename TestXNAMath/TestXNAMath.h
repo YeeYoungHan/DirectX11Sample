@@ -22,4 +22,5 @@
 #include <xnamath.h>
 #include <stdio.h>
 
-void TestVector();
+void TestVectorSetGet();
+void TestVectorArithmetic();
