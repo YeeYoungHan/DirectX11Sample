@@ -106,3 +106,19 @@ void TestVectorLength()
 	// [ 30.000000, 30.000000, 30.000000, 30.000000 ]
 	PrintVector( XMVector4LengthSq( sttVec ) );
 }
+
+/** XMVECTOR 를 단위벡터로 변환하는 테스트 */
+void TestVectorNormalize()
+{
+	XMVECTOR sttVec;
+
+	XMFLOAT4 sttFloat4( 1.0, 2.0, 3.0, 4.0 );
+	sttVec = XMLoadFloat4( &sttFloat4 );
+
+	// unit vector = ( x / length, y / length, z / length, w / length ) = ( 0.18257, 0.36515, 0.54772, 0.73030 )
+	// [ 0.182574, 0.365148, 0.547723, 0.730297 ]  출력된다.
+	PrintVector( XMVector4Normalize( sttVec ) );
+
+	// [ 0.182556, 0.365112, 0.547668, 0.730225 ]  출력된다.
+	PrintVector( XMVector4NormalizeEst( sttVec ) );
+}

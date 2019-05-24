@@ -23,6 +23,7 @@ int main( int argc, char * argv[] )
 	TestVectorSetGet();
 	TestVectorArithmetic();
 	TestVectorLength();
+	TestVectorNormalize();
 
 	return 0;
 }
