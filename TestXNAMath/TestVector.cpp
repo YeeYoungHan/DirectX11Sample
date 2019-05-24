@@ -122,3 +122,19 @@ void TestVectorNormalize()
 	// [ 0.182556, 0.365112, 0.547668, 0.730225 ]  출력된다.
 	PrintVector( XMVector4NormalizeEst( sttVec ) );
 }
+
+/** XMVECTOR cross 연산 테스트 */
+void TestVectorCross()
+{
+	XMFLOAT4 sttFloat1( 1.0, 2.0, 3.0, 0.0 );
+	XMVECTOR sttVec1 = XMLoadFloat4( &sttFloat1 );
+
+	XMFLOAT4 sttFloat2( -1.0, -2.0, 3.0, 0.0 );
+	XMVECTOR sttVec2 = XMLoadFloat4( &sttFloat2 );
+
+	// vector cross = ( vec1Y * vec2Z - vec1Z * vec2Y, vec1Z * vec2X - vec1X * vec2Z, vec1X * vec2Y - vec1Y * vec2X )
+	//              = ( 2 * 3 - 3 * (-2), 3 * (-1) - 1 * 3, 1 * (-2) - 2 * (-1)
+	//              = ( 12, -6, 0 )
+
+	PrintVector( XMVector3Cross( sttVec1, sttVec2 ) );
+}

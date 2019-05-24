@@ -24,6 +24,7 @@ int main( int argc, char * argv[] )
 	TestVectorArithmetic();
 	TestVectorLength();
 	TestVectorNormalize();
+	TestVectorCross();
 
 	return 0;
 }

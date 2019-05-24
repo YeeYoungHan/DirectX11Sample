@@ -27,3 +27,4 @@ void TestVectorSetGet();
 void TestVectorArithmetic();
 void TestVectorLength();
 void TestVectorNormalize();
+void TestVectorCross();
