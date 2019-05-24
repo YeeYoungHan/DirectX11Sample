@@ -28,7 +28,7 @@ void PrintFloat4( XMFLOAT4 & sttFloat4 );
 void PrintMatrix( XMMATRIX & sttMat );
 
 // TestMatrix.cpp
-void TestMatrixIdentity();
+void TestMatrixFunction();
 
 // TestVector.cpp
 void TestVectorSetGet();

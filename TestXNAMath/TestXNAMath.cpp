@@ -27,7 +27,7 @@ int main( int argc, char * argv[] )
 	TestVectorCross();
 	TestVectorDot();
 
-	TestMatrixIdentity();
+	TestMatrixFunction();
 
 	return 0;
 }
