@@ -18,16 +18,6 @@
 
 #include "TestXNAMath.h"
 
-void PrintVector( XMVECTOR & sttVec )
-{
-	printf( "[ %f, %f, %f, %f ]\n", sttVec.m128_f32[0], sttVec.m128_f32[1], sttVec.m128_f32[2], sttVec.m128_f32[3] );
-}
-
-void PrintFloat4( XMFLOAT4 & sttFloat4 )
-{
-	printf( "[ %f, %f, %f, %f ]\n", sttFloat4.x, sttFloat4.y, sttFloat4.z, sttFloat4.w );
-}
-
 /** XMVECTOR 입력/출력 테스트 */
 void TestVectorSetGet()
 {

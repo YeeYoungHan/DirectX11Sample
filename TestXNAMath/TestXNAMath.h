@@ -22,6 +22,14 @@
 #include <xnamath.h>
 #include <stdio.h>
 
+// Print.cpp
+void PrintVector( XMVECTOR & sttVec );
+void PrintFloat4( XMFLOAT4 & sttFloat4 );
+void PrintMatrix( XMMATRIX & sttMat );
+
+// TestMatrix.cpp
+void TestMatrixIdentity();
+
 // TestVector.cpp
 void TestVectorSetGet();
 void TestVectorArithmetic();
@@ -29,3 +37,4 @@ void TestVectorLength();
 void TestVectorNormalize();
 void TestVectorCross();
 void TestVectorDot();
+

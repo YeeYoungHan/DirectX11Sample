@@ -18,16 +18,14 @@
 
 #include "TestXNAMath.h"
 
-int main( int argc, char * argv[] )
+/** Identity matrix */
+void TestMatrixIdentity()
 {
-	TestVectorSetGet();
-	TestVectorArithmetic();
-	TestVectorLength();
-	TestVectorNormalize();
-	TestVectorCross();
-	TestVectorDot();
-
-	TestMatrixIdentity();
-
-	return 0;
+	//+----------------------------------------+
+	//| 1.000000, 0.000000, 0.000000, 0.000000 |
+	//| 0.000000, 1.000000, 0.000000, 0.000000 |
+	//| 0.000000, 0.000000, 1.000000, 0.000000 |
+	//| 0.000000, 0.000000, 0.000000, 1.000000 |
+	//+----------------------------------------+
+	PrintMatrix( XMMatrixIdentity() );
 }

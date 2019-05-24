@@ -175,6 +175,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Print.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TestMatrix.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TestVector.cpp"
 				>
 			</File>
