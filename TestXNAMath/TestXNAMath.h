@@ -28,3 +28,4 @@ void TestVectorArithmetic();
 void TestVectorLength();
 void TestVectorNormalize();
 void TestVectorCross();
+void TestVectorDot();

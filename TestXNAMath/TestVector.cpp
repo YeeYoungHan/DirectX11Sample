@@ -133,8 +133,23 @@ void TestVectorCross()
 	XMVECTOR sttVec2 = XMLoadFloat4( &sttFloat2 );
 
 	// vector cross = ( vec1Y * vec2Z - vec1Z * vec2Y, vec1Z * vec2X - vec1X * vec2Z, vec1X * vec2Y - vec1Y * vec2X )
-	//              = ( 2 * 3 - 3 * (-2), 3 * (-1) - 1 * 3, 1 * (-2) - 2 * (-1)
+	//              = ( 2 * 3 - 3 * (-2), 3 * (-1) - 1 * 3, 1 * (-2) - 2 * (-1) )
 	//              = ( 12, -6, 0 )
-
+	// [ 12.000000, -6.000000, 0.000000, 0.000000 ] 출력된다.
 	PrintVector( XMVector3Cross( sttVec1, sttVec2 ) );
+}
+
+/** XMVECTOR dot 연산 테스트 */
+void TestVectorDot()
+{
+	XMFLOAT4 sttFloat1( 1.0, 2.0, 3.0, 0.0 );
+	XMVECTOR sttVec1 = XMLoadFloat4( &sttFloat1 );
+
+	XMFLOAT4 sttFloat2( -1.0, 2.0, 3.0, 0.0 );
+	XMVECTOR sttVec2 = XMLoadFloat4( &sttFloat2 );
+
+	// vector dot = vec1X * vec2X + vec1Y * vec2Y + vec1Z * vec2Z
+	//            = 1 * (-1) + 2 * 2 + 3 * 3 = -1 + 4 + 9 = 12
+	// [ 12.000000, 12.000000, 12.000000, 12.000000 ] 출력된다.
+	PrintVector( XMVector3Dot( sttVec1, sttVec2 ) );
 }
