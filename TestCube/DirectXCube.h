@@ -49,6 +49,7 @@ public:
 	void OnMouseDown( HWND hWnd, int x, int y );
 	void OnMouseUp( int x, int y );
 	void OnMouseMove( HWND hWnd, int x, int y );
+	void CheckKeyBoardInput( );
 
 protected:
 	CComPtr<ID3D11Buffer> m_pclsVB;

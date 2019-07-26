@@ -34,6 +34,8 @@ public:
 	~CRotationCameraPos();
 
 	void Move( int iX, int iY );
+	void MoveDistance( float fDistance );
+
 	XMVECTOR GetVector();
 	XMFLOAT3 GetEyePos();
 

@@ -240,3 +240,30 @@ void CDirectXCube::OnMouseMove( HWND hWnd, int x, int y )
 		Draw();
 	}
 }
+
+/**
+ * @ingroup TestCube
+ * @brief 입력된 키보드 명령을 수행한다.
+ */
+void CDirectXCube::CheckKeyBoardInput( )
+{
+	bool bDraw = false;
+
+	if( GetAsyncKeyState(L'W') & 0x8000 )
+	{
+		m_clsCamPos.MoveDistance( -0.1f );
+		bDraw = true;
+	}
+	
+	if( GetAsyncKeyState(L'S') & 0x8000 )
+	{
+		m_clsCamPos.MoveDistance( 0.1f );
+		bDraw = true;
+	}
+
+	if( bDraw )
+	{
+		Update();
+		Draw();
+	}
+}

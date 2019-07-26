@@ -143,6 +143,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		 MessageBox( hWnd, GetErrString(), _T( "Error" ), MB_OK );
 	 }
 
+	 SetTimer( hWnd, 100, 20, NULL );
+
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -207,6 +209,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
+	case WM_TIMER:
+		gclsDirectX.CheckKeyBoardInput();
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

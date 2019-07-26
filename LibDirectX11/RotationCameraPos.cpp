@@ -63,6 +63,24 @@ void CRotationCameraPos::Move( int iX, int iY )
 
 /**
  * @ingroup LibDirectX11
+ * @brief 중앙에서 카메라까지의 거리를 이동시킨다.
+ * @param fDistance 이동시킬 거리
+ */
+void CRotationCameraPos::MoveDistance( float fDistance )
+{
+	m_fDistance += fDistance;
+	if( m_fDistance <= 2.0 )
+	{
+		m_fDistance = 2.0;
+	}
+	else if( m_fDistance >= 50.0 )
+	{
+		m_fDistance = 50.0;
+	}
+}
+
+/**
+ * @ingroup LibDirectX11
  * @brief 카메라 위치를 저장한 VECTOR 를 리턴한다.
  * @returns 카메라 위치를 저장한 VECTOR 를 리턴한다.
  */
@@ -78,6 +96,11 @@ XMVECTOR CRotationCameraPos::GetVector()
 	return clsVec;
 }
 
+/**
+ * @ingroup LibDirectX11
+ * @brief 카메라 위치를 저장한 XMFLOAT3 를 리턴한다.
+ * @returns 카메라 위치를 저장한 XMFLOAT3 를 리턴한다.
+ */
 XMFLOAT3 CRotationCameraPos::GetEyePos()
 {
 	XMVECTOR clsVec = GetVector();
